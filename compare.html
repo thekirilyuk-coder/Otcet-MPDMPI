@@ -2408,7 +2408,69 @@
   &lt;/section&gt;
 
   &lt;!-- ================================================================== --&gt;
-  &lt;!-- ===== Направление 1: Исполнение сделок ===== --&gt;
+  &lt;!-- ===== Направление 1: Подготовка договоров ===== --&gt;
+  &lt;!-- ================================================================== --&gt;
+  &lt;section class=&quot;direction&quot; id=&quot;contracts&quot; data-block=&quot;dir.contracts&quot; aria-labelledby=&quot;dir-contracts-title&quot;&gt;
+    &lt;div class=&quot;direction__head&quot;&gt;
+      &lt;h2 class=&quot;direction__title&quot; id=&quot;dir-contracts-title&quot;&gt;Подготовка договоров&lt;/h2&gt;
+      &lt;p class=&quot;direction__sub&quot;&gt;Скорость подготовки и портфель договоров · апрель–сентябрь 2026&lt;/p&gt;
+    &lt;/div&gt;
+
+
+    &lt;section class=&quot;kpis&quot; id=&quot;kpis-contracts&quot; data-block=&quot;c.kpis&quot;&gt;&lt;/section&gt;
+
+    &lt;section class=&quot;charts&quot;&gt;
+      &lt;div class=&quot;card&quot; data-block=&quot;c.portfolio&quot;&gt;
+        &lt;div class=&quot;card__head&quot;&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;card__title&quot;&gt;Динамика портфеля&lt;/h2&gt;
+            &lt;p class=&quot;card__sub&quot;&gt;Подготовлено договоров, изменения и передачи · апрель–сентябрь 2026&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;legend&quot; style=&quot;margin: -8px 0 12px;&quot;&gt;
+          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.deals&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-brand-t-bank)&quot;&gt;&lt;/span&gt;Подготовлено договоров&lt;/span&gt;
+          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.changes&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue)&quot;&gt;&lt;/span&gt;Изменения&lt;/span&gt;
+          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.transfers&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-light)&quot;&gt;&lt;/span&gt;Передачи&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-portfolio&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div class=&quot;card&quot; data-block=&quot;c.daily&quot;&gt;
+        &lt;div class=&quot;card__head&quot;&gt;
+          &lt;div&gt;
+            &lt;h2 class=&quot;card__title&quot;&gt;Динамика закрытых задач&lt;/h2&gt;
+            &lt;p class=&quot;card__sub&quot;&gt;Закрыто задач по рабочим дням месяца · июль–сентябрь 2026&lt;/p&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;legend&quot; id=&quot;legend-daily&quot; style=&quot;margin: -8px 0 12px;&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-daily&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;card table-card is-collapsed&quot; data-block=&quot;c.table&quot;&gt;
+      &lt;div class=&quot;card__head&quot;&gt;
+        &lt;div&gt;
+          &lt;h2 class=&quot;card__title&quot;&gt;Показатели портфеля по месяцам&lt;/h2&gt;
+          &lt;p class=&quot;card__sub&quot;&gt;Сделки, изменения, передачи и доля расторжений за 6 месяцев&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;contracts-table-wrap&quot;&gt;
+          &lt;span class=&quot;toggle__label&quot;&gt;Показать&lt;/span&gt;
+          &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M7 14l5-5 5 5&quot;/&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;table class=&quot;table&quot; id=&quot;contracts-table-wrap&quot;&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;Период&lt;/th&gt;&lt;th data-block=&quot;c.table.deals&quot;&gt;Сделки&lt;/th&gt;&lt;th data-block=&quot;c.table.changes&quot;&gt;Изменения&lt;/th&gt;&lt;th data-block=&quot;c.table.transfers&quot;&gt;Передачи&lt;/th&gt;&lt;th data-block=&quot;c.table.term&quot;&gt;Расторжения&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody id=&quot;contracts-table&quot;&gt;&lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/section&gt;
+  &lt;/section&gt;
+
+  &lt;!-- ================================================================== --&gt;
+  &lt;!-- ===== Направление 2: Исполнение сделок ===== --&gt;
   &lt;!-- ================================================================== --&gt;
   &lt;section class=&quot;direction&quot; id=&quot;exec&quot; data-block=&quot;dir.exec&quot; aria-labelledby=&quot;dir-exec-title&quot;&gt;
     &lt;div class=&quot;direction__head&quot;&gt;
@@ -2470,68 +2532,6 @@
           &lt;/tr&gt;
         &lt;/thead&gt;
         &lt;tbody id=&quot;quality-table&quot;&gt;&lt;/tbody&gt;
-      &lt;/table&gt;
-    &lt;/section&gt;
-  &lt;/section&gt;
-
-  &lt;!-- ================================================================== --&gt;
-  &lt;!-- ===== Направление 2: Подготовка договоров ===== --&gt;
-  &lt;!-- ================================================================== --&gt;
-  &lt;section class=&quot;direction&quot; id=&quot;contracts&quot; data-block=&quot;dir.contracts&quot; aria-labelledby=&quot;dir-contracts-title&quot;&gt;
-    &lt;div class=&quot;direction__head&quot;&gt;
-      &lt;h2 class=&quot;direction__title&quot; id=&quot;dir-contracts-title&quot;&gt;Подготовка договоров&lt;/h2&gt;
-      &lt;p class=&quot;direction__sub&quot;&gt;Скорость подготовки и портфель договоров · апрель–сентябрь 2026&lt;/p&gt;
-    &lt;/div&gt;
-
-
-    &lt;section class=&quot;kpis&quot; id=&quot;kpis-contracts&quot; data-block=&quot;c.kpis&quot;&gt;&lt;/section&gt;
-
-    &lt;section class=&quot;charts&quot;&gt;
-      &lt;div class=&quot;card&quot; data-block=&quot;c.portfolio&quot;&gt;
-        &lt;div class=&quot;card__head&quot;&gt;
-          &lt;div&gt;
-            &lt;h2 class=&quot;card__title&quot;&gt;Динамика портфеля&lt;/h2&gt;
-            &lt;p class=&quot;card__sub&quot;&gt;Подготовлено договоров, изменения и передачи · апрель–сентябрь 2026&lt;/p&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;legend&quot; style=&quot;margin: -8px 0 12px;&quot;&gt;
-          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.deals&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-brand-t-bank)&quot;&gt;&lt;/span&gt;Подготовлено договоров&lt;/span&gt;
-          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.changes&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue)&quot;&gt;&lt;/span&gt;Изменения&lt;/span&gt;
-          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.transfers&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-light)&quot;&gt;&lt;/span&gt;Передачи&lt;/span&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-portfolio&quot;&gt;&lt;/div&gt;
-      &lt;/div&gt;
-
-      &lt;div class=&quot;card&quot; data-block=&quot;c.daily&quot;&gt;
-        &lt;div class=&quot;card__head&quot;&gt;
-          &lt;div&gt;
-            &lt;h2 class=&quot;card__title&quot;&gt;Динамика закрытых задач&lt;/h2&gt;
-            &lt;p class=&quot;card__sub&quot;&gt;Закрыто задач по рабочим дням месяца · июль–сентябрь 2026&lt;/p&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;legend&quot; id=&quot;legend-daily&quot; style=&quot;margin: -8px 0 12px;&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-daily&quot;&gt;&lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/section&gt;
-
-    &lt;section class=&quot;card table-card is-collapsed&quot; data-block=&quot;c.table&quot;&gt;
-      &lt;div class=&quot;card__head&quot;&gt;
-        &lt;div&gt;
-          &lt;h2 class=&quot;card__title&quot;&gt;Показатели портфеля по месяцам&lt;/h2&gt;
-          &lt;p class=&quot;card__sub&quot;&gt;Сделки, изменения, передачи и доля расторжений за 6 месяцев&lt;/p&gt;
-        &lt;/div&gt;
-        &lt;button type=&quot;button&quot; class=&quot;toggle&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;contracts-table-wrap&quot;&gt;
-          &lt;span class=&quot;toggle__label&quot;&gt;Показать&lt;/span&gt;
-          &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M7 14l5-5 5 5&quot;/&gt;&lt;/svg&gt;
-        &lt;/button&gt;
-      &lt;/div&gt;
-      &lt;table class=&quot;table&quot; id=&quot;contracts-table-wrap&quot;&gt;
-        &lt;thead&gt;
-          &lt;tr&gt;
-            &lt;th&gt;Период&lt;/th&gt;&lt;th data-block=&quot;c.table.deals&quot;&gt;Сделки&lt;/th&gt;&lt;th data-block=&quot;c.table.changes&quot;&gt;Изменения&lt;/th&gt;&lt;th data-block=&quot;c.table.transfers&quot;&gt;Передачи&lt;/th&gt;&lt;th data-block=&quot;c.table.term&quot;&gt;Расторжения&lt;/th&gt;
-          &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody id=&quot;contracts-table&quot;&gt;&lt;/tbody&gt;
       &lt;/table&gt;
     &lt;/section&gt;
   &lt;/section&gt;
@@ -2795,7 +2795,7 @@
   function applyVisibilityCss() {
     document.getElementById(&#x27;visibility-style&#x27;).textContent = Object.keys(hidden).map(function (id) {
       return &#x27;[data-block=&quot;&#x27; + id + &#x27;&quot;]{display:none!important}&#x27;;
-    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.exec&#x27;] ? &#x27;\n#contracts{margin-top:40px;padding-top:0;border-top:0}&#x27; : &#x27;&#x27;);
+    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.contracts&#x27;] ? &#x27;\n#exec{margin-top:40px;padding-top:0;border-top:0}&#x27; : &#x27;&#x27;);
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = &#x27;&lt;p class=&quot;chart-empty&quot;&gt;Все данные графика скрыты — включите их в настройке отчёта&lt;/p&gt;&#x27;;
@@ -3099,8 +3099,8 @@
   var drawer = document.getElementById(&#x27;drawer&#x27;);
   var drawerBody = document.getElementById(&#x27;drawer-body&#x27;);
   var DIRS = [
-    { key: &#x27;exec&#x27;, id: &#x27;dir.exec&#x27;, label: &#x27;Исполнение сделок&#x27; },
-    { key: &#x27;contracts&#x27;, id: &#x27;dir.contracts&#x27;, label: &#x27;Подготовка договоров&#x27; }
+    { key: &#x27;contracts&#x27;, id: &#x27;dir.contracts&#x27;, label: &#x27;Подготовка договоров&#x27; },
+    { key: &#x27;exec&#x27;, id: &#x27;dir.exec&#x27;, label: &#x27;Исполнение сделок&#x27; }
   ];
   var CHART_OF = { &#x27;exec.output&#x27;: renderExec, &#x27;exec.quality&#x27;: renderQuality, &#x27;c.portfolio&#x27;: renderPortfolio, &#x27;c.daily&#x27;: renderDaily };
 

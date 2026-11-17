@@ -337,7 +337,69 @@
   </section>
 
   <!-- ================================================================== -->
-  <!-- ===== Направление 1: Исполнение сделок ===== -->
+  <!-- ===== Направление 1: Подготовка договоров ===== -->
+  <!-- ================================================================== -->
+  <section class="direction" id="contracts" data-block="dir.contracts" aria-labelledby="dir-contracts-title">
+    <div class="direction__head">
+      <h2 class="direction__title" id="dir-contracts-title">Подготовка договоров</h2>
+      <p class="direction__sub">Скорость подготовки и портфель договоров · апрель–сентябрь 2026</p>
+    </div>
+
+
+    <section class="kpis" id="kpis-contracts" data-block="c.kpis"></section>
+
+    <section class="charts">
+      <div class="card" data-block="c.portfolio">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title">Динамика портфеля</h2>
+            <p class="card__sub">Подготовлено договоров, изменения и передачи · апрель–сентябрь 2026</p>
+          </div>
+        </div>
+        <div class="legend" style="margin: -8px 0 12px;">
+          <span class="legend__item" data-block="c.portfolio.deals"><span class="legend__swatch" style="background:var(--tui-brand-t-bank)"></span>Подготовлено договоров</span>
+          <span class="legend__item" data-block="c.portfolio.changes"><span class="legend__swatch" style="background:var(--tui-graph-blue)"></span>Изменения</span>
+          <span class="legend__item" data-block="c.portfolio.transfers"><span class="legend__swatch" style="background:var(--tui-graph-blue-light)"></span>Передачи</span>
+        </div>
+        <div class="chart-wrap" id="chart-portfolio"></div>
+      </div>
+
+      <div class="card" data-block="c.daily">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title">Динамика закрытых задач</h2>
+            <p class="card__sub">Закрыто задач по рабочим дням месяца · июль–сентябрь 2026</p>
+          </div>
+        </div>
+        <div class="legend" id="legend-daily" style="margin: -8px 0 12px;"></div>
+        <div class="chart-wrap" id="chart-daily"></div>
+      </div>
+    </section>
+
+    <section class="card table-card is-collapsed" data-block="c.table">
+      <div class="card__head">
+        <div>
+          <h2 class="card__title">Показатели портфеля по месяцам</h2>
+          <p class="card__sub">Сделки, изменения, передачи и доля расторжений за 6 месяцев</p>
+        </div>
+        <button type="button" class="toggle" aria-expanded="false" aria-controls="contracts-table-wrap">
+          <span class="toggle__label">Показать</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14l5-5 5 5"/></svg>
+        </button>
+      </div>
+      <table class="table" id="contracts-table-wrap">
+        <thead>
+          <tr>
+            <th>Период</th><th data-block="c.table.deals">Сделки</th><th data-block="c.table.changes">Изменения</th><th data-block="c.table.transfers">Передачи</th><th data-block="c.table.term">Расторжения</th>
+          </tr>
+        </thead>
+        <tbody id="contracts-table"></tbody>
+      </table>
+    </section>
+  </section>
+
+  <!-- ================================================================== -->
+  <!-- ===== Направление 2: Исполнение сделок ===== -->
   <!-- ================================================================== -->
   <section class="direction" id="exec" data-block="dir.exec" aria-labelledby="dir-exec-title">
     <div class="direction__head">
@@ -399,68 +461,6 @@
           </tr>
         </thead>
         <tbody id="quality-table"></tbody>
-      </table>
-    </section>
-  </section>
-
-  <!-- ================================================================== -->
-  <!-- ===== Направление 2: Подготовка договоров ===== -->
-  <!-- ================================================================== -->
-  <section class="direction" id="contracts" data-block="dir.contracts" aria-labelledby="dir-contracts-title">
-    <div class="direction__head">
-      <h2 class="direction__title" id="dir-contracts-title">Подготовка договоров</h2>
-      <p class="direction__sub">Скорость подготовки и портфель договоров · апрель–сентябрь 2026</p>
-    </div>
-
-
-    <section class="kpis" id="kpis-contracts" data-block="c.kpis"></section>
-
-    <section class="charts">
-      <div class="card" data-block="c.portfolio">
-        <div class="card__head">
-          <div>
-            <h2 class="card__title">Динамика портфеля</h2>
-            <p class="card__sub">Подготовлено договоров, изменения и передачи · апрель–сентябрь 2026</p>
-          </div>
-        </div>
-        <div class="legend" style="margin: -8px 0 12px;">
-          <span class="legend__item" data-block="c.portfolio.deals"><span class="legend__swatch" style="background:var(--tui-brand-t-bank)"></span>Подготовлено договоров</span>
-          <span class="legend__item" data-block="c.portfolio.changes"><span class="legend__swatch" style="background:var(--tui-graph-blue)"></span>Изменения</span>
-          <span class="legend__item" data-block="c.portfolio.transfers"><span class="legend__swatch" style="background:var(--tui-graph-blue-light)"></span>Передачи</span>
-        </div>
-        <div class="chart-wrap" id="chart-portfolio"></div>
-      </div>
-
-      <div class="card" data-block="c.daily">
-        <div class="card__head">
-          <div>
-            <h2 class="card__title">Динамика закрытых задач</h2>
-            <p class="card__sub">Закрыто задач по рабочим дням месяца · июль–сентябрь 2026</p>
-          </div>
-        </div>
-        <div class="legend" id="legend-daily" style="margin: -8px 0 12px;"></div>
-        <div class="chart-wrap" id="chart-daily"></div>
-      </div>
-    </section>
-
-    <section class="card table-card is-collapsed" data-block="c.table">
-      <div class="card__head">
-        <div>
-          <h2 class="card__title">Показатели портфеля по месяцам</h2>
-          <p class="card__sub">Сделки, изменения, передачи и доля расторжений за 6 месяцев</p>
-        </div>
-        <button type="button" class="toggle" aria-expanded="false" aria-controls="contracts-table-wrap">
-          <span class="toggle__label">Показать</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14l5-5 5 5"/></svg>
-        </button>
-      </div>
-      <table class="table" id="contracts-table-wrap">
-        <thead>
-          <tr>
-            <th>Период</th><th data-block="c.table.deals">Сделки</th><th data-block="c.table.changes">Изменения</th><th data-block="c.table.transfers">Передачи</th><th data-block="c.table.term">Расторжения</th>
-          </tr>
-        </thead>
-        <tbody id="contracts-table"></tbody>
       </table>
     </section>
   </section>
@@ -724,7 +724,7 @@
   function applyVisibilityCss() {
     document.getElementById('visibility-style').textContent = Object.keys(hidden).map(function (id) {
       return '[data-block="' + id + '"]{display:none!important}';
-    }).join('\n') + (hidden['dir.exec'] ? '\n#contracts{margin-top:40px;padding-top:0;border-top:0}' : '');
+    }).join('\n') + (hidden['dir.contracts'] ? '\n#exec{margin-top:40px;padding-top:0;border-top:0}' : '');
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = '<p class="chart-empty">Все данные графика скрыты — включите их в настройке отчёта</p>';
@@ -1028,8 +1028,8 @@
   var drawer = document.getElementById('drawer');
   var drawerBody = document.getElementById('drawer-body');
   var DIRS = [
-    { key: 'exec', id: 'dir.exec', label: 'Исполнение сделок' },
-    { key: 'contracts', id: 'dir.contracts', label: 'Подготовка договоров' }
+    { key: 'contracts', id: 'dir.contracts', label: 'Подготовка договоров' },
+    { key: 'exec', id: 'dir.exec', label: 'Исполнение сделок' }
   ];
   var CHART_OF = { 'exec.output': renderExec, 'exec.quality': renderQuality, 'c.portfolio': renderPortfolio, 'c.daily': renderDaily };
 
