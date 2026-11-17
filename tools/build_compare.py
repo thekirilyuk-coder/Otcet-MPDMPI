@@ -15,10 +15,16 @@ import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-VARIANTS = sorted(
-    (ROOT / "variants").glob("v*.html"),
-    key=lambda p: int(re.sub(r"\D", "", p.stem) or 0),
-)
+# Версии, убранные из сравнения (файлы и ветки остаются, вернуть — убрать номер отсюда)
+HIDDEN = {"2", "5"}
+
+VARIANTS = [
+    p for p in sorted(
+        (ROOT / "variants").glob("v*.html"),
+        key=lambda p: int(re.sub(r"\D", "", p.stem) or 0),
+    )
+    if re.sub(r"\D", "", p.stem) not in HIDDEN
+]
 OUT = ROOT / "compare.html"
 
 # Короткие названия версий для списка в настройке. Новую версию допишите сюда.
@@ -93,7 +99,7 @@ PICKER = r"""
         return '<button type="button" class="vp__btn" role="radio" data-vp="' + v.n + '" aria-checked="' + on + '">' +
           '<span class="vp__num">' + v.n + '</span><span>' + v.name + '</span></button>';
       }).join('') +
-      '</div><p class="vp__hint">Быстро: клавиши 1–' + V.list.length + '</p></div>';
+      '</div><p class="vp__hint">Быстро: клавиши ' + V.list.map(function (v) { return v.n; }).join(', ') + '</p></div>';
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-vp]');
