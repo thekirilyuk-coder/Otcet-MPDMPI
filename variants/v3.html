@@ -58,17 +58,13 @@
   }
   .period__icon { width: 18px; height: 18px; color: var(--tui-text-secondary); }
 
-  /* ===== Переключатель направлений ===== */
-  .tabs { display: inline-flex; gap: 4px; padding: 4px; margin-top: 24px; background: var(--tui-background-neutral-1); border-radius: 12px; }
-  .tab {
-    border: 0; background: transparent; height: 40px; padding: 0 18px; border-radius: 10px;
-    font: var(--tui-typo-ui-m); color: var(--tui-text-secondary); cursor: pointer;
-    transition: background .15s ease, color .15s ease;
-  }
-  .tab:hover { color: var(--tui-text-primary); }
-  .tab[aria-selected="true"] { background: var(--tui-background-base); color: var(--tui-text-primary); font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
-  .tab:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
-  .panel[hidden] { display: none; }
+  /* ===== Направления на одной странице ===== */
+  .direction { margin-top: 40px; scroll-margin-top: 24px; }
+  .direction + .direction { margin-top: 72px; padding-top: 40px; border-top: 1px solid var(--tui-border-normal); }
+  .direction__kicker { font: var(--tui-typo-ui-s); color: var(--tui-text-action); font-weight: 500; margin: 0 0 6px; }
+  .direction__title { font: 500 24px/28px "Tinkoff Sans", "Neue Haas Unica W1G", system-ui, sans-serif; margin: 0; }
+  .direction__sub { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 6px 0 0; }
+  .direction .hero { margin-top: 20px; }
 
   /* ===== Hero-блок ===== */
   .hero {
@@ -211,8 +207,6 @@
   }
   @media (max-width: 560px) {
     .page { padding: 20px 16px 60px; }
-    .tabs { display: flex; }
-    .tab { flex: 1; padding: 0 8px; font: var(--tui-typo-ui-s); }
     .hero__image { opacity: .35; right: -40px; }
   }
 
@@ -259,6 +253,11 @@
   .opt-group:last-child { border-bottom: 0; }
   .opt { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary); }
   .opt--parent { font-weight: 500; }
+  .opt-dir { margin: 12px -20px 0; padding: 4px 20px; background: var(--tui-background-base-alt); border-top: 1px solid rgba(0,16,36,.06); border-bottom: 1px solid rgba(0,16,36,.06); }
+  .opt-dir:first-child { margin-top: 0; }
+  .opt--dir { font: var(--tui-typo-ui-l-bold); }
+  .opt-group.is-disabled { opacity: .45; }
+  .opt-group.is-disabled .opt { cursor: default; }
   .opt--child { padding-left: 16px; font: var(--tui-typo-ui-s); color: var(--tui-text-secondary); }
   .opt--child.is-disabled { opacity: .45; cursor: default; }
   .switch {
@@ -326,16 +325,15 @@
     <div class="drawer__body" id="drawer-body"></div>
   </aside>
 
-  <!-- ===== Переключатель направлений ===== -->
-  <div class="tabs" role="tablist" aria-label="Направления">
-    <button type="button" class="tab" role="tab" id="tab-exec" aria-controls="panel-exec" aria-selected="true" data-hash="exec">Исполнение сделок</button>
-    <button type="button" class="tab" role="tab" id="tab-contracts" aria-controls="panel-contracts" aria-selected="false" tabindex="-1" data-hash="contracts">Подготовка договоров</button>
-  </div>
-
   <!-- ================================================================== -->
   <!-- ===== Направление 1: Исполнение сделок ===== -->
   <!-- ================================================================== -->
-  <div class="panel" role="tabpanel" id="panel-exec" aria-labelledby="tab-exec">
+  <section class="direction" id="exec" data-block="dir.exec" aria-labelledby="dir-exec-title">
+    <div class="direction__head">
+      <p class="direction__kicker">Направление 1</p>
+      <h2 class="direction__title" id="dir-exec-title">Исполнение сделок</h2>
+      <p class="direction__sub">Выработка и качество документов · январь–сентябрь 2026</p>
+    </div>
 
     <section class="hero" data-block="exec.hero">
       <div>
@@ -403,12 +401,17 @@
         <tbody id="quality-table"></tbody>
       </table>
     </section>
-  </div>
+  </section>
 
   <!-- ================================================================== -->
   <!-- ===== Направление 2: Подготовка договоров ===== -->
   <!-- ================================================================== -->
-  <div class="panel" role="tabpanel" id="panel-contracts" aria-labelledby="tab-contracts" hidden>
+  <section class="direction" id="contracts" data-block="dir.contracts" aria-labelledby="dir-contracts-title">
+    <div class="direction__head">
+      <p class="direction__kicker">Направление 2</p>
+      <h2 class="direction__title" id="dir-contracts-title">Подготовка договоров</h2>
+      <p class="direction__sub">Скорость подготовки и портфель договоров · апрель–сентябрь 2026</p>
+    </div>
 
     <section class="hero" data-block="c.hero">
       <div>
@@ -472,7 +475,7 @@
         <tbody id="contracts-table"></tbody>
       </table>
     </section>
-  </div>
+  </section>
 
 </div>
 
@@ -722,6 +725,7 @@
   Object.keys(OPTIONS).forEach(function (tab) {
     OPTIONS[tab].forEach(function (o) { KNOWN[o.id] = 1; (o.children || []).forEach(function (c) { KNOWN[c.id] = 1; }); });
   });
+  KNOWN['dir.exec'] = 1; KNOWN['dir.contracts'] = 1;
   var STORE_KEY = 'dash-itogi-v3-hidden';
   var hidden = {};
   try {
@@ -732,7 +736,7 @@
   function applyVisibilityCss() {
     document.getElementById('visibility-style').textContent = Object.keys(hidden).map(function (id) {
       return '[data-block="' + id + '"]{display:none!important}';
-    }).join('\n');
+    }).join('\n') + (hidden['dir.exec'] ? '\n#contracts{margin-top:40px;padding-top:0;border-top:0}' : '');
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = '<p class="chart-empty">Все данные графика скрыты — включите их в настройке отчёта</p>';
@@ -1032,44 +1036,16 @@
     });
   });
 
-  // ===== Переключение направлений (с запоминанием в адресе: #exec / #contracts) =====
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
-  function selectTab(tab, focus) {
-    hideTip();
-    tabs.forEach(function (t) {
-      var on = t === tab;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
-    if (focus) tab.focus();
-    document.dispatchEvent(new Event('tabchange'));
-    try { history.replaceState(null, '', '#' + tab.getAttribute('data-hash')); } catch (e) {}
-  }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { selectTab(t); });
-    t.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-        selectTab(next, true);
-        e.preventDefault();
-      }
-    });
-  });
-  var initial = tabs.filter(function (t) { return '#' + t.getAttribute('data-hash') === location.hash; })[0];
-  if (initial) selectTab(initial);
-
   // ===== Панель «Настройка отчёта» =====
   var gear = document.getElementById('gear');
   var drawer = document.getElementById('drawer');
   var drawerBody = document.getElementById('drawer-body');
-  var TAB_TITLE = { exec: 'Исполнение сделок', contracts: 'Подготовка договоров' };
+  var DIRS = [
+    { key: 'exec', id: 'dir.exec', label: 'Исполнение сделок' },
+    { key: 'contracts', id: 'dir.contracts', label: 'Подготовка договоров' }
+  ];
   var CHART_OF = { 'exec.output': renderExec, 'exec.quality': renderQuality, 'c.portfolio': renderPortfolio, 'c.daily': renderDaily };
 
-  function activeTab() {
-    var t = document.querySelector('.tab[aria-selected="true"]');
-    return t ? t.getAttribute('data-hash') : 'exec';
-  }
   function updateBadge() {
     var n = Object.keys(hidden).length;
     var badge = document.getElementById('gear-badge');
@@ -1088,12 +1064,18 @@
       '</label>';
   }
   function renderDrawer() {
-    var tab = activeTab();
-    document.getElementById('drawer-sub').textContent = 'Вкладка «' + TAB_TITLE[tab] + '» · включайте и отключайте блоки и данные';
-    drawerBody.innerHTML = OPTIONS[tab].map(function (o) {
-      var on = isOn(o.id);
-      return '<div class="opt-group">' + optRow(o, false, true) +
-        (o.children || []).map(function (c) { return optRow(c, true, on); }).join('') + '</div>';
+    document.getElementById('drawer-sub').textContent = 'Включайте и отключайте направления, блоки и данные';
+    drawerBody.innerHTML = DIRS.map(function (d) {
+      var dirOn = isOn(d.id);
+      var head = '<div class="opt-dir"><label class="opt opt--dir"><span>' + d.label + '</span>' +
+        '<input type="checkbox" class="switch" role="switch" data-opt="' + d.id + '"' + (dirOn ? ' checked' : '') + '></label></div>';
+      return head + OPTIONS[d.key].map(function (o) {
+        var on = isOn(o.id);
+        var row = optRow(o, false, true);
+        if (!dirOn) row = row.replace('class="switch"', 'class="switch" disabled');
+        return '<div class="opt-group' + (dirOn ? '' : ' is-disabled') + '">' + row +
+          (o.children || []).map(function (c) { return optRow(c, true, on && dirOn); }).join('') + '</div>';
+      }).join('');
     }).join('');
     updateBadge();
   }
@@ -1141,7 +1123,6 @@
     if (e.key === 'Escape' && drawer.classList.contains('is-open')) setDrawer(false);
   });
   // при смене вкладки панель показывает настройки этой вкладки
-  document.addEventListener('tabchange', function () { if (drawer.classList.contains('is-open')) renderDrawer(); });
   updateBadge();
 
   document.addEventListener('mouseleave', hideTip);

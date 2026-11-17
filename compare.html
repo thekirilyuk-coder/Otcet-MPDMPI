@@ -2129,17 +2129,13 @@
   }
   .period__icon { width: 18px; height: 18px; color: var(--tui-text-secondary); }
 
-  /* ===== Переключатель направлений ===== */
-  .tabs { display: inline-flex; gap: 4px; padding: 4px; margin-top: 24px; background: var(--tui-background-neutral-1); border-radius: 12px; }
-  .tab {
-    border: 0; background: transparent; height: 40px; padding: 0 18px; border-radius: 10px;
-    font: var(--tui-typo-ui-m); color: var(--tui-text-secondary); cursor: pointer;
-    transition: background .15s ease, color .15s ease;
-  }
-  .tab:hover { color: var(--tui-text-primary); }
-  .tab[aria-selected=&quot;true&quot;] { background: var(--tui-background-base); color: var(--tui-text-primary); font-weight: 500; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
-  .tab:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
-  .panel[hidden] { display: none; }
+  /* ===== Направления на одной странице ===== */
+  .direction { margin-top: 40px; scroll-margin-top: 24px; }
+  .direction + .direction { margin-top: 72px; padding-top: 40px; border-top: 1px solid var(--tui-border-normal); }
+  .direction__kicker { font: var(--tui-typo-ui-s); color: var(--tui-text-action); font-weight: 500; margin: 0 0 6px; }
+  .direction__title { font: 500 24px/28px &quot;Tinkoff Sans&quot;, &quot;Neue Haas Unica W1G&quot;, system-ui, sans-serif; margin: 0; }
+  .direction__sub { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 6px 0 0; }
+  .direction .hero { margin-top: 20px; }
 
   /* ===== Hero-блок ===== */
   .hero {
@@ -2282,8 +2278,6 @@
   }
   @media (max-width: 560px) {
     .page { padding: 20px 16px 60px; }
-    .tabs { display: flex; }
-    .tab { flex: 1; padding: 0 8px; font: var(--tui-typo-ui-s); }
     .hero__image { opacity: .35; right: -40px; }
   }
 
@@ -2330,6 +2324,11 @@
   .opt-group:last-child { border-bottom: 0; }
   .opt { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary); }
   .opt--parent { font-weight: 500; }
+  .opt-dir { margin: 12px -20px 0; padding: 4px 20px; background: var(--tui-background-base-alt); border-top: 1px solid rgba(0,16,36,.06); border-bottom: 1px solid rgba(0,16,36,.06); }
+  .opt-dir:first-child { margin-top: 0; }
+  .opt--dir { font: var(--tui-typo-ui-l-bold); }
+  .opt-group.is-disabled { opacity: .45; }
+  .opt-group.is-disabled .opt { cursor: default; }
   .opt--child { padding-left: 16px; font: var(--tui-typo-ui-s); color: var(--tui-text-secondary); }
   .opt--child.is-disabled { opacity: .45; cursor: default; }
   .switch {
@@ -2397,16 +2396,15 @@
     &lt;div class=&quot;drawer__body&quot; id=&quot;drawer-body&quot;&gt;&lt;/div&gt;
   &lt;/aside&gt;
 
-  &lt;!-- ===== Переключатель направлений ===== --&gt;
-  &lt;div class=&quot;tabs&quot; role=&quot;tablist&quot; aria-label=&quot;Направления&quot;&gt;
-    &lt;button type=&quot;button&quot; class=&quot;tab&quot; role=&quot;tab&quot; id=&quot;tab-exec&quot; aria-controls=&quot;panel-exec&quot; aria-selected=&quot;true&quot; data-hash=&quot;exec&quot;&gt;Исполнение сделок&lt;/button&gt;
-    &lt;button type=&quot;button&quot; class=&quot;tab&quot; role=&quot;tab&quot; id=&quot;tab-contracts&quot; aria-controls=&quot;panel-contracts&quot; aria-selected=&quot;false&quot; tabindex=&quot;-1&quot; data-hash=&quot;contracts&quot;&gt;Подготовка договоров&lt;/button&gt;
-  &lt;/div&gt;
-
   &lt;!-- ================================================================== --&gt;
   &lt;!-- ===== Направление 1: Исполнение сделок ===== --&gt;
   &lt;!-- ================================================================== --&gt;
-  &lt;div class=&quot;panel&quot; role=&quot;tabpanel&quot; id=&quot;panel-exec&quot; aria-labelledby=&quot;tab-exec&quot;&gt;
+  &lt;section class=&quot;direction&quot; id=&quot;exec&quot; data-block=&quot;dir.exec&quot; aria-labelledby=&quot;dir-exec-title&quot;&gt;
+    &lt;div class=&quot;direction__head&quot;&gt;
+      &lt;p class=&quot;direction__kicker&quot;&gt;Направление 1&lt;/p&gt;
+      &lt;h2 class=&quot;direction__title&quot; id=&quot;dir-exec-title&quot;&gt;Исполнение сделок&lt;/h2&gt;
+      &lt;p class=&quot;direction__sub&quot;&gt;Выработка и качество документов · январь–сентябрь 2026&lt;/p&gt;
+    &lt;/div&gt;
 
     &lt;section class=&quot;hero&quot; data-block=&quot;exec.hero&quot;&gt;
       &lt;div&gt;
@@ -2474,12 +2472,17 @@
         &lt;tbody id=&quot;quality-table&quot;&gt;&lt;/tbody&gt;
       &lt;/table&gt;
     &lt;/section&gt;
-  &lt;/div&gt;
+  &lt;/section&gt;
 
   &lt;!-- ================================================================== --&gt;
   &lt;!-- ===== Направление 2: Подготовка договоров ===== --&gt;
   &lt;!-- ================================================================== --&gt;
-  &lt;div class=&quot;panel&quot; role=&quot;tabpanel&quot; id=&quot;panel-contracts&quot; aria-labelledby=&quot;tab-contracts&quot; hidden&gt;
+  &lt;section class=&quot;direction&quot; id=&quot;contracts&quot; data-block=&quot;dir.contracts&quot; aria-labelledby=&quot;dir-contracts-title&quot;&gt;
+    &lt;div class=&quot;direction__head&quot;&gt;
+      &lt;p class=&quot;direction__kicker&quot;&gt;Направление 2&lt;/p&gt;
+      &lt;h2 class=&quot;direction__title&quot; id=&quot;dir-contracts-title&quot;&gt;Подготовка договоров&lt;/h2&gt;
+      &lt;p class=&quot;direction__sub&quot;&gt;Скорость подготовки и портфель договоров · апрель–сентябрь 2026&lt;/p&gt;
+    &lt;/div&gt;
 
     &lt;section class=&quot;hero&quot; data-block=&quot;c.hero&quot;&gt;
       &lt;div&gt;
@@ -2543,7 +2546,7 @@
         &lt;tbody id=&quot;contracts-table&quot;&gt;&lt;/tbody&gt;
       &lt;/table&gt;
     &lt;/section&gt;
-  &lt;/div&gt;
+  &lt;/section&gt;
 
 &lt;/div&gt;
 
@@ -2793,6 +2796,7 @@
   Object.keys(OPTIONS).forEach(function (tab) {
     OPTIONS[tab].forEach(function (o) { KNOWN[o.id] = 1; (o.children || []).forEach(function (c) { KNOWN[c.id] = 1; }); });
   });
+  KNOWN[&#x27;dir.exec&#x27;] = 1; KNOWN[&#x27;dir.contracts&#x27;] = 1;
   var STORE_KEY = &#x27;dash-itogi-v3-hidden&#x27;;
   var hidden = {};
   try {
@@ -2803,7 +2807,7 @@
   function applyVisibilityCss() {
     document.getElementById(&#x27;visibility-style&#x27;).textContent = Object.keys(hidden).map(function (id) {
       return &#x27;[data-block=&quot;&#x27; + id + &#x27;&quot;]{display:none!important}&#x27;;
-    }).join(&#x27;\n&#x27;);
+    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.exec&#x27;] ? &#x27;\n#contracts{margin-top:40px;padding-top:0;border-top:0}&#x27; : &#x27;&#x27;);
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = &#x27;&lt;p class=&quot;chart-empty&quot;&gt;Все данные графика скрыты — включите их в настройке отчёта&lt;/p&gt;&#x27;;
@@ -3103,44 +3107,16 @@
     });
   });
 
-  // ===== Переключение направлений (с запоминанием в адресе: #exec / #contracts) =====
-  var tabs = Array.prototype.slice.call(document.querySelectorAll(&#x27;.tab&#x27;));
-  function selectTab(tab, focus) {
-    hideTip();
-    tabs.forEach(function (t) {
-      var on = t === tab;
-      t.setAttribute(&#x27;aria-selected&#x27;, on ? &#x27;true&#x27; : &#x27;false&#x27;);
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute(&#x27;aria-controls&#x27;)).hidden = !on;
-    });
-    if (focus) tab.focus();
-    document.dispatchEvent(new Event(&#x27;tabchange&#x27;));
-    try { history.replaceState(null, &#x27;&#x27;, &#x27;#&#x27; + tab.getAttribute(&#x27;data-hash&#x27;)); } catch (e) {}
-  }
-  tabs.forEach(function (t, i) {
-    t.addEventListener(&#x27;click&#x27;, function () { selectTab(t); });
-    t.addEventListener(&#x27;keydown&#x27;, function (e) {
-      if (e.key === &#x27;ArrowRight&#x27; || e.key === &#x27;ArrowLeft&#x27;) {
-        var next = tabs[(i + (e.key === &#x27;ArrowRight&#x27; ? 1 : tabs.length - 1)) % tabs.length];
-        selectTab(next, true);
-        e.preventDefault();
-      }
-    });
-  });
-  var initial = tabs.filter(function (t) { return &#x27;#&#x27; + t.getAttribute(&#x27;data-hash&#x27;) === location.hash; })[0];
-  if (initial) selectTab(initial);
-
   // ===== Панель «Настройка отчёта» =====
   var gear = document.getElementById(&#x27;gear&#x27;);
   var drawer = document.getElementById(&#x27;drawer&#x27;);
   var drawerBody = document.getElementById(&#x27;drawer-body&#x27;);
-  var TAB_TITLE = { exec: &#x27;Исполнение сделок&#x27;, contracts: &#x27;Подготовка договоров&#x27; };
+  var DIRS = [
+    { key: &#x27;exec&#x27;, id: &#x27;dir.exec&#x27;, label: &#x27;Исполнение сделок&#x27; },
+    { key: &#x27;contracts&#x27;, id: &#x27;dir.contracts&#x27;, label: &#x27;Подготовка договоров&#x27; }
+  ];
   var CHART_OF = { &#x27;exec.output&#x27;: renderExec, &#x27;exec.quality&#x27;: renderQuality, &#x27;c.portfolio&#x27;: renderPortfolio, &#x27;c.daily&#x27;: renderDaily };
 
-  function activeTab() {
-    var t = document.querySelector(&#x27;.tab[aria-selected=&quot;true&quot;]&#x27;);
-    return t ? t.getAttribute(&#x27;data-hash&#x27;) : &#x27;exec&#x27;;
-  }
   function updateBadge() {
     var n = Object.keys(hidden).length;
     var badge = document.getElementById(&#x27;gear-badge&#x27;);
@@ -3159,12 +3135,18 @@
       &#x27;&lt;/label&gt;&#x27;;
   }
   function renderDrawer() {
-    var tab = activeTab();
-    document.getElementById(&#x27;drawer-sub&#x27;).textContent = &#x27;Вкладка «&#x27; + TAB_TITLE[tab] + &#x27;» · включайте и отключайте блоки и данные&#x27;;
-    drawerBody.innerHTML = OPTIONS[tab].map(function (o) {
-      var on = isOn(o.id);
-      return &#x27;&lt;div class=&quot;opt-group&quot;&gt;&#x27; + optRow(o, false, true) +
-        (o.children || []).map(function (c) { return optRow(c, true, on); }).join(&#x27;&#x27;) + &#x27;&lt;/div&gt;&#x27;;
+    document.getElementById(&#x27;drawer-sub&#x27;).textContent = &#x27;Включайте и отключайте направления, блоки и данные&#x27;;
+    drawerBody.innerHTML = DIRS.map(function (d) {
+      var dirOn = isOn(d.id);
+      var head = &#x27;&lt;div class=&quot;opt-dir&quot;&gt;&lt;label class=&quot;opt opt--dir&quot;&gt;&lt;span&gt;&#x27; + d.label + &#x27;&lt;/span&gt;&#x27; +
+        &#x27;&lt;input type=&quot;checkbox&quot; class=&quot;switch&quot; role=&quot;switch&quot; data-opt=&quot;&#x27; + d.id + &#x27;&quot;&#x27; + (dirOn ? &#x27; checked&#x27; : &#x27;&#x27;) + &#x27;&gt;&lt;/label&gt;&lt;/div&gt;&#x27;;
+      return head + OPTIONS[d.key].map(function (o) {
+        var on = isOn(o.id);
+        var row = optRow(o, false, true);
+        if (!dirOn) row = row.replace(&#x27;class=&quot;switch&quot;&#x27;, &#x27;class=&quot;switch&quot; disabled&#x27;);
+        return &#x27;&lt;div class=&quot;opt-group&#x27; + (dirOn ? &#x27;&#x27; : &#x27; is-disabled&#x27;) + &#x27;&quot;&gt;&#x27; + row +
+          (o.children || []).map(function (c) { return optRow(c, true, on &amp;&amp; dirOn); }).join(&#x27;&#x27;) + &#x27;&lt;/div&gt;&#x27;;
+      }).join(&#x27;&#x27;);
     }).join(&#x27;&#x27;);
     updateBadge();
   }
@@ -3212,7 +3194,6 @@
     if (e.key === &#x27;Escape&#x27; &amp;&amp; drawer.classList.contains(&#x27;is-open&#x27;)) setDrawer(false);
   });
   // при смене вкладки панель показывает настройки этой вкладки
-  document.addEventListener(&#x27;tabchange&#x27;, function () { if (drawer.classList.contains(&#x27;is-open&#x27;)) renderDrawer(); });
   updateBadge();
 
   document.addEventListener(&#x27;mouseleave&#x27;, hideTip);
