@@ -646,7 +646,7 @@
       if (n) chips += '<span class="tchip"><span class="tchip__dot" style="background:' + STATUS_DOT[type] + '"></span>' + STATUS_NAME[type] + ' <b>' + n + '</b></span>';
     });
     box.innerHTML =
-      '<h3 class="tasks__title">Доработки по масштабируемости</h3>' +
+      '<h3 class="tasks__title">Доработки</h3>' +
       '<p class="tasks__sub">Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента</p>' +
       '<div class="tasks__chips">' + chips + '</div>' +
       '<div class="tasks__grid"></div>';
@@ -676,11 +676,11 @@
         { id: 'exec.output.done', label: 'Исполнено' },
         { id: 'exec.output.plan', label: 'Выработка возможная' },
         { id: 'exec.output.pills', label: 'Подписи: % и «ещё N»' },
-        { id: 'exec.output.tasks', label: 'Доработки по масштабируемости' } ] },
+        { id: 'exec.output.tasks', label: 'Доработки' } ] },
       { id: 'exec.quality', label: 'Качество документов с передачи ТС', children: [
         { id: 'exec.quality.ship', label: 'Отгружено ТС' },
         { id: 'exec.quality.pct', label: 'Сделки с ошибками, %' },
-        { id: 'exec.quality.tasks', label: 'Доработки по масштабируемости' } ] },
+        { id: 'exec.quality.tasks', label: 'Доработки' } ] },
       { id: 'exec.table', label: 'Таблица по месяцам', children: [
         { id: 'exec.table.ship', label: 'ТС отгружено' },
         { id: 'exec.table.err', label: 'Сделки с ошибками' },
