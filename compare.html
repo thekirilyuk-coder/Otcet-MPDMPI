@@ -2092,6 +2092,7 @@
     --tui-graph-blue: #126DF7;
     --tui-graph-blue-light: #7BB2FA;
     --tui-graph-blue-mid: #428BF9;
+    --tui-graph-blue-dark: #0A3D91;
     --tui-graph-gray: #C4C9CF;
 
     --tui-typo-h3: 500 28px/32px &quot;Tinkoff Sans&quot;, &quot;Neue Haas Unica W1G&quot;, system-ui, sans-serif;
@@ -2428,7 +2429,7 @@
           &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class=&quot;legend&quot; style=&quot;margin: -8px 0 12px;&quot;&gt;
-          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.deals&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-brand-t-bank)&quot;&gt;&lt;/span&gt;Подготовлено договоров&lt;/span&gt;
+          &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.deals&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-dark)&quot;&gt;&lt;/span&gt;Подготовлено договоров&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.changes&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue)&quot;&gt;&lt;/span&gt;Изменения&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot; data-block=&quot;c.portfolio.transfers&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-light)&quot;&gt;&lt;/span&gt;Передачи&lt;/span&gt;
         &lt;/div&gt;
@@ -2967,7 +2968,7 @@
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var max = 5200;
     var series = [
-      { key: &#x27;deals&#x27;,     name: &#x27;Подготовлено договоров&#x27;, color: &#x27;var(--tui-brand-t-bank)&#x27; },
+      { key: &#x27;deals&#x27;,     name: &#x27;Подготовлено договоров&#x27;, color: &#x27;var(--tui-graph-blue-dark)&#x27; },
       { key: &#x27;changes&#x27;,   name: &#x27;Изменения&#x27;,              color: &#x27;var(--tui-graph-blue)&#x27; },
       { key: &#x27;transfers&#x27;, name: &#x27;Передачи&#x27;,               color: &#x27;var(--tui-graph-blue-light)&#x27; }
     ].filter(function (s) { return isOn(&#x27;c.portfolio.&#x27; + s.key); });

@@ -21,6 +21,7 @@
     --tui-graph-blue: #126DF7;
     --tui-graph-blue-light: #7BB2FA;
     --tui-graph-blue-mid: #428BF9;
+    --tui-graph-blue-dark: #0A3D91;
     --tui-graph-gray: #C4C9CF;
 
     --tui-typo-h3: 500 28px/32px "Tinkoff Sans", "Neue Haas Unica W1G", system-ui, sans-serif;
@@ -357,7 +358,7 @@
           </div>
         </div>
         <div class="legend" style="margin: -8px 0 12px;">
-          <span class="legend__item" data-block="c.portfolio.deals"><span class="legend__swatch" style="background:var(--tui-brand-t-bank)"></span>Подготовлено договоров</span>
+          <span class="legend__item" data-block="c.portfolio.deals"><span class="legend__swatch" style="background:var(--tui-graph-blue-dark)"></span>Подготовлено договоров</span>
           <span class="legend__item" data-block="c.portfolio.changes"><span class="legend__swatch" style="background:var(--tui-graph-blue)"></span>Изменения</span>
           <span class="legend__item" data-block="c.portfolio.transfers"><span class="legend__swatch" style="background:var(--tui-graph-blue-light)"></span>Передачи</span>
         </div>
@@ -896,7 +897,7 @@
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var max = 5200;
     var series = [
-      { key: 'deals',     name: 'Подготовлено договоров', color: 'var(--tui-brand-t-bank)' },
+      { key: 'deals',     name: 'Подготовлено договоров', color: 'var(--tui-graph-blue-dark)' },
       { key: 'changes',   name: 'Изменения',              color: 'var(--tui-graph-blue)' },
       { key: 'transfers', name: 'Передачи',               color: 'var(--tui-graph-blue-light)' }
     ].filter(function (s) { return isOn('c.portfolio.' + s.key); });
