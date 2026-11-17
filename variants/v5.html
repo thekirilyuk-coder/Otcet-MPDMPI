@@ -295,6 +295,9 @@
   @media (min-width: 1000px) {
     body.drawer-open .page { margin-right: 420px; }
   }
+  /* цифры в карточках не переносятся; при открытой панели — чуть меньше */
+  .kpi__value { white-space: nowrap; }
+  body.drawer-open .kpi__value { font-size: 36px; line-height: 44px; }
 </style>
 <style id="visibility-style"></style>
 </head>

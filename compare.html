@@ -8,27 +8,10 @@
   html, body { margin: 0; height: 100%; background: #F6F7F8; overflow: hidden; }
   .variant { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #F6F7F8; }
   .variant[hidden] { display: block; visibility: hidden; pointer-events: none; }
-
-  /* ===== Переключатель вариантов (правый нижний угол) ===== */
-  .vs {
-    position: fixed; right: 16px; bottom: 16px; z-index: 1000;
-    display: inline-flex; gap: 4px; padding: 4px;
-    background: #333333; border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.24);
-    font: 400 13px/16px "Neue Haas Unica W1G", system-ui, sans-serif;
-  }
-  .vs__btn {
-    border: 0; background: transparent; color: rgba(255,255,255,.7);
-    height: 36px; padding: 0 14px; border-radius: 9px; cursor: pointer; font: inherit;
-    transition: background .15s ease, color .15s ease;
-  }
-  .vs__btn:hover { color: #FFFFFF; }
-  .vs__btn[aria-checked="true"] { background: #FFDD2D; color: rgba(0,0,0,.8); font-weight: 500; }
-  .vs__btn:focus-visible { outline: 2px solid #FFDD2D; outline-offset: 2px; }
 </style>
 </head>
 <body>
-<iframe class="variant" id="variant-1" title="Вариант 1" data-variant="1" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-1" title="Вариант 1: Вкладки · исходный вид" data-variant="1" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -914,10 +897,106 @@
   document.addEventListener(&#x27;mouseleave&#x27;, hideTip);
 })();
 &lt;/script&gt;
+
+&lt;style id=&quot;vp-style&quot;&gt;
+  .vp { padding: 14px 20px 16px; border-bottom: 1px solid var(--tui-border-normal, rgba(0,16,36,.12)); }
+  .vp__title { margin: 0 0 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); }
+  .vp__list { display: flex; flex-direction: column; gap: 2px; }
+  .vp__btn {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 8px; border: 0; border-radius: 10px;
+    background: transparent; text-align: left; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary);
+    transition: background .15s ease;
+  }
+  .vp__btn:hover { background: var(--tui-background-neutral-1); }
+  .vp__btn:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 1px; }
+  .vp__btn[aria-checked=&quot;true&quot;] { background: var(--tui-brand-t-bank); font-weight: 500; }
+  .vp__num {
+    flex-shrink: 0; min-width: 1.75em; height: 1.75em; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--tui-background-neutral-1); font-weight: 500;
+  }
+  .vp__btn[aria-checked=&quot;true&quot;] .vp__num { background: rgba(255,255,255,.6); }
+  .vp__hint { margin: 8px 0 0; font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); }
+
+  /* шестерёнка и окошко для версий без своей настройки */
+  .vp-head { display: flex; align-items: center; gap: 8px; }
+  .vp-gear {
+    width: 48px; height: 48px; padding: 0; border-radius: 12px; cursor: pointer; flex-shrink: 0;
+    background: var(--tui-background-base); border: 1px solid var(--tui-border-normal); color: var(--tui-text-secondary);
+    display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .vp-gear:hover { color: var(--tui-text-primary); }
+  .vp-gear:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
+  .vp-gear svg { width: 20px; height: 20px; }
+  .vp-gear[aria-expanded=&quot;true&quot;] { background: var(--tui-brand-t-bank); border-color: var(--tui-brand-t-bank); color: rgba(0,0,0,.8); }
+  .vp-pop {
+    position: fixed; top: 16px; right: 16px; z-index: 60; width: 360px; max-width: calc(100% - 32px);
+    background: var(--tui-background-base); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  }
+  .vp-pop[hidden] { display: none; }
+  .vp-pop .vp { border-bottom: 0; }
+  .vp-pop__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 0; }
+  .vp-pop__title { margin: 0; font: var(--tui-typo-ui-l-bold); }
+  .vp-pop__close { width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--tui-background-neutral-1); color: var(--tui-text-secondary); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .vp-pop__close svg { width: 16px; height: 16px; }
+&lt;/style&gt;
+&lt;script&gt;
+(function () {
+  if (window.parent === window) return;
+  var V = {&quot;current&quot;: &quot;1&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Вкладки · настройка блоков&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}, {&quot;n&quot;: &quot;5&quot;, &quot;name&quot;: &quot;Лендинг · приглушённые цвета&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  function pickerHtml() {
+    return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
+      V.list.map(function (v) {
+        var on = v.n === V.current;
+        return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
+          &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
+      }).join(&#x27;&#x27;) +
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+  }
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
+    if (!b) return;
+    if (b.getAttribute(&#x27;data-vp&#x27;) !== V.current) parent.postMessage({ type: &#x27;compare-variant&#x27;, n: b.getAttribute(&#x27;data-vp&#x27;) }, &#x27;*&#x27;);
+  });
+
+  var drawer = document.getElementById(&#x27;drawer&#x27;);
+  if (drawer) {
+    // своя «Настройка отчёта» есть — добавляем выбор версии в её начало
+    var head = drawer.querySelector(&#x27;.drawer__head&#x27;);
+    head.insertAdjacentHTML(&#x27;afterend&#x27;, pickerHtml());
+    return;
+  }
+
+  // своей настройки нет — добавляем шестерёнку и окошко с выбором версии
+  var period = document.querySelector(&#x27;.page-head .period&#x27;);
+  if (!period) return;
+  var wrap = document.createElement(&#x27;div&#x27;);
+  wrap.className = &#x27;vp-head&#x27;;
+  period.parentNode.insertBefore(wrap, period);
+  wrap.appendChild(period);
+  wrap.insertAdjacentHTML(&#x27;beforeend&#x27;, &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-gear&quot; id=&quot;vp-gear&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;vp-pop&quot; aria-label=&quot;Настройка отчёта&quot; title=&quot;Настройка отчёта&quot;&gt;&#x27; + V.gear + &#x27;&lt;/button&gt;&#x27;);
+  document.body.insertAdjacentHTML(&#x27;beforeend&#x27;,
+    &#x27;&lt;div class=&quot;vp-pop&quot; id=&quot;vp-pop&quot; role=&quot;dialog&quot; aria-label=&quot;Настройка отчёта&quot; hidden&gt;&#x27; +
+      &#x27;&lt;div class=&quot;vp-pop__head&quot;&gt;&lt;h2 class=&quot;vp-pop__title&quot;&gt;Настройка отчёта&lt;/h2&gt;&#x27; +
+      &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-pop__close&quot; aria-label=&quot;Закрыть&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M6 6l12 12M18 6L6 18&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;&#x27; +
+      pickerHtml() + &#x27;&lt;/div&gt;&#x27;);
+  var gear = document.getElementById(&#x27;vp-gear&#x27;), pop = document.getElementById(&#x27;vp-pop&#x27;);
+  function setPop(open) {
+    pop.hidden = !open;
+    gear.setAttribute(&#x27;aria-expanded&#x27;, open ? &#x27;true&#x27; : &#x27;false&#x27;);
+    if (open) { var cur = pop.querySelector(&#x27;[aria-checked=&quot;true&quot;]&#x27;); if (cur) cur.focus(); }
+  }
+  gear.addEventListener(&#x27;click&#x27;, function () { setPop(pop.hidden); });
+  pop.querySelector(&#x27;.vp-pop__close&#x27;).addEventListener(&#x27;click&#x27;, function () { setPop(false); gear.focus(); });
+  document.addEventListener(&#x27;keydown&#x27;, function (e) { if (e.key === &#x27;Escape&#x27; &amp;&amp; !pop.hidden) { setPop(false); gear.focus(); } });
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    if (!pop.hidden &amp;&amp; !pop.contains(e.target) &amp;&amp; !gear.contains(e.target)) setPop(false);
+  });
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 "></iframe>
-<iframe class="variant" id="variant-2" title="Вариант 2" data-variant="2" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-2" title="Вариант 2: Вкладки · настройка блоков" data-variant="2" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -2066,10 +2145,106 @@
   document.addEventListener(&#x27;mouseleave&#x27;, hideTip);
 })();
 &lt;/script&gt;
+
+&lt;style id=&quot;vp-style&quot;&gt;
+  .vp { padding: 14px 20px 16px; border-bottom: 1px solid var(--tui-border-normal, rgba(0,16,36,.12)); }
+  .vp__title { margin: 0 0 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); }
+  .vp__list { display: flex; flex-direction: column; gap: 2px; }
+  .vp__btn {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 8px; border: 0; border-radius: 10px;
+    background: transparent; text-align: left; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary);
+    transition: background .15s ease;
+  }
+  .vp__btn:hover { background: var(--tui-background-neutral-1); }
+  .vp__btn:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 1px; }
+  .vp__btn[aria-checked=&quot;true&quot;] { background: var(--tui-brand-t-bank); font-weight: 500; }
+  .vp__num {
+    flex-shrink: 0; min-width: 1.75em; height: 1.75em; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--tui-background-neutral-1); font-weight: 500;
+  }
+  .vp__btn[aria-checked=&quot;true&quot;] .vp__num { background: rgba(255,255,255,.6); }
+  .vp__hint { margin: 8px 0 0; font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); }
+
+  /* шестерёнка и окошко для версий без своей настройки */
+  .vp-head { display: flex; align-items: center; gap: 8px; }
+  .vp-gear {
+    width: 48px; height: 48px; padding: 0; border-radius: 12px; cursor: pointer; flex-shrink: 0;
+    background: var(--tui-background-base); border: 1px solid var(--tui-border-normal); color: var(--tui-text-secondary);
+    display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .vp-gear:hover { color: var(--tui-text-primary); }
+  .vp-gear:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
+  .vp-gear svg { width: 20px; height: 20px; }
+  .vp-gear[aria-expanded=&quot;true&quot;] { background: var(--tui-brand-t-bank); border-color: var(--tui-brand-t-bank); color: rgba(0,0,0,.8); }
+  .vp-pop {
+    position: fixed; top: 16px; right: 16px; z-index: 60; width: 360px; max-width: calc(100% - 32px);
+    background: var(--tui-background-base); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  }
+  .vp-pop[hidden] { display: none; }
+  .vp-pop .vp { border-bottom: 0; }
+  .vp-pop__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 0; }
+  .vp-pop__title { margin: 0; font: var(--tui-typo-ui-l-bold); }
+  .vp-pop__close { width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--tui-background-neutral-1); color: var(--tui-text-secondary); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .vp-pop__close svg { width: 16px; height: 16px; }
+&lt;/style&gt;
+&lt;script&gt;
+(function () {
+  if (window.parent === window) return;
+  var V = {&quot;current&quot;: &quot;2&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Вкладки · настройка блоков&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}, {&quot;n&quot;: &quot;5&quot;, &quot;name&quot;: &quot;Лендинг · приглушённые цвета&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  function pickerHtml() {
+    return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
+      V.list.map(function (v) {
+        var on = v.n === V.current;
+        return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
+          &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
+      }).join(&#x27;&#x27;) +
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+  }
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
+    if (!b) return;
+    if (b.getAttribute(&#x27;data-vp&#x27;) !== V.current) parent.postMessage({ type: &#x27;compare-variant&#x27;, n: b.getAttribute(&#x27;data-vp&#x27;) }, &#x27;*&#x27;);
+  });
+
+  var drawer = document.getElementById(&#x27;drawer&#x27;);
+  if (drawer) {
+    // своя «Настройка отчёта» есть — добавляем выбор версии в её начало
+    var head = drawer.querySelector(&#x27;.drawer__head&#x27;);
+    head.insertAdjacentHTML(&#x27;afterend&#x27;, pickerHtml());
+    return;
+  }
+
+  // своей настройки нет — добавляем шестерёнку и окошко с выбором версии
+  var period = document.querySelector(&#x27;.page-head .period&#x27;);
+  if (!period) return;
+  var wrap = document.createElement(&#x27;div&#x27;);
+  wrap.className = &#x27;vp-head&#x27;;
+  period.parentNode.insertBefore(wrap, period);
+  wrap.appendChild(period);
+  wrap.insertAdjacentHTML(&#x27;beforeend&#x27;, &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-gear&quot; id=&quot;vp-gear&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;vp-pop&quot; aria-label=&quot;Настройка отчёта&quot; title=&quot;Настройка отчёта&quot;&gt;&#x27; + V.gear + &#x27;&lt;/button&gt;&#x27;);
+  document.body.insertAdjacentHTML(&#x27;beforeend&#x27;,
+    &#x27;&lt;div class=&quot;vp-pop&quot; id=&quot;vp-pop&quot; role=&quot;dialog&quot; aria-label=&quot;Настройка отчёта&quot; hidden&gt;&#x27; +
+      &#x27;&lt;div class=&quot;vp-pop__head&quot;&gt;&lt;h2 class=&quot;vp-pop__title&quot;&gt;Настройка отчёта&lt;/h2&gt;&#x27; +
+      &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-pop__close&quot; aria-label=&quot;Закрыть&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M6 6l12 12M18 6L6 18&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;&#x27; +
+      pickerHtml() + &#x27;&lt;/div&gt;&#x27;);
+  var gear = document.getElementById(&#x27;vp-gear&#x27;), pop = document.getElementById(&#x27;vp-pop&#x27;);
+  function setPop(open) {
+    pop.hidden = !open;
+    gear.setAttribute(&#x27;aria-expanded&#x27;, open ? &#x27;true&#x27; : &#x27;false&#x27;);
+    if (open) { var cur = pop.querySelector(&#x27;[aria-checked=&quot;true&quot;]&#x27;); if (cur) cur.focus(); }
+  }
+  gear.addEventListener(&#x27;click&#x27;, function () { setPop(pop.hidden); });
+  pop.querySelector(&#x27;.vp-pop__close&#x27;).addEventListener(&#x27;click&#x27;, function () { setPop(false); gear.focus(); });
+  document.addEventListener(&#x27;keydown&#x27;, function (e) { if (e.key === &#x27;Escape&#x27; &amp;&amp; !pop.hidden) { setPop(false); gear.focus(); } });
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    if (!pop.hidden &amp;&amp; !pop.contains(e.target) &amp;&amp; !gear.contains(e.target)) setPop(false);
+  });
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 " hidden></iframe>
-<iframe class="variant" id="variant-3" title="Вариант 3" data-variant="3" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-3" title="Вариант 3: Один лендинг" data-variant="3" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -3188,10 +3363,106 @@
   document.addEventListener(&#x27;mouseleave&#x27;, hideTip);
 })();
 &lt;/script&gt;
+
+&lt;style id=&quot;vp-style&quot;&gt;
+  .vp { padding: 14px 20px 16px; border-bottom: 1px solid var(--tui-border-normal, rgba(0,16,36,.12)); }
+  .vp__title { margin: 0 0 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); }
+  .vp__list { display: flex; flex-direction: column; gap: 2px; }
+  .vp__btn {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 8px; border: 0; border-radius: 10px;
+    background: transparent; text-align: left; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary);
+    transition: background .15s ease;
+  }
+  .vp__btn:hover { background: var(--tui-background-neutral-1); }
+  .vp__btn:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 1px; }
+  .vp__btn[aria-checked=&quot;true&quot;] { background: var(--tui-brand-t-bank); font-weight: 500; }
+  .vp__num {
+    flex-shrink: 0; min-width: 1.75em; height: 1.75em; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--tui-background-neutral-1); font-weight: 500;
+  }
+  .vp__btn[aria-checked=&quot;true&quot;] .vp__num { background: rgba(255,255,255,.6); }
+  .vp__hint { margin: 8px 0 0; font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); }
+
+  /* шестерёнка и окошко для версий без своей настройки */
+  .vp-head { display: flex; align-items: center; gap: 8px; }
+  .vp-gear {
+    width: 48px; height: 48px; padding: 0; border-radius: 12px; cursor: pointer; flex-shrink: 0;
+    background: var(--tui-background-base); border: 1px solid var(--tui-border-normal); color: var(--tui-text-secondary);
+    display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .vp-gear:hover { color: var(--tui-text-primary); }
+  .vp-gear:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
+  .vp-gear svg { width: 20px; height: 20px; }
+  .vp-gear[aria-expanded=&quot;true&quot;] { background: var(--tui-brand-t-bank); border-color: var(--tui-brand-t-bank); color: rgba(0,0,0,.8); }
+  .vp-pop {
+    position: fixed; top: 16px; right: 16px; z-index: 60; width: 360px; max-width: calc(100% - 32px);
+    background: var(--tui-background-base); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  }
+  .vp-pop[hidden] { display: none; }
+  .vp-pop .vp { border-bottom: 0; }
+  .vp-pop__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 0; }
+  .vp-pop__title { margin: 0; font: var(--tui-typo-ui-l-bold); }
+  .vp-pop__close { width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--tui-background-neutral-1); color: var(--tui-text-secondary); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .vp-pop__close svg { width: 16px; height: 16px; }
+&lt;/style&gt;
+&lt;script&gt;
+(function () {
+  if (window.parent === window) return;
+  var V = {&quot;current&quot;: &quot;3&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Вкладки · настройка блоков&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}, {&quot;n&quot;: &quot;5&quot;, &quot;name&quot;: &quot;Лендинг · приглушённые цвета&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  function pickerHtml() {
+    return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
+      V.list.map(function (v) {
+        var on = v.n === V.current;
+        return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
+          &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
+      }).join(&#x27;&#x27;) +
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+  }
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
+    if (!b) return;
+    if (b.getAttribute(&#x27;data-vp&#x27;) !== V.current) parent.postMessage({ type: &#x27;compare-variant&#x27;, n: b.getAttribute(&#x27;data-vp&#x27;) }, &#x27;*&#x27;);
+  });
+
+  var drawer = document.getElementById(&#x27;drawer&#x27;);
+  if (drawer) {
+    // своя «Настройка отчёта» есть — добавляем выбор версии в её начало
+    var head = drawer.querySelector(&#x27;.drawer__head&#x27;);
+    head.insertAdjacentHTML(&#x27;afterend&#x27;, pickerHtml());
+    return;
+  }
+
+  // своей настройки нет — добавляем шестерёнку и окошко с выбором версии
+  var period = document.querySelector(&#x27;.page-head .period&#x27;);
+  if (!period) return;
+  var wrap = document.createElement(&#x27;div&#x27;);
+  wrap.className = &#x27;vp-head&#x27;;
+  period.parentNode.insertBefore(wrap, period);
+  wrap.appendChild(period);
+  wrap.insertAdjacentHTML(&#x27;beforeend&#x27;, &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-gear&quot; id=&quot;vp-gear&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;vp-pop&quot; aria-label=&quot;Настройка отчёта&quot; title=&quot;Настройка отчёта&quot;&gt;&#x27; + V.gear + &#x27;&lt;/button&gt;&#x27;);
+  document.body.insertAdjacentHTML(&#x27;beforeend&#x27;,
+    &#x27;&lt;div class=&quot;vp-pop&quot; id=&quot;vp-pop&quot; role=&quot;dialog&quot; aria-label=&quot;Настройка отчёта&quot; hidden&gt;&#x27; +
+      &#x27;&lt;div class=&quot;vp-pop__head&quot;&gt;&lt;h2 class=&quot;vp-pop__title&quot;&gt;Настройка отчёта&lt;/h2&gt;&#x27; +
+      &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-pop__close&quot; aria-label=&quot;Закрыть&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M6 6l12 12M18 6L6 18&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;&#x27; +
+      pickerHtml() + &#x27;&lt;/div&gt;&#x27;);
+  var gear = document.getElementById(&#x27;vp-gear&#x27;), pop = document.getElementById(&#x27;vp-pop&#x27;);
+  function setPop(open) {
+    pop.hidden = !open;
+    gear.setAttribute(&#x27;aria-expanded&#x27;, open ? &#x27;true&#x27; : &#x27;false&#x27;);
+    if (open) { var cur = pop.querySelector(&#x27;[aria-checked=&quot;true&quot;]&#x27;); if (cur) cur.focus(); }
+  }
+  gear.addEventListener(&#x27;click&#x27;, function () { setPop(pop.hidden); });
+  pop.querySelector(&#x27;.vp-pop__close&#x27;).addEventListener(&#x27;click&#x27;, function () { setPop(false); gear.focus(); });
+  document.addEventListener(&#x27;keydown&#x27;, function (e) { if (e.key === &#x27;Escape&#x27; &amp;&amp; !pop.hidden) { setPop(false); gear.focus(); } });
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    if (!pop.hidden &amp;&amp; !pop.contains(e.target) &amp;&amp; !gear.contains(e.target)) setPop(false);
+  });
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 " hidden></iframe>
-<iframe class="variant" id="variant-4" title="Вариант 4" data-variant="4" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-4" title="Вариант 4: Лендинг · крупный шрифт" data-variant="4" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -4321,10 +4592,106 @@
   document.addEventListener(&#x27;mouseleave&#x27;, hideTip);
 })();
 &lt;/script&gt;
+
+&lt;style id=&quot;vp-style&quot;&gt;
+  .vp { padding: 14px 20px 16px; border-bottom: 1px solid var(--tui-border-normal, rgba(0,16,36,.12)); }
+  .vp__title { margin: 0 0 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); }
+  .vp__list { display: flex; flex-direction: column; gap: 2px; }
+  .vp__btn {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 8px; border: 0; border-radius: 10px;
+    background: transparent; text-align: left; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary);
+    transition: background .15s ease;
+  }
+  .vp__btn:hover { background: var(--tui-background-neutral-1); }
+  .vp__btn:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 1px; }
+  .vp__btn[aria-checked=&quot;true&quot;] { background: var(--tui-brand-t-bank); font-weight: 500; }
+  .vp__num {
+    flex-shrink: 0; min-width: 1.75em; height: 1.75em; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--tui-background-neutral-1); font-weight: 500;
+  }
+  .vp__btn[aria-checked=&quot;true&quot;] .vp__num { background: rgba(255,255,255,.6); }
+  .vp__hint { margin: 8px 0 0; font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); }
+
+  /* шестерёнка и окошко для версий без своей настройки */
+  .vp-head { display: flex; align-items: center; gap: 8px; }
+  .vp-gear {
+    width: 48px; height: 48px; padding: 0; border-radius: 12px; cursor: pointer; flex-shrink: 0;
+    background: var(--tui-background-base); border: 1px solid var(--tui-border-normal); color: var(--tui-text-secondary);
+    display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .vp-gear:hover { color: var(--tui-text-primary); }
+  .vp-gear:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
+  .vp-gear svg { width: 20px; height: 20px; }
+  .vp-gear[aria-expanded=&quot;true&quot;] { background: var(--tui-brand-t-bank); border-color: var(--tui-brand-t-bank); color: rgba(0,0,0,.8); }
+  .vp-pop {
+    position: fixed; top: 16px; right: 16px; z-index: 60; width: 360px; max-width: calc(100% - 32px);
+    background: var(--tui-background-base); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  }
+  .vp-pop[hidden] { display: none; }
+  .vp-pop .vp { border-bottom: 0; }
+  .vp-pop__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 0; }
+  .vp-pop__title { margin: 0; font: var(--tui-typo-ui-l-bold); }
+  .vp-pop__close { width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--tui-background-neutral-1); color: var(--tui-text-secondary); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .vp-pop__close svg { width: 16px; height: 16px; }
+&lt;/style&gt;
+&lt;script&gt;
+(function () {
+  if (window.parent === window) return;
+  var V = {&quot;current&quot;: &quot;4&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Вкладки · настройка блоков&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}, {&quot;n&quot;: &quot;5&quot;, &quot;name&quot;: &quot;Лендинг · приглушённые цвета&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  function pickerHtml() {
+    return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
+      V.list.map(function (v) {
+        var on = v.n === V.current;
+        return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
+          &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
+      }).join(&#x27;&#x27;) +
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+  }
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
+    if (!b) return;
+    if (b.getAttribute(&#x27;data-vp&#x27;) !== V.current) parent.postMessage({ type: &#x27;compare-variant&#x27;, n: b.getAttribute(&#x27;data-vp&#x27;) }, &#x27;*&#x27;);
+  });
+
+  var drawer = document.getElementById(&#x27;drawer&#x27;);
+  if (drawer) {
+    // своя «Настройка отчёта» есть — добавляем выбор версии в её начало
+    var head = drawer.querySelector(&#x27;.drawer__head&#x27;);
+    head.insertAdjacentHTML(&#x27;afterend&#x27;, pickerHtml());
+    return;
+  }
+
+  // своей настройки нет — добавляем шестерёнку и окошко с выбором версии
+  var period = document.querySelector(&#x27;.page-head .period&#x27;);
+  if (!period) return;
+  var wrap = document.createElement(&#x27;div&#x27;);
+  wrap.className = &#x27;vp-head&#x27;;
+  period.parentNode.insertBefore(wrap, period);
+  wrap.appendChild(period);
+  wrap.insertAdjacentHTML(&#x27;beforeend&#x27;, &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-gear&quot; id=&quot;vp-gear&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;vp-pop&quot; aria-label=&quot;Настройка отчёта&quot; title=&quot;Настройка отчёта&quot;&gt;&#x27; + V.gear + &#x27;&lt;/button&gt;&#x27;);
+  document.body.insertAdjacentHTML(&#x27;beforeend&#x27;,
+    &#x27;&lt;div class=&quot;vp-pop&quot; id=&quot;vp-pop&quot; role=&quot;dialog&quot; aria-label=&quot;Настройка отчёта&quot; hidden&gt;&#x27; +
+      &#x27;&lt;div class=&quot;vp-pop__head&quot;&gt;&lt;h2 class=&quot;vp-pop__title&quot;&gt;Настройка отчёта&lt;/h2&gt;&#x27; +
+      &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-pop__close&quot; aria-label=&quot;Закрыть&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M6 6l12 12M18 6L6 18&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;&#x27; +
+      pickerHtml() + &#x27;&lt;/div&gt;&#x27;);
+  var gear = document.getElementById(&#x27;vp-gear&#x27;), pop = document.getElementById(&#x27;vp-pop&#x27;);
+  function setPop(open) {
+    pop.hidden = !open;
+    gear.setAttribute(&#x27;aria-expanded&#x27;, open ? &#x27;true&#x27; : &#x27;false&#x27;);
+    if (open) { var cur = pop.querySelector(&#x27;[aria-checked=&quot;true&quot;]&#x27;); if (cur) cur.focus(); }
+  }
+  gear.addEventListener(&#x27;click&#x27;, function () { setPop(pop.hidden); });
+  pop.querySelector(&#x27;.vp-pop__close&#x27;).addEventListener(&#x27;click&#x27;, function () { setPop(false); gear.focus(); });
+  document.addEventListener(&#x27;keydown&#x27;, function (e) { if (e.key === &#x27;Escape&#x27; &amp;&amp; !pop.hidden) { setPop(false); gear.focus(); } });
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    if (!pop.hidden &amp;&amp; !pop.contains(e.target) &amp;&amp; !gear.contains(e.target)) setPop(false);
+  });
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 " hidden></iframe>
-<iframe class="variant" id="variant-5" title="Вариант 5" data-variant="5" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-5" title="Вариант 5: Лендинг · приглушённые цвета" data-variant="5" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -4621,6 +4988,9 @@
   @media (min-width: 1000px) {
     body.drawer-open .page { margin-right: 420px; }
   }
+  /* цифры в карточках не переносятся; при открытой панели — чуть меньше */
+  .kpi__value { white-space: nowrap; }
+  body.drawer-open .kpi__value { font-size: 36px; line-height: 44px; }
 &lt;/style&gt;
 &lt;style id=&quot;visibility-style&quot;&gt;&lt;/style&gt;
 &lt;/head&gt;
@@ -5454,23 +5824,123 @@
   document.addEventListener(&#x27;mouseleave&#x27;, hideTip);
 })();
 &lt;/script&gt;
+
+&lt;style id=&quot;vp-style&quot;&gt;
+  .vp { padding: 14px 20px 16px; border-bottom: 1px solid var(--tui-border-normal, rgba(0,16,36,.12)); }
+  .vp__title { margin: 0 0 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); }
+  .vp__list { display: flex; flex-direction: column; gap: 2px; }
+  .vp__btn {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 8px; border: 0; border-radius: 10px;
+    background: transparent; text-align: left; cursor: pointer; font: var(--tui-typo-ui-m); color: var(--tui-text-primary);
+    transition: background .15s ease;
+  }
+  .vp__btn:hover { background: var(--tui-background-neutral-1); }
+  .vp__btn:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 1px; }
+  .vp__btn[aria-checked=&quot;true&quot;] { background: var(--tui-brand-t-bank); font-weight: 500; }
+  .vp__num {
+    flex-shrink: 0; min-width: 1.75em; height: 1.75em; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+    background: var(--tui-background-neutral-1); font-weight: 500;
+  }
+  .vp__btn[aria-checked=&quot;true&quot;] .vp__num { background: rgba(255,255,255,.6); }
+  .vp__hint { margin: 8px 0 0; font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); }
+
+  /* шестерёнка и окошко для версий без своей настройки */
+  .vp-head { display: flex; align-items: center; gap: 8px; }
+  .vp-gear {
+    width: 48px; height: 48px; padding: 0; border-radius: 12px; cursor: pointer; flex-shrink: 0;
+    background: var(--tui-background-base); border: 1px solid var(--tui-border-normal); color: var(--tui-text-secondary);
+    display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .vp-gear:hover { color: var(--tui-text-primary); }
+  .vp-gear:focus-visible { outline: 2px solid var(--tui-text-action); outline-offset: 2px; }
+  .vp-gear svg { width: 20px; height: 20px; }
+  .vp-gear[aria-expanded=&quot;true&quot;] { background: var(--tui-brand-t-bank); border-color: var(--tui-brand-t-bank); color: rgba(0,0,0,.8); }
+  .vp-pop {
+    position: fixed; top: 16px; right: 16px; z-index: 60; width: 360px; max-width: calc(100% - 32px);
+    background: var(--tui-background-base); border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  }
+  .vp-pop[hidden] { display: none; }
+  .vp-pop .vp { border-bottom: 0; }
+  .vp-pop__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 0; }
+  .vp-pop__title { margin: 0; font: var(--tui-typo-ui-l-bold); }
+  .vp-pop__close { width: 32px; height: 32px; border: 0; border-radius: 8px; background: var(--tui-background-neutral-1); color: var(--tui-text-secondary); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+  .vp-pop__close svg { width: 16px; height: 16px; }
+&lt;/style&gt;
+&lt;script&gt;
+(function () {
+  if (window.parent === window) return;
+  var V = {&quot;current&quot;: &quot;5&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Вкладки · настройка блоков&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}, {&quot;n&quot;: &quot;5&quot;, &quot;name&quot;: &quot;Лендинг · приглушённые цвета&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  function pickerHtml() {
+    return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
+      V.list.map(function (v) {
+        var on = v.n === V.current;
+        return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
+          &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
+      }).join(&#x27;&#x27;) +
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+  }
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
+    if (!b) return;
+    if (b.getAttribute(&#x27;data-vp&#x27;) !== V.current) parent.postMessage({ type: &#x27;compare-variant&#x27;, n: b.getAttribute(&#x27;data-vp&#x27;) }, &#x27;*&#x27;);
+  });
+
+  var drawer = document.getElementById(&#x27;drawer&#x27;);
+  if (drawer) {
+    // своя «Настройка отчёта» есть — добавляем выбор версии в её начало
+    var head = drawer.querySelector(&#x27;.drawer__head&#x27;);
+    head.insertAdjacentHTML(&#x27;afterend&#x27;, pickerHtml());
+    return;
+  }
+
+  // своей настройки нет — добавляем шестерёнку и окошко с выбором версии
+  var period = document.querySelector(&#x27;.page-head .period&#x27;);
+  if (!period) return;
+  var wrap = document.createElement(&#x27;div&#x27;);
+  wrap.className = &#x27;vp-head&#x27;;
+  period.parentNode.insertBefore(wrap, period);
+  wrap.appendChild(period);
+  wrap.insertAdjacentHTML(&#x27;beforeend&#x27;, &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-gear&quot; id=&quot;vp-gear&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;vp-pop&quot; aria-label=&quot;Настройка отчёта&quot; title=&quot;Настройка отчёта&quot;&gt;&#x27; + V.gear + &#x27;&lt;/button&gt;&#x27;);
+  document.body.insertAdjacentHTML(&#x27;beforeend&#x27;,
+    &#x27;&lt;div class=&quot;vp-pop&quot; id=&quot;vp-pop&quot; role=&quot;dialog&quot; aria-label=&quot;Настройка отчёта&quot; hidden&gt;&#x27; +
+      &#x27;&lt;div class=&quot;vp-pop__head&quot;&gt;&lt;h2 class=&quot;vp-pop__title&quot;&gt;Настройка отчёта&lt;/h2&gt;&#x27; +
+      &#x27;&lt;button type=&quot;button&quot; class=&quot;vp-pop__close&quot; aria-label=&quot;Закрыть&quot;&gt;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot;&gt;&lt;path d=&quot;M6 6l12 12M18 6L6 18&quot;/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;&#x27; +
+      pickerHtml() + &#x27;&lt;/div&gt;&#x27;);
+  var gear = document.getElementById(&#x27;vp-gear&#x27;), pop = document.getElementById(&#x27;vp-pop&#x27;);
+  function setPop(open) {
+    pop.hidden = !open;
+    gear.setAttribute(&#x27;aria-expanded&#x27;, open ? &#x27;true&#x27; : &#x27;false&#x27;);
+    if (open) { var cur = pop.querySelector(&#x27;[aria-checked=&quot;true&quot;]&#x27;); if (cur) cur.focus(); }
+  }
+  gear.addEventListener(&#x27;click&#x27;, function () { setPop(pop.hidden); });
+  pop.querySelector(&#x27;.vp-pop__close&#x27;).addEventListener(&#x27;click&#x27;, function () { setPop(false); gear.focus(); });
+  document.addEventListener(&#x27;keydown&#x27;, function (e) { if (e.key === &#x27;Escape&#x27; &amp;&amp; !pop.hidden) { setPop(false); gear.focus(); } });
+  document.addEventListener(&#x27;click&#x27;, function (e) {
+    if (!pop.hidden &amp;&amp; !pop.contains(e.target) &amp;&amp; !gear.contains(e.target)) setPop(false);
+  });
+})();
+&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 " hidden></iframe>
-<div class="vs" role="radiogroup" aria-label="Вариант дашборда">
-  <button type="button" class="vs__btn" role="radio" data-variant="1" aria-checked="true">Вариант 1</button>
-  <button type="button" class="vs__btn" role="radio" data-variant="2" aria-checked="false">Вариант 2</button>
-  <button type="button" class="vs__btn" role="radio" data-variant="3" aria-checked="false">Вариант 3</button>
-  <button type="button" class="vs__btn" role="radio" data-variant="4" aria-checked="false">Вариант 4</button>
-  <button type="button" class="vs__btn" role="radio" data-variant="5" aria-checked="false">Вариант 5</button>
-</div>
 <script>
 (function () {
   var frames = Array.prototype.slice.call(document.querySelectorAll('.variant'));
-  var btns = Array.prototype.slice.call(document.querySelectorAll('.vs__btn'));
   var current = frames[0];
 
-  // Переносим в новый вариант выбранную вкладку и позицию прокрутки
+  function settingsOpen(doc) {
+    var d = doc.getElementById('drawer');
+    if (d) return d.classList.contains('is-open');
+    var p = doc.getElementById('vp-pop');
+    return !!p && !p.hidden;
+  }
+  function openSettings(doc) {
+    if (settingsOpen(doc)) return;
+    var g = doc.getElementById('gear') || doc.getElementById('vp-gear');
+    if (g) g.click();
+  }
+
+  // Переносим в новую версию вкладку, позицию прокрутки и открытую настройку
   function syncState(from, to) {
     try {
       var fd = from.contentDocument, td = to.contentDocument;
@@ -5478,6 +5948,11 @@
       if (tab) {
         var same = td.getElementById(tab.id);
         if (same && same.getAttribute('aria-selected') !== 'true') same.click();
+      }
+      if (settingsOpen(fd)) {
+        openSettings(td);
+        var cur = td.querySelector('[data-vp][aria-checked="true"]');
+        if (cur) cur.focus({ preventScroll: true });
       }
       var fs = fd.scrollingElement, ts = td.scrollingElement;
       var ratio = fs.scrollTop / Math.max(1, fs.scrollHeight - fs.clientHeight);
@@ -5487,21 +5962,24 @@
 
   function show(n) {
     var next = document.getElementById('variant-' + n);
-    if (!next) return;
-    if (next !== current) syncState(current, next);
+    if (!next || next === current) return;
+    syncState(current, next);
     frames.forEach(function (f) { f.hidden = f !== next; });
-    btns.forEach(function (b) { b.setAttribute('aria-checked', b.getAttribute('data-variant') === n ? 'true' : 'false'); });
     current = next;
     try { history.replaceState(null, '', '#v' + n); } catch (e) {}
   }
 
-  btns.forEach(function (b) {
-    b.addEventListener('click', function () { show(b.getAttribute('data-variant')); });
+  // Выбор версии в «Настройке отчёта» внутри варианта
+  window.addEventListener('message', function (e) {
+    var ok = frames.some(function (f) { return f.contentWindow === e.source; });
+    if (ok && e.data && e.data.type === 'compare-variant') show(String(e.data.n));
   });
 
-  // Клавиши 1, 2, … переключают варианты (и внутри открытого варианта тоже)
+  // Клавиши 1, 2, … переключают версии (кроме ввода текста)
   function onKey(e) {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && t.type !== 'checkbox')) return;
     if (/^[1-9]$/.test(e.key)) show(e.key);
   }
   document.addEventListener('keydown', onKey);
