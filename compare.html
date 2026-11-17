@@ -942,7 +942,7 @@
 &lt;script&gt;
 (function () {
   if (window.parent === window) return;
-  var V = {&quot;current&quot;: &quot;1&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  var V = {&quot;current&quot;: &quot;1&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
   function pickerHtml() {
     return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
       V.list.map(function (v) {
@@ -950,7 +950,7 @@
         return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
           &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
       }).join(&#x27;&#x27;) +
-      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши &#x27; + V.list.map(function (v) { return v.n; }).join(&#x27;, &#x27;) + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
   }
   document.addEventListener(&#x27;click&#x27;, function (e) {
     var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
@@ -996,7 +996,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 "></iframe>
-<iframe class="variant" id="variant-3" title="Вариант 3: Один лендинг" data-variant="3" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-2" title="Вариант 2: Один лендинг" data-variant="2" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -2160,7 +2160,7 @@
 &lt;script&gt;
 (function () {
   if (window.parent === window) return;
-  var V = {&quot;current&quot;: &quot;3&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  var V = {&quot;current&quot;: &quot;2&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
   function pickerHtml() {
     return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
       V.list.map(function (v) {
@@ -2168,7 +2168,7 @@
         return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
           &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
       }).join(&#x27;&#x27;) +
-      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши &#x27; + V.list.map(function (v) { return v.n; }).join(&#x27;, &#x27;) + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
   }
   document.addEventListener(&#x27;click&#x27;, function (e) {
     var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);
@@ -2214,7 +2214,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
 " hidden></iframe>
-<iframe class="variant" id="variant-4" title="Вариант 4: Лендинг · крупный шрифт" data-variant="4" srcdoc="&lt;!DOCTYPE html&gt;
+<iframe class="variant" id="variant-3" title="Вариант 3: Лендинг · крупный шрифт" data-variant="3" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ru&quot;&gt;
 &lt;head&gt;
 &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -3392,7 +3392,7 @@
 &lt;script&gt;
 (function () {
   if (window.parent === window) return;
-  var V = {&quot;current&quot;: &quot;4&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;4&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
+  var V = {&quot;current&quot;: &quot;3&quot;, &quot;list&quot;: [{&quot;n&quot;: &quot;1&quot;, &quot;name&quot;: &quot;Вкладки · исходный вид&quot;}, {&quot;n&quot;: &quot;2&quot;, &quot;name&quot;: &quot;Один лендинг&quot;}, {&quot;n&quot;: &quot;3&quot;, &quot;name&quot;: &quot;Лендинг · крупный шрифт&quot;}], &quot;gear&quot;: &quot;&lt;svg viewBox=\&quot;0 0 24 24\&quot; fill=\&quot;none\&quot; stroke=\&quot;currentColor\&quot; stroke-width=\&quot;1.8\&quot; stroke-linecap=\&quot;round\&quot; stroke-linejoin=\&quot;round\&quot;&gt;&lt;path d=\&quot;M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\&quot;/&gt;&lt;circle cx=\&quot;12\&quot; cy=\&quot;12\&quot; r=\&quot;3\&quot;/&gt;&lt;\/svg&gt;&quot;};
   function pickerHtml() {
     return &#x27;&lt;div class=&quot;vp&quot;&gt;&lt;p class=&quot;vp__title&quot;&gt;Версия отчёта&lt;/p&gt;&lt;div class=&quot;vp__list&quot; role=&quot;radiogroup&quot; aria-label=&quot;Версия отчёта&quot;&gt;&#x27; +
       V.list.map(function (v) {
@@ -3400,7 +3400,7 @@
         return &#x27;&lt;button type=&quot;button&quot; class=&quot;vp__btn&quot; role=&quot;radio&quot; data-vp=&quot;&#x27; + v.n + &#x27;&quot; aria-checked=&quot;&#x27; + on + &#x27;&quot;&gt;&#x27; +
           &#x27;&lt;span class=&quot;vp__num&quot;&gt;&#x27; + v.n + &#x27;&lt;/span&gt;&lt;span&gt;&#x27; + v.name + &#x27;&lt;/span&gt;&lt;/button&gt;&#x27;;
       }).join(&#x27;&#x27;) +
-      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши &#x27; + V.list.map(function (v) { return v.n; }).join(&#x27;, &#x27;) + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
+      &#x27;&lt;/div&gt;&lt;p class=&quot;vp__hint&quot;&gt;Быстро: клавиши 1–&#x27; + V.list.length + &#x27;&lt;/p&gt;&lt;/div&gt;&#x27;;
   }
   document.addEventListener(&#x27;click&#x27;, function (e) {
     var b = e.target.closest &amp;&amp; e.target.closest(&#x27;[data-vp]&#x27;);

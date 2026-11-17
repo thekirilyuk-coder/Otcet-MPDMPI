@@ -99,7 +99,7 @@ PICKER = r"""
         return '<button type="button" class="vp__btn" role="radio" data-vp="' + v.n + '" aria-checked="' + on + '">' +
           '<span class="vp__num">' + v.n + '</span><span>' + v.name + '</span></button>';
       }).join('') +
-      '</div><p class="vp__hint">Быстро: клавиши ' + V.list.map(function (v) { return v.n; }).join(', ') + '</p></div>';
+      '</div><p class="vp__hint">Быстро: клавиши 1–' + V.list.length + '</p></div>';
   }
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-vp]');
@@ -144,9 +144,11 @@ PICKER = r"""
 </script>
 """
 
-items = [{"n": re.sub(r"\D", "", p.stem)} for p in VARIANTS]
-for it in items:
-    it["name"] = NAMES.get(it["n"], "Вариант " + it["n"])
+# В сравнении версии нумеруются по порядку (1, 2, 3, …), независимо от номера файла
+items = []
+for i, p in enumerate(VARIANTS):
+    src_n = re.sub(r"\D", "", p.stem)
+    items.append({"n": str(i + 1), "name": NAMES.get(src_n, "Вариант " + src_n)})
 
 frames = []
 for i, path in enumerate(VARIANTS):
