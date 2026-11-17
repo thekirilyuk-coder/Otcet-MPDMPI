@@ -60,7 +60,7 @@
 
   /* ===== Направления на одной странице ===== */
   .direction { margin-top: 40px; scroll-margin-top: 24px; }
-  .direction + .direction { margin-top: 72px; padding-top: 40px; border-top: 1px solid var(--tui-border-normal); }
+  .direction + .direction { margin-top: 72px; }
   .direction__title { font: 500 24px/28px "Tinkoff Sans", "Neue Haas Unica W1G", system-ui, sans-serif; margin: 0; }
   .direction__sub { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 6px 0 0; }
   .direction .kpis { margin-top: 20px; }
@@ -724,7 +724,7 @@
   function applyVisibilityCss() {
     document.getElementById('visibility-style').textContent = Object.keys(hidden).map(function (id) {
       return '[data-block="' + id + '"]{display:none!important}';
-    }).join('\n') + (hidden['dir.contracts'] ? '\n#exec{margin-top:40px;padding-top:0;border-top:0}' : '');
+    }).join('\n') + (hidden['dir.contracts'] ? '\n#exec{margin-top:40px}' : '');
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = '<p class="chart-empty">Все данные графика скрыты — включите их в настройке отчёта</p>';
