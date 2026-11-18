@@ -185,6 +185,9 @@
   .tchip b { font-weight: 500; color: var(--tui-text-primary); }
   .tchip__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .tasks__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tasks-group + .tasks-group { margin-top: 28px; }
+  .tasks-group__title { display: flex; align-items: center; gap: 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; }
+  .tasks-group__count { color: var(--tui-text-primary); font-weight: 600; }
   .task {
     background: var(--tui-background-base);
     border: 1px solid var(--tui-border-normal);
@@ -652,24 +655,39 @@
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
     var chips = '<span class="tchip">Задач всего <b>' + list.length + '</b></span>';
-    ['analysis', 'dev', 'prod', 'owner'].forEach(function (type) {
+    ['analysis', 'dev', 'owner', 'prod'].forEach(function (type) {
       var n = list.filter(function (t) { return t.status.type === type; }).length;
       if (n) chips += '<span class="tchip"><span class="tchip__dot" style="background:' + STATUS_DOT[type] + '"></span>' + STATUS_NAME[type] + ' <b>' + n + '</b></span>';
     });
     box.innerHTML =
       '<h3 class="tasks__title">Доработки по масштабируемости</h3>' +
       '<p class="tasks__sub">Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента</p>' +
-      '<div class="tasks__chips">' + chips + '</div>' +
-      '<div class="tasks__grid"></div>';
-    var grid = box.querySelector('.tasks__grid');
-    list.forEach(function (t) {
-      var card = document.createElement('div');
-      card.className = 'task';
-      card.innerHTML =
-        '<h3 class="task__title">' + t.title + '</h3>' +
-        '<p class="task__desc">' + t.desc + '</p>' +
-        '<span class="task__status task__status--' + t.status.type + '">' + ICONS[t.status.type] + t.status.text + '</span>';
-      grid.appendChild(card);
+      '<div class="tasks__chips">' + chips + '</div>';
+    // Задачи разложены по этапам: в анализе → в разработке → уже на ПРОДе
+    var STAGES = [
+      { types: ['analysis'], label: 'В анализе' },
+      { types: ['dev', 'owner'], label: 'В разработке' },
+      { types: ['prod'], label: 'Уже на ПРОДе · в системе' }
+    ];
+    STAGES.forEach(function (g) {
+      var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
+      if (!items.length) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'tasks-group';
+      wrap.innerHTML =
+        '<h4 class="tasks-group__title"><span class="tchip__dot" style="background:' + STATUS_DOT[g.types[0]] + '"></span>' + g.label + ' · <span class="tasks-group__count">' + items.length + '</span></h4>' +
+        '<div class="tasks__grid"></div>';
+      var grid = wrap.querySelector('.tasks__grid');
+      items.forEach(function (t) {
+        var card = document.createElement('div');
+        card.className = 'task';
+        card.innerHTML =
+          '<h3 class="task__title">' + t.title + '</h3>' +
+          '<p class="task__desc">' + t.desc + '</p>' +
+          '<span class="task__status task__status--' + t.status.type + '">' + ICONS[t.status.type] + t.status.text + '</span>';
+        grid.appendChild(card);
+      });
+      box.appendChild(wrap);
     });
   }
   renderTasks('tasks-exec', GROUPS.exec);

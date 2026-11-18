@@ -205,6 +205,9 @@
   .tchip b { font-weight: 500; color: var(--tui-text-primary); }
   .tchip__dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .tasks__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tasks-group + .tasks-group { margin-top: 28px; }
+  .tasks-group__title { display: flex; align-items: center; gap: 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; }
+  .tasks-group__count { color: var(--tui-text-primary); font-weight: 600; }
   .task {
     background: var(--tui-background-base);
     border: 1px solid var(--tui-border-normal);
@@ -679,24 +682,39 @@
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
     var chips = &#x27;&lt;span class=&quot;tchip&quot;&gt;Задач всего &lt;b&gt;&#x27; + list.length + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;prod&#x27;, &#x27;owner&#x27;].forEach(function (type) {
+    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;prod&#x27;].forEach(function (type) {
       var n = list.filter(function (t) { return t.status.type === type; }).length;
       if (n) chips += &#x27;&lt;span class=&quot;tchip&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[type] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + STATUS_NAME[type] + &#x27; &lt;b&gt;&#x27; + n + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
     });
     box.innerHTML =
       &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27; +
       &#x27;&lt;p class=&quot;tasks__sub&quot;&gt;Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента&lt;/p&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__grid&quot;&gt;&lt;/div&gt;&#x27;;
-    var grid = box.querySelector(&#x27;.tasks__grid&#x27;);
-    list.forEach(function (t) {
-      var card = document.createElement(&#x27;div&#x27;);
-      card.className = &#x27;task&#x27;;
-      card.innerHTML =
-        &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
-        &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
-        &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
-      grid.appendChild(card);
+      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27;;
+    // Задачи разложены по этапам: в анализе → в разработке → уже на ПРОДе
+    var STAGES = [
+      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
+      { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
+      { types: [&#x27;prod&#x27;], label: &#x27;Уже на ПРОДе · в системе&#x27; }
+    ];
+    STAGES.forEach(function (g) {
+      var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
+      if (!items.length) return;
+      var wrap = document.createElement(&#x27;div&#x27;);
+      wrap.className = &#x27;tasks-group&#x27;;
+      wrap.innerHTML =
+        &#x27;&lt;h4 class=&quot;tasks-group__title&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[g.types[0]] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + g.label + &#x27; · &lt;span class=&quot;tasks-group__count&quot;&gt;&#x27; + items.length + &#x27;&lt;/span&gt;&lt;/h4&gt;&#x27; +
+        &#x27;&lt;div class=&quot;tasks__grid&quot;&gt;&lt;/div&gt;&#x27;;
+      var grid = wrap.querySelector(&#x27;.tasks__grid&#x27;);
+      items.forEach(function (t) {
+        var card = document.createElement(&#x27;div&#x27;);
+        card.className = &#x27;task&#x27;;
+        card.innerHTML =
+          &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
+          &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
+          &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
+        grid.appendChild(card);
+      });
+      box.appendChild(wrap);
     });
   }
   renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec);
@@ -1467,6 +1485,9 @@
   .tchip b { font-weight: 500; color: var(--tui-text-primary); }
   .tchip__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .tasks__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tasks-group + .tasks-group { margin-top: 28px; }
+  .tasks-group__title { display: flex; align-items: center; gap: 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; }
+  .tasks-group__count { color: var(--tui-text-primary); font-weight: 600; }
   .task {
     background: var(--tui-background-base);
     border: 1px solid var(--tui-border-normal);
@@ -1845,24 +1866,39 @@
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
     var chips = &#x27;&lt;span class=&quot;tchip&quot;&gt;Задач всего &lt;b&gt;&#x27; + list.length + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;prod&#x27;, &#x27;owner&#x27;].forEach(function (type) {
+    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;prod&#x27;].forEach(function (type) {
       var n = list.filter(function (t) { return t.status.type === type; }).length;
       if (n) chips += &#x27;&lt;span class=&quot;tchip&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[type] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + STATUS_NAME[type] + &#x27; &lt;b&gt;&#x27; + n + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
     });
     box.innerHTML =
       &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27; +
       &#x27;&lt;p class=&quot;tasks__sub&quot;&gt;Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента&lt;/p&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__grid&quot;&gt;&lt;/div&gt;&#x27;;
-    var grid = box.querySelector(&#x27;.tasks__grid&#x27;);
-    list.forEach(function (t) {
-      var card = document.createElement(&#x27;div&#x27;);
-      card.className = &#x27;task&#x27;;
-      card.innerHTML =
-        &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
-        &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
-        &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
-      grid.appendChild(card);
+      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27;;
+    // Задачи разложены по этапам: в анализе → в разработке → уже на ПРОДе
+    var STAGES = [
+      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
+      { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
+      { types: [&#x27;prod&#x27;], label: &#x27;Уже на ПРОДе · в системе&#x27; }
+    ];
+    STAGES.forEach(function (g) {
+      var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
+      if (!items.length) return;
+      var wrap = document.createElement(&#x27;div&#x27;);
+      wrap.className = &#x27;tasks-group&#x27;;
+      wrap.innerHTML =
+        &#x27;&lt;h4 class=&quot;tasks-group__title&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[g.types[0]] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + g.label + &#x27; · &lt;span class=&quot;tasks-group__count&quot;&gt;&#x27; + items.length + &#x27;&lt;/span&gt;&lt;/h4&gt;&#x27; +
+        &#x27;&lt;div class=&quot;tasks__grid&quot;&gt;&lt;/div&gt;&#x27;;
+      var grid = wrap.querySelector(&#x27;.tasks__grid&#x27;);
+      items.forEach(function (t) {
+        var card = document.createElement(&#x27;div&#x27;);
+        card.className = &#x27;task&#x27;;
+        card.innerHTML =
+          &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
+          &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
+          &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
+        grid.appendChild(card);
+      });
+      box.appendChild(wrap);
     });
   }
   renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec);
@@ -2482,6 +2518,9 @@
   .tchip b { font-weight: 500; color: var(--tui-text-primary); }
   .tchip__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .tasks__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .tasks-group + .tasks-group { margin-top: 28px; }
+  .tasks-group__title { display: flex; align-items: center; gap: 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; }
+  .tasks-group__count { color: var(--tui-text-primary); font-weight: 600; }
   .task {
     background: var(--tui-background-base);
     border: 1px solid var(--tui-border-normal);
@@ -2949,24 +2988,39 @@
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
     var chips = &#x27;&lt;span class=&quot;tchip&quot;&gt;Задач всего &lt;b&gt;&#x27; + list.length + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;prod&#x27;, &#x27;owner&#x27;].forEach(function (type) {
+    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;prod&#x27;].forEach(function (type) {
       var n = list.filter(function (t) { return t.status.type === type; }).length;
       if (n) chips += &#x27;&lt;span class=&quot;tchip&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[type] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + STATUS_NAME[type] + &#x27; &lt;b&gt;&#x27; + n + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
     });
     box.innerHTML =
       &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27; +
       &#x27;&lt;p class=&quot;tasks__sub&quot;&gt;Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента&lt;/p&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__grid&quot;&gt;&lt;/div&gt;&#x27;;
-    var grid = box.querySelector(&#x27;.tasks__grid&#x27;);
-    list.forEach(function (t) {
-      var card = document.createElement(&#x27;div&#x27;);
-      card.className = &#x27;task&#x27;;
-      card.innerHTML =
-        &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
-        &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
-        &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
-      grid.appendChild(card);
+      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27;;
+    // Задачи разложены по этапам: в анализе → в разработке → уже на ПРОДе
+    var STAGES = [
+      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
+      { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
+      { types: [&#x27;prod&#x27;], label: &#x27;Уже на ПРОДе · в системе&#x27; }
+    ];
+    STAGES.forEach(function (g) {
+      var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
+      if (!items.length) return;
+      var wrap = document.createElement(&#x27;div&#x27;);
+      wrap.className = &#x27;tasks-group&#x27;;
+      wrap.innerHTML =
+        &#x27;&lt;h4 class=&quot;tasks-group__title&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[g.types[0]] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + g.label + &#x27; · &lt;span class=&quot;tasks-group__count&quot;&gt;&#x27; + items.length + &#x27;&lt;/span&gt;&lt;/h4&gt;&#x27; +
+        &#x27;&lt;div class=&quot;tasks__grid&quot;&gt;&lt;/div&gt;&#x27;;
+      var grid = wrap.querySelector(&#x27;.tasks__grid&#x27;);
+      items.forEach(function (t) {
+        var card = document.createElement(&#x27;div&#x27;);
+        card.className = &#x27;task&#x27;;
+        card.innerHTML =
+          &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
+          &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
+          &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
+        grid.appendChild(card);
+      });
+      box.appendChild(wrap);
     });
   }
   renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec);
