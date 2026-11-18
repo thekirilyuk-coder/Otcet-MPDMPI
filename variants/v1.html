@@ -91,7 +91,7 @@
   .hero__image { position: absolute; right: 35px; top: 0; height: 100%; width: auto; pointer-events: none; }
 
   /* ===== KPI-карточки ===== */
-  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
   .kpi {
     background: var(--tui-background-base);
     border-radius: 16px;
@@ -205,7 +205,6 @@
   .task__status--analysis { color: var(--tui-text-secondary); }
   .task__status--owner { color: var(--tui-text-action); font-weight: 500; }
 
-  @media (min-width: 1081px) { #kpis-contracts { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 1080px) {
     .kpis { grid-template-columns: repeat(2, 1fr); }
     .charts { grid-template-columns: 1fr; }
@@ -493,8 +492,7 @@
   renderKpis('kpis', [
     { label: 'Сделки с ошибками', value: '17%', delta: '−54%', note: 'цель ≤ 5% · с января', up: false, good: true },
     { label: 'Исполнение выработки', value: '78%', delta: '', note: 'от возможной · 3 634', up: null },
-    { label: 'Сотрудников в работе', value: '56', delta: '', note: 'МПИ 11 · АП 45', up: null },
-    { label: 'Исполнено сделок', value: '2 853', delta: '+41%', note: 'vs август', up: true, good: true }
+    { label: 'Сотрудников в работе', value: '56', delta: '', note: 'МПИ 11 · АП 45', up: null }
   ]);
 
   renderKpis('kpis-contracts', [

@@ -104,7 +104,7 @@
   .hero__image { position: absolute; right: 35px; top: 0; height: 100%; width: auto; pointer-events: none; }
 
   /* ===== KPI-карточки ===== */
-  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
   .kpi {
     background: var(--tui-background-base);
     border-radius: 16px;
@@ -218,7 +218,6 @@
   .task__status--analysis { color: var(--tui-text-secondary); }
   .task__status--owner { color: var(--tui-text-action); font-weight: 500; }
 
-  @media (min-width: 1081px) { #kpis-contracts { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 1080px) {
     .kpis { grid-template-columns: repeat(2, 1fr); }
     .charts { grid-template-columns: 1fr; }
@@ -506,8 +505,7 @@
   renderKpis(&#x27;kpis&#x27;, [
     { label: &#x27;Сделки с ошибками&#x27;, value: &#x27;17%&#x27;, delta: &#x27;−54%&#x27;, note: &#x27;цель ≤ 5% · с января&#x27;, up: false, good: true },
     { label: &#x27;Исполнение выработки&#x27;, value: &#x27;78%&#x27;, delta: &#x27;&#x27;, note: &#x27;от возможной · 3 634&#x27;, up: null },
-    { label: &#x27;Сотрудников в работе&#x27;, value: &#x27;56&#x27;, delta: &#x27;&#x27;, note: &#x27;МПИ 11 · АП 45&#x27;, up: null },
-    { label: &#x27;Исполнено сделок&#x27;, value: &#x27;2 853&#x27;, delta: &#x27;+41%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true }
+    { label: &#x27;Сотрудников в работе&#x27;, value: &#x27;56&#x27;, delta: &#x27;&#x27;, note: &#x27;МПИ 11 · АП 45&#x27;, up: null }
   ]);
 
   renderKpis(&#x27;kpis-contracts&#x27;, [
@@ -1576,8 +1574,7 @@
   renderKpis(&#x27;kpis&#x27;, [
     { id: &#x27;exec.kpi.err&#x27;, label: &#x27;Сделки с ошибками&#x27;, value: &#x27;17%&#x27;, delta: &#x27;−54%&#x27;, note: &#x27;цель ≤ 5% · с января&#x27;, up: false, good: true },
     { id: &#x27;exec.kpi.plan&#x27;, label: &#x27;Исполнение выработки&#x27;, value: &#x27;78%&#x27;, delta: &#x27;&#x27;, note: &#x27;от возможной · 3 634&#x27;, up: null },
-    { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27;, value: &#x27;56&#x27;, delta: &#x27;&#x27;, note: &#x27;МПИ 11 · АП 45&#x27;, up: null },
-    { id: &#x27;exec.kpi.done&#x27;, label: &#x27;Исполнено сделок&#x27;, value: &#x27;2 853&#x27;, delta: &#x27;+41%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true }
+    { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27;, value: &#x27;56&#x27;, delta: &#x27;&#x27;, note: &#x27;МПИ 11 · АП 45&#x27;, up: null }
   ]);
 
   renderKpis(&#x27;kpis-contracts&#x27;, [
@@ -1670,8 +1667,7 @@
       { id: &#x27;exec.kpis&#x27;, label: &#x27;Карточки показателей&#x27;, children: [
         { id: &#x27;exec.kpi.err&#x27;, label: &#x27;Сделки с ошибками&#x27; },
         { id: &#x27;exec.kpi.plan&#x27;, label: &#x27;Исполнение выработки&#x27; },
-        { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27; },
-        { id: &#x27;exec.kpi.done&#x27;, label: &#x27;Исполнено сделок&#x27; } ] },
+        { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27; } ] },
       { id: &#x27;exec.output&#x27;, label: &#x27;Выработка по исполнению сделок&#x27;, children: [
         { id: &#x27;exec.output.done&#x27;, label: &#x27;Исполнено&#x27; },
         { id: &#x27;exec.output.plan&#x27;, label: &#x27;Выработка возможная&#x27; },
@@ -2808,8 +2804,7 @@
   renderKpis(&#x27;kpis&#x27;, [
     { id: &#x27;exec.kpi.err&#x27;, label: &#x27;Сделки с ошибками&#x27;, value: &#x27;17%&#x27;, delta: &#x27;−54%&#x27;, note: &#x27;цель ≤ 5% · с января&#x27;, up: false, good: true },
     { id: &#x27;exec.kpi.plan&#x27;, label: &#x27;Исполнение выработки&#x27;, value: &#x27;78%&#x27;, delta: &#x27;&#x27;, note: &#x27;от возможной · 3 634&#x27;, up: null },
-    { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27;, value: &#x27;56&#x27;, delta: &#x27;&#x27;, note: &#x27;МПИ 11 · АП 45&#x27;, up: null },
-    { id: &#x27;exec.kpi.done&#x27;, label: &#x27;Исполнено сделок&#x27;, value: &#x27;2 853&#x27;, delta: &#x27;+41%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true }
+    { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27;, value: &#x27;56&#x27;, delta: &#x27;&#x27;, note: &#x27;МПИ 11 · АП 45&#x27;, up: null }
   ]);
 
   renderKpis(&#x27;kpis-contracts&#x27;, [
@@ -2902,8 +2897,7 @@
       { id: &#x27;exec.kpis&#x27;, label: &#x27;Карточки показателей&#x27;, children: [
         { id: &#x27;exec.kpi.err&#x27;, label: &#x27;Сделки с ошибками&#x27; },
         { id: &#x27;exec.kpi.plan&#x27;, label: &#x27;Исполнение выработки&#x27; },
-        { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27; },
-        { id: &#x27;exec.kpi.done&#x27;, label: &#x27;Исполнено сделок&#x27; } ] },
+        { id: &#x27;exec.kpi.staff&#x27;, label: &#x27;Сотрудников в работе&#x27; } ] },
       { id: &#x27;exec.output&#x27;, label: &#x27;Выработка по исполнению сделок&#x27;, children: [
         { id: &#x27;exec.output.done&#x27;, label: &#x27;Исполнено&#x27; },
         { id: &#x27;exec.output.plan&#x27;, label: &#x27;Выработка возможная&#x27; },
