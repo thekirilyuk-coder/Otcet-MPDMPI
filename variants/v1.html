@@ -205,6 +205,7 @@
   .task__status--analysis { color: var(--tui-text-secondary); }
   .task__status--owner { color: var(--tui-text-action); font-weight: 500; }
 
+  @media (min-width: 1081px) { #kpis-contracts { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 1080px) {
     .kpis { grid-template-columns: repeat(2, 1fr); }
     .charts { grid-template-columns: 1fr; }
@@ -499,7 +500,6 @@
   renderKpis('kpis-contracts', [
     { label: 'Подготовлено договоров', value: '3 420', delta: '+37%', note: 'vs август', up: true, good: true },
     { label: 'Изменения', value: '~5 000', delta: '+40%', note: 'vs август', up: true, good: true },
-    { label: 'Передачи', value: '2 855', delta: '+41%', note: 'vs август', up: true, good: true },
     { label: 'Расторжения', value: '12%', delta: '+3 п.п.', note: 'vs август (9%)', up: true, good: false }
   ]);
 

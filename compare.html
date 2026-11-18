@@ -218,6 +218,7 @@
   .task__status--analysis { color: var(--tui-text-secondary); }
   .task__status--owner { color: var(--tui-text-action); font-weight: 500; }
 
+  @media (min-width: 1081px) { #kpis-contracts { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 1080px) {
     .kpis { grid-template-columns: repeat(2, 1fr); }
     .charts { grid-template-columns: 1fr; }
@@ -512,7 +513,6 @@
   renderKpis(&#x27;kpis-contracts&#x27;, [
     { label: &#x27;Подготовлено договоров&#x27;, value: &#x27;3 420&#x27;, delta: &#x27;+37%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
     { label: &#x27;Изменения&#x27;, value: &#x27;~5 000&#x27;, delta: &#x27;+40%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
-    { label: &#x27;Передачи&#x27;, value: &#x27;2 855&#x27;, delta: &#x27;+41%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
     { label: &#x27;Расторжения&#x27;, value: &#x27;12%&#x27;, delta: &#x27;+3 п.п.&#x27;, note: &#x27;vs август (9%)&#x27;, up: true, good: false }
   ]);
 
@@ -1584,7 +1584,6 @@
     { id: &#x27;c.kpi.time&#x27;, label: &#x27;Среднее время подготовки&#x27;, value: &#x27;33 мин&#x27;, delta: &#x27;&#x27;, note: &#x27;1 ТС · цель 30 мин&#x27;, up: null },
     { id: &#x27;c.kpi.deals&#x27;, label: &#x27;Подготовлено договоров&#x27;, value: &#x27;3 420&#x27;, delta: &#x27;+37%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
     { id: &#x27;c.kpi.changes&#x27;, label: &#x27;Изменения&#x27;, value: &#x27;~5 000&#x27;, delta: &#x27;+40%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
-    { id: &#x27;c.kpi.transfers&#x27;, label: &#x27;Передачи&#x27;, value: &#x27;2 855&#x27;, delta: &#x27;+41%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
     { id: &#x27;c.kpi.term&#x27;, label: &#x27;Расторжения&#x27;, value: &#x27;12%&#x27;, delta: &#x27;+3 п.п.&#x27;, note: &#x27;vs август (9%)&#x27;, up: true, good: false }
   ]);
 
@@ -1692,7 +1691,6 @@
         { id: &#x27;c.kpi.time&#x27;, label: &#x27;Среднее время подготовки&#x27; },
         { id: &#x27;c.kpi.deals&#x27;, label: &#x27;Подготовлено договоров&#x27; },
         { id: &#x27;c.kpi.changes&#x27;, label: &#x27;Изменения&#x27; },
-        { id: &#x27;c.kpi.transfers&#x27;, label: &#x27;Передачи&#x27; },
         { id: &#x27;c.kpi.term&#x27;, label: &#x27;Расторжения&#x27; } ] },
       { id: &#x27;c.portfolio&#x27;, label: &#x27;Динамика портфеля&#x27;, children: [
         { id: &#x27;c.portfolio.deals&#x27;, label: &#x27;Подготовлено договоров&#x27; },
@@ -2818,7 +2816,6 @@
     { id: &#x27;c.kpi.time&#x27;, label: &#x27;Время подготовки&#x27;, value: &#x27;33 мин&#x27;, delta: &#x27;&#x27;, note: &#x27;1 ТС · цель 30 мин&#x27;, up: null },
     { id: &#x27;c.kpi.deals&#x27;, label: &#x27;Подготовлено договоров&#x27;, value: &#x27;3 420&#x27;, delta: &#x27;+37%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
     { id: &#x27;c.kpi.changes&#x27;, label: &#x27;Изменения&#x27;, value: &#x27;~5 000&#x27;, delta: &#x27;+40%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
-    { id: &#x27;c.kpi.transfers&#x27;, label: &#x27;Передачи&#x27;, value: &#x27;2 855&#x27;, delta: &#x27;+41%&#x27;, note: &#x27;vs август&#x27;, up: true, good: true },
     { id: &#x27;c.kpi.term&#x27;, label: &#x27;Расторжения&#x27;, value: &#x27;12%&#x27;, delta: &#x27;+3 п.п.&#x27;, note: &#x27;vs август (9%)&#x27;, up: true, good: false }
   ]);
 
@@ -2926,7 +2923,6 @@
         { id: &#x27;c.kpi.time&#x27;, label: &#x27;Время подготовки договора&#x27; },
         { id: &#x27;c.kpi.deals&#x27;, label: &#x27;Подготовлено договоров&#x27; },
         { id: &#x27;c.kpi.changes&#x27;, label: &#x27;Изменения&#x27; },
-        { id: &#x27;c.kpi.transfers&#x27;, label: &#x27;Передачи&#x27; },
         { id: &#x27;c.kpi.term&#x27;, label: &#x27;Расторжения&#x27; } ] },
       { id: &#x27;c.portfolio&#x27;, label: &#x27;Динамика портфеля&#x27;, children: [
         { id: &#x27;c.portfolio.deals&#x27;, label: &#x27;Подготовлено договоров&#x27; },
