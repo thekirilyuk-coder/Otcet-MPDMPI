@@ -290,6 +290,7 @@
           <span class="legend__item"><span class="legend__swatch" style="background:var(--tui-graph-blue-light)"></span>Отгружено ТС</span>
           <span class="legend__item"><span class="legend__swatch legend__swatch--line" style="background:var(--tui-brand-t-bank)"></span>Сделки с ошибками в документах, %</span>
           <span class="legend__item"><span class="legend__swatch legend__swatch--line" style="background:var(--tui-graph-blue-mid)"></span>Тех.ошибки, %</span>
+          <span class="legend__item"><span class="legend__swatch legend__swatch--line" style="background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)"></span>Цель — не более 5%</span>
         </div>
         <div class="chart-wrap" id="chart-quality"></div>
         <div class="tasks" id="tasks-quality"></div>
@@ -756,6 +757,33 @@
       dot.addEventListener('mouseleave', hideTip);
       svg.appendChild(dot);
     });
+    }
+
+    // Цель: сделки с ошибками не более 5% — к этому значению стремимся
+    {
+    var targetPct = 5;
+    var ty = M.t + chartH - (targetPct / maxPct) * chartH;
+    svg.appendChild(el('line', { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: '#8F969E', 'stroke-width': 1.6, 'stroke-dasharray': '6 5', 'pointer-events': 'none' }));
+    var tlabel = el('text', { x: M.l + 8, y: ty - 8, 'text-anchor': 'start', 'class': 'axis-label', fill: '#8F969E', 'font-weight': 600 });
+    tlabel.textContent = 'цель ≤ 5%';
+    svg.appendChild(tlabel);
+    var tanchor = el('rect', { x: M.l, y: ty, width: 1, height: 1, fill: 'transparent', 'pointer-events': 'none' });
+    svg.appendChild(tanchor);
+    var targetTip = '<div class="tooltip__title">Цель — не более 5%</div><div class="tooltip__row"><span class="tooltip__dot" style="background:#8F969E"></span>Доля сделок с ошибками, к которой мы стремимся</div>';
+    function tipAt(e) {
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      tanchor.setAttribute('x', Math.max(M.l, Math.min(W - M.r, p.x)));
+      showTip(tanchor, targetTip);
+    }
+    var thit = el('line', { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: 'transparent', 'stroke-width': 14 });
+    thit.style.cursor = 'help';
+    thit.addEventListener('mousemove', tipAt);
+    thit.addEventListener('mouseleave', hideTip);
+    svg.appendChild(thit);
+    tlabel.style.cursor = 'help';
+    tlabel.addEventListener('mouseenter', function () { showTip(tlabel, targetTip); });
+    tlabel.addEventListener('mouseleave', hideTip);
     }
 
     QM.forEach(function (q, i) {

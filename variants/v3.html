@@ -444,6 +444,7 @@
           <span class="legend__item" data-block="exec.quality.ship"><span class="legend__swatch" style="background:var(--tui-graph-blue-light)"></span>Отгружено ТС</span>
           <span class="legend__item" data-block="exec.quality.pct"><span class="legend__swatch legend__swatch--line" style="background:var(--tui-brand-t-bank)"></span>Сделки с ошибками в документах, %</span>
           <span class="legend__item" data-block="exec.quality.tech"><span class="legend__swatch legend__swatch--line" style="background:var(--tui-graph-blue-mid)"></span>Тех.ошибки, %</span>
+          <span class="legend__item" data-block="exec.quality.target"><span class="legend__swatch legend__swatch--line" style="background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)"></span>Цель — не более 5%</span>
         </div>
         <div class="chart-wrap" id="chart-quality"></div>
         <div class="tasks" id="tasks-quality" data-block="exec.quality.tasks"></div>
@@ -701,6 +702,7 @@
         { id: 'exec.quality.ship', label: 'Отгружено ТС' },
         { id: 'exec.quality.pct', label: 'Сделки с ошибками, %' },
         { id: 'exec.quality.tech', label: 'Тех.ошибки, %' },
+        { id: 'exec.quality.target', label: 'Цель — не более 5%' },
         { id: 'exec.quality.tasks', label: 'Доработки' } ] },
       { id: 'exec.table', label: 'Таблица по месяцам', children: [
         { id: 'exec.table.ship', label: 'ТС отгружено' },
@@ -845,13 +847,13 @@
     var W = 1152, H = 320, M = { t: 20, r: 52, b: 44, l: 48 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
-    var showShip = isOn('exec.quality.ship'), showPct = isOn('exec.quality.pct'), showTech = isOn('exec.quality.tech');
+    var showShip = isOn('exec.quality.ship'), showPct = isOn('exec.quality.pct'), showTech = isOn('exec.quality.tech'), showTarget = isOn('exec.quality.target');
     if (!showShip && !showPct && !showTech) { emptyChart('chart-quality'); return; }
     var svg = buildSvg(W, H);
     drawYAxis(svg, W, M, chartH, maxShip, 4);
     if (!showShip) Array.prototype.forEach.call(svg.querySelectorAll('.axis-label'), function (n) { n.remove(); });
 
-    if (showPct || showTech) for (var r = 0; r <= 3; r++) {
+    if (showPct || showTech || showTarget) for (var r = 0; r <= 3; r++) {
       var ry = M.t + chartH - (chartH * r / 3);
       var rv = Math.round(maxPct * r / 3);
       var rtxt = el('text', { x: W - M.r + 8, y: ry + 4, 'text-anchor': 'start', 'class': 'axis-label' });
@@ -924,6 +926,33 @@
       dot.addEventListener('mouseleave', hideTip);
       svg.appendChild(dot);
     });
+    }
+
+    // Цель: сделки с ошибками не более 5% — к этому значению стремимся
+    if (showTarget) {
+    var targetPct = 5;
+    var ty = M.t + chartH - (targetPct / maxPct) * chartH;
+    svg.appendChild(el('line', { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: '#8F969E', 'stroke-width': 1.6, 'stroke-dasharray': '6 5', 'pointer-events': 'none' }));
+    var tlabel = el('text', { x: M.l + 8, y: ty - 8, 'text-anchor': 'start', 'class': 'axis-label', fill: '#8F969E', 'font-weight': 600 });
+    tlabel.textContent = 'цель ≤ 5%';
+    svg.appendChild(tlabel);
+    var tanchor = el('rect', { x: M.l, y: ty, width: 1, height: 1, fill: 'transparent', 'pointer-events': 'none' });
+    svg.appendChild(tanchor);
+    var targetTip = '<div class="tooltip__title">Цель — не более 5%</div><div class="tooltip__row"><span class="tooltip__dot" style="background:#8F969E"></span>Доля сделок с ошибками, к которой мы стремимся</div>';
+    function tipAt(e) {
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      tanchor.setAttribute('x', Math.max(M.l, Math.min(W - M.r, p.x)));
+      showTip(tanchor, targetTip);
+    }
+    var thit = el('line', { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: 'transparent', 'stroke-width': 14 });
+    thit.style.cursor = 'help';
+    thit.addEventListener('mousemove', tipAt);
+    thit.addEventListener('mouseleave', hideTip);
+    svg.appendChild(thit);
+    tlabel.style.cursor = 'help';
+    tlabel.addEventListener('mouseenter', function () { showTip(tlabel, targetTip); });
+    tlabel.addEventListener('mouseleave', hideTip);
     }
 
     QM.forEach(function (q, i) {

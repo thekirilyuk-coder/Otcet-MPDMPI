@@ -471,6 +471,7 @@
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.ship&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-light)&quot;&gt;&lt;/span&gt;Отгружено ТС&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.pct&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:var(--tui-brand-t-bank)&quot;&gt;&lt;/span&gt;Сделки с ошибками в документах, %&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.tech&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:var(--tui-graph-blue-mid)&quot;&gt;&lt;/span&gt;Тех.ошибки, %&lt;/span&gt;
+          &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.target&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)&quot;&gt;&lt;/span&gt;Цель — не более 5%&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-quality&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;tasks&quot; id=&quot;tasks-quality&quot; data-block=&quot;exec.quality.tasks&quot;&gt;&lt;/div&gt;
@@ -728,6 +729,7 @@
         { id: &#x27;exec.quality.ship&#x27;, label: &#x27;Отгружено ТС&#x27; },
         { id: &#x27;exec.quality.pct&#x27;, label: &#x27;Сделки с ошибками, %&#x27; },
         { id: &#x27;exec.quality.tech&#x27;, label: &#x27;Тех.ошибки, %&#x27; },
+        { id: &#x27;exec.quality.target&#x27;, label: &#x27;Цель — не более 5%&#x27; },
         { id: &#x27;exec.quality.tasks&#x27;, label: &#x27;Доработки&#x27; } ] },
       { id: &#x27;exec.table&#x27;, label: &#x27;Таблица по месяцам&#x27;, children: [
         { id: &#x27;exec.table.ship&#x27;, label: &#x27;ТС отгружено&#x27; },
@@ -872,13 +874,13 @@
     var W = 1152, H = 380, M = { t: 24, r: 64, b: 56, l: 68 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
-    var showShip = isOn(&#x27;exec.quality.ship&#x27;), showPct = isOn(&#x27;exec.quality.pct&#x27;), showTech = isOn(&#x27;exec.quality.tech&#x27;);
+    var showShip = isOn(&#x27;exec.quality.ship&#x27;), showPct = isOn(&#x27;exec.quality.pct&#x27;), showTech = isOn(&#x27;exec.quality.tech&#x27;), showTarget = isOn(&#x27;exec.quality.target&#x27;);
     if (!showShip &amp;&amp; !showPct &amp;&amp; !showTech) { emptyChart(&#x27;chart-quality&#x27;); return; }
     var svg = buildSvg(W, H);
     drawYAxis(svg, W, M, chartH, maxShip, 4);
     if (!showShip) Array.prototype.forEach.call(svg.querySelectorAll(&#x27;.axis-label&#x27;), function (n) { n.remove(); });
 
-    if (showPct || showTech) for (var r = 0; r &lt;= 3; r++) {
+    if (showPct || showTech || showTarget) for (var r = 0; r &lt;= 3; r++) {
       var ry = M.t + chartH - (chartH * r / 3);
       var rv = Math.round(maxPct * r / 3);
       var rtxt = el(&#x27;text&#x27;, { x: W - M.r + 8, y: ry + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27; });
@@ -951,6 +953,33 @@
       dot.addEventListener(&#x27;mouseleave&#x27;, hideTip);
       svg.appendChild(dot);
     });
+    }
+
+    // Цель: сделки с ошибками не более 5% — к этому значению стремимся
+    if (showTarget) {
+    var targetPct = 5;
+    var ty = M.t + chartH - (targetPct / maxPct) * chartH;
+    svg.appendChild(el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;#8F969E&#x27;, &#x27;stroke-width&#x27;: 2.4, &#x27;stroke-dasharray&#x27;: &#x27;6 5&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; }));
+    var tlabel = el(&#x27;text&#x27;, { x: M.l + 8, y: ty - 8, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
+    tlabel.textContent = &#x27;цель ≤ 5%&#x27;;
+    svg.appendChild(tlabel);
+    var tanchor = el(&#x27;rect&#x27;, { x: M.l, y: ty, width: 1, height: 1, fill: &#x27;transparent&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; });
+    svg.appendChild(tanchor);
+    var targetTip = &#x27;&lt;div class=&quot;tooltip__title&quot;&gt;Цель — не более 5%&lt;/div&gt;&lt;div class=&quot;tooltip__row&quot;&gt;&lt;span class=&quot;tooltip__dot&quot; style=&quot;background:#8F969E&quot;&gt;&lt;/span&gt;Доля сделок с ошибками, к которой мы стремимся&lt;/div&gt;&#x27;;
+    function tipAt(e) {
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      tanchor.setAttribute(&#x27;x&#x27;, Math.max(M.l, Math.min(W - M.r, p.x)));
+      showTip(tanchor, targetTip);
+    }
+    var thit = el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;transparent&#x27;, &#x27;stroke-width&#x27;: 14 });
+    thit.style.cursor = &#x27;help&#x27;;
+    thit.addEventListener(&#x27;mousemove&#x27;, tipAt);
+    thit.addEventListener(&#x27;mouseleave&#x27;, hideTip);
+    svg.appendChild(thit);
+    tlabel.style.cursor = &#x27;help&#x27;;
+    tlabel.addEventListener(&#x27;mouseenter&#x27;, function () { showTip(tlabel, targetTip); });
+    tlabel.addEventListener(&#x27;mouseleave&#x27;, hideTip);
     }
 
     QM.forEach(function (q, i) {
@@ -1580,6 +1609,7 @@
           &lt;span class=&quot;legend__item&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-light)&quot;&gt;&lt;/span&gt;Отгружено ТС&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:var(--tui-brand-t-bank)&quot;&gt;&lt;/span&gt;Сделки с ошибками в документах, %&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:var(--tui-graph-blue-mid)&quot;&gt;&lt;/span&gt;Тех.ошибки, %&lt;/span&gt;
+          &lt;span class=&quot;legend__item&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)&quot;&gt;&lt;/span&gt;Цель — не более 5%&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-quality&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;tasks&quot; id=&quot;tasks-quality&quot;&gt;&lt;/div&gt;
@@ -2046,6 +2076,33 @@
       dot.addEventListener(&#x27;mouseleave&#x27;, hideTip);
       svg.appendChild(dot);
     });
+    }
+
+    // Цель: сделки с ошибками не более 5% — к этому значению стремимся
+    {
+    var targetPct = 5;
+    var ty = M.t + chartH - (targetPct / maxPct) * chartH;
+    svg.appendChild(el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;#8F969E&#x27;, &#x27;stroke-width&#x27;: 1.6, &#x27;stroke-dasharray&#x27;: &#x27;6 5&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; }));
+    var tlabel = el(&#x27;text&#x27;, { x: M.l + 8, y: ty - 8, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
+    tlabel.textContent = &#x27;цель ≤ 5%&#x27;;
+    svg.appendChild(tlabel);
+    var tanchor = el(&#x27;rect&#x27;, { x: M.l, y: ty, width: 1, height: 1, fill: &#x27;transparent&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; });
+    svg.appendChild(tanchor);
+    var targetTip = &#x27;&lt;div class=&quot;tooltip__title&quot;&gt;Цель — не более 5%&lt;/div&gt;&lt;div class=&quot;tooltip__row&quot;&gt;&lt;span class=&quot;tooltip__dot&quot; style=&quot;background:#8F969E&quot;&gt;&lt;/span&gt;Доля сделок с ошибками, к которой мы стремимся&lt;/div&gt;&#x27;;
+    function tipAt(e) {
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      tanchor.setAttribute(&#x27;x&#x27;, Math.max(M.l, Math.min(W - M.r, p.x)));
+      showTip(tanchor, targetTip);
+    }
+    var thit = el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;transparent&#x27;, &#x27;stroke-width&#x27;: 14 });
+    thit.style.cursor = &#x27;help&#x27;;
+    thit.addEventListener(&#x27;mousemove&#x27;, tipAt);
+    thit.addEventListener(&#x27;mouseleave&#x27;, hideTip);
+    svg.appendChild(thit);
+    tlabel.style.cursor = &#x27;help&#x27;;
+    tlabel.addEventListener(&#x27;mouseenter&#x27;, function () { showTip(tlabel, targetTip); });
+    tlabel.addEventListener(&#x27;mouseleave&#x27;, hideTip);
     }
 
     QM.forEach(function (q, i) {
@@ -2761,6 +2818,7 @@
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.ship&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:var(--tui-graph-blue-light)&quot;&gt;&lt;/span&gt;Отгружено ТС&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.pct&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:var(--tui-brand-t-bank)&quot;&gt;&lt;/span&gt;Сделки с ошибками в документах, %&lt;/span&gt;
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.tech&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:var(--tui-graph-blue-mid)&quot;&gt;&lt;/span&gt;Тех.ошибки, %&lt;/span&gt;
+          &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.target&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)&quot;&gt;&lt;/span&gt;Цель — не более 5%&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-quality&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;tasks&quot; id=&quot;tasks-quality&quot; data-block=&quot;exec.quality.tasks&quot;&gt;&lt;/div&gt;
@@ -3018,6 +3076,7 @@
         { id: &#x27;exec.quality.ship&#x27;, label: &#x27;Отгружено ТС&#x27; },
         { id: &#x27;exec.quality.pct&#x27;, label: &#x27;Сделки с ошибками, %&#x27; },
         { id: &#x27;exec.quality.tech&#x27;, label: &#x27;Тех.ошибки, %&#x27; },
+        { id: &#x27;exec.quality.target&#x27;, label: &#x27;Цель — не более 5%&#x27; },
         { id: &#x27;exec.quality.tasks&#x27;, label: &#x27;Доработки&#x27; } ] },
       { id: &#x27;exec.table&#x27;, label: &#x27;Таблица по месяцам&#x27;, children: [
         { id: &#x27;exec.table.ship&#x27;, label: &#x27;ТС отгружено&#x27; },
@@ -3162,13 +3221,13 @@
     var W = 1152, H = 320, M = { t: 20, r: 52, b: 44, l: 48 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
-    var showShip = isOn(&#x27;exec.quality.ship&#x27;), showPct = isOn(&#x27;exec.quality.pct&#x27;), showTech = isOn(&#x27;exec.quality.tech&#x27;);
+    var showShip = isOn(&#x27;exec.quality.ship&#x27;), showPct = isOn(&#x27;exec.quality.pct&#x27;), showTech = isOn(&#x27;exec.quality.tech&#x27;), showTarget = isOn(&#x27;exec.quality.target&#x27;);
     if (!showShip &amp;&amp; !showPct &amp;&amp; !showTech) { emptyChart(&#x27;chart-quality&#x27;); return; }
     var svg = buildSvg(W, H);
     drawYAxis(svg, W, M, chartH, maxShip, 4);
     if (!showShip) Array.prototype.forEach.call(svg.querySelectorAll(&#x27;.axis-label&#x27;), function (n) { n.remove(); });
 
-    if (showPct || showTech) for (var r = 0; r &lt;= 3; r++) {
+    if (showPct || showTech || showTarget) for (var r = 0; r &lt;= 3; r++) {
       var ry = M.t + chartH - (chartH * r / 3);
       var rv = Math.round(maxPct * r / 3);
       var rtxt = el(&#x27;text&#x27;, { x: W - M.r + 8, y: ry + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27; });
@@ -3241,6 +3300,33 @@
       dot.addEventListener(&#x27;mouseleave&#x27;, hideTip);
       svg.appendChild(dot);
     });
+    }
+
+    // Цель: сделки с ошибками не более 5% — к этому значению стремимся
+    if (showTarget) {
+    var targetPct = 5;
+    var ty = M.t + chartH - (targetPct / maxPct) * chartH;
+    svg.appendChild(el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;#8F969E&#x27;, &#x27;stroke-width&#x27;: 1.6, &#x27;stroke-dasharray&#x27;: &#x27;6 5&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; }));
+    var tlabel = el(&#x27;text&#x27;, { x: M.l + 8, y: ty - 8, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
+    tlabel.textContent = &#x27;цель ≤ 5%&#x27;;
+    svg.appendChild(tlabel);
+    var tanchor = el(&#x27;rect&#x27;, { x: M.l, y: ty, width: 1, height: 1, fill: &#x27;transparent&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; });
+    svg.appendChild(tanchor);
+    var targetTip = &#x27;&lt;div class=&quot;tooltip__title&quot;&gt;Цель — не более 5%&lt;/div&gt;&lt;div class=&quot;tooltip__row&quot;&gt;&lt;span class=&quot;tooltip__dot&quot; style=&quot;background:#8F969E&quot;&gt;&lt;/span&gt;Доля сделок с ошибками, к которой мы стремимся&lt;/div&gt;&#x27;;
+    function tipAt(e) {
+      var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      var p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      tanchor.setAttribute(&#x27;x&#x27;, Math.max(M.l, Math.min(W - M.r, p.x)));
+      showTip(tanchor, targetTip);
+    }
+    var thit = el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;transparent&#x27;, &#x27;stroke-width&#x27;: 14 });
+    thit.style.cursor = &#x27;help&#x27;;
+    thit.addEventListener(&#x27;mousemove&#x27;, tipAt);
+    thit.addEventListener(&#x27;mouseleave&#x27;, hideTip);
+    svg.appendChild(thit);
+    tlabel.style.cursor = &#x27;help&#x27;;
+    tlabel.addEventListener(&#x27;mouseenter&#x27;, function () { showTip(tlabel, targetTip); });
+    tlabel.addEventListener(&#x27;mouseleave&#x27;, hideTip);
     }
 
     QM.forEach(function (q, i) {
