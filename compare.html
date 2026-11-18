@@ -690,6 +690,8 @@
       { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
       { types: [&#x27;prod&#x27;], label: &#x27;Уже на проде · в системе&#x27; }
     ];
+    // Статус, который просто повторяет заголовок группы, на карточке не показываем
+    var SAME_AS_GROUP = [&#x27;Уже на проде&#x27;, &#x27;На этапе анализа&#x27;, &#x27;На этапе разработки&#x27;];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -705,7 +707,8 @@
         card.innerHTML =
           &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
           &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
-          &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
+          (SAME_AS_GROUP.indexOf(t.status.text) !== -1 ? &#x27;&#x27; :
+            &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;);
         grid.appendChild(card);
       });
       box.appendChild(wrap);
@@ -1896,6 +1899,8 @@
       { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
       { types: [&#x27;prod&#x27;], label: &#x27;Уже на проде · в системе&#x27; }
     ];
+    // Статус, который просто повторяет заголовок группы, на карточке не показываем
+    var SAME_AS_GROUP = [&#x27;Уже на проде&#x27;, &#x27;На этапе анализа&#x27;, &#x27;На этапе разработки&#x27;];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -1911,7 +1916,8 @@
         card.innerHTML =
           &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
           &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
-          &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
+          (SAME_AS_GROUP.indexOf(t.status.text) !== -1 ? &#x27;&#x27; :
+            &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;);
         grid.appendChild(card);
       });
       box.appendChild(wrap);
@@ -3039,6 +3045,8 @@
       { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
       { types: [&#x27;prod&#x27;], label: &#x27;Уже на проде · в системе&#x27; }
     ];
+    // Статус, который просто повторяет заголовок группы, на карточке не показываем
+    var SAME_AS_GROUP = [&#x27;Уже на проде&#x27;, &#x27;На этапе анализа&#x27;, &#x27;На этапе разработки&#x27;];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -3054,7 +3062,8 @@
         card.innerHTML =
           &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
           &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; +
-          &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;;
+          (SAME_AS_GROUP.indexOf(t.status.text) !== -1 ? &#x27;&#x27; :
+            &#x27;&lt;span class=&quot;task__status task__status--&#x27; + t.status.type + &#x27;&quot;&gt;&#x27; + ICONS[t.status.type] + t.status.text + &#x27;&lt;/span&gt;&#x27;);
         grid.appendChild(card);
       });
       box.appendChild(wrap);

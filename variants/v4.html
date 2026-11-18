@@ -677,6 +677,8 @@
       { types: ['dev', 'owner'], label: 'В разработке' },
       { types: ['prod'], label: 'Уже на проде · в системе' }
     ];
+    // Статус, который просто повторяет заголовок группы, на карточке не показываем
+    var SAME_AS_GROUP = ['Уже на проде', 'На этапе анализа', 'На этапе разработки'];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -692,7 +694,8 @@
         card.innerHTML =
           '<h3 class="task__title">' + t.title + '</h3>' +
           '<p class="task__desc">' + t.desc + '</p>' +
-          '<span class="task__status task__status--' + t.status.type + '">' + ICONS[t.status.type] + t.status.text + '</span>';
+          (SAME_AS_GROUP.indexOf(t.status.text) !== -1 ? '' :
+            '<span class="task__status task__status--' + t.status.type + '">' + ICONS[t.status.type] + t.status.text + '</span>');
         grid.appendChild(card);
       });
       box.appendChild(wrap);
