@@ -871,7 +871,7 @@
 
   // ---- Комбинированный: столбики (ТС) + линия (% ошибок) ----
   function renderQuality() {
-    var W = 1152, H = 380, M = { t: 24, r: 64, b: 56, l: 68 };
+    var W = 1152, H = 380, M = { t: 24, r: 88, b: 56, l: 68 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
     var showShip = isOn(&#x27;exec.quality.ship&#x27;), showPct = isOn(&#x27;exec.quality.pct&#x27;), showTech = isOn(&#x27;exec.quality.tech&#x27;), showTarget = isOn(&#x27;exec.quality.target&#x27;);
@@ -960,8 +960,8 @@
     var targetPct = 5;
     var ty = M.t + chartH - (targetPct / maxPct) * chartH;
     svg.appendChild(el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;#8F969E&#x27;, &#x27;stroke-width&#x27;: 2.4, &#x27;stroke-dasharray&#x27;: &#x27;6 5&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; }));
-    var tlabel = el(&#x27;text&#x27;, { x: M.l + 8, y: ty - 8, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
-    tlabel.textContent = &#x27;цель ≤ 5%&#x27;;
+    var tlabel = el(&#x27;text&#x27;, { x: W - M.r + 8, y: ty + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
+    tlabel.textContent = &#x27;цель 5%&#x27;;
     svg.appendChild(tlabel);
     var tanchor = el(&#x27;rect&#x27;, { x: M.l, y: ty, width: 1, height: 1, fill: &#x27;transparent&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; });
     svg.appendChild(tanchor);
@@ -1999,7 +1999,7 @@
 
   // ---- Комбинированный: столбики (ТС) + линия (% ошибок) ----
   function renderQuality() {
-    var W = 1152, H = 320, M = { t: 20, r: 52, b: 44, l: 48 };
+    var W = 1152, H = 320, M = { t: 20, r: 76, b: 44, l: 48 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
     var svg = buildSvg(W, H);
@@ -2083,8 +2083,8 @@
     var targetPct = 5;
     var ty = M.t + chartH - (targetPct / maxPct) * chartH;
     svg.appendChild(el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;#8F969E&#x27;, &#x27;stroke-width&#x27;: 1.6, &#x27;stroke-dasharray&#x27;: &#x27;6 5&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; }));
-    var tlabel = el(&#x27;text&#x27;, { x: M.l + 8, y: ty - 8, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
-    tlabel.textContent = &#x27;цель ≤ 5%&#x27;;
+    var tlabel = el(&#x27;text&#x27;, { x: W - M.r + 8, y: ty + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
+    tlabel.textContent = &#x27;цель 5%&#x27;;
     svg.appendChild(tlabel);
     var tanchor = el(&#x27;rect&#x27;, { x: M.l, y: ty, width: 1, height: 1, fill: &#x27;transparent&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; });
     svg.appendChild(tanchor);
@@ -3218,7 +3218,7 @@
 
   // ---- Комбинированный: столбики (ТС) + линия (% ошибок) ----
   function renderQuality() {
-    var W = 1152, H = 320, M = { t: 20, r: 52, b: 44, l: 48 };
+    var W = 1152, H = 320, M = { t: 20, r: 76, b: 44, l: 48 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
     var showShip = isOn(&#x27;exec.quality.ship&#x27;), showPct = isOn(&#x27;exec.quality.pct&#x27;), showTech = isOn(&#x27;exec.quality.tech&#x27;), showTarget = isOn(&#x27;exec.quality.target&#x27;);
@@ -3307,8 +3307,8 @@
     var targetPct = 5;
     var ty = M.t + chartH - (targetPct / maxPct) * chartH;
     svg.appendChild(el(&#x27;line&#x27;, { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: &#x27;#8F969E&#x27;, &#x27;stroke-width&#x27;: 1.6, &#x27;stroke-dasharray&#x27;: &#x27;6 5&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; }));
-    var tlabel = el(&#x27;text&#x27;, { x: M.l + 8, y: ty - 8, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
-    tlabel.textContent = &#x27;цель ≤ 5%&#x27;;
+    var tlabel = el(&#x27;text&#x27;, { x: W - M.r + 8, y: ty + 4, &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;class&#x27;: &#x27;axis-label&#x27;, fill: &#x27;#8F969E&#x27;, &#x27;font-weight&#x27;: 600 });
+    tlabel.textContent = &#x27;цель 5%&#x27;;
     svg.appendChild(tlabel);
     var tanchor = el(&#x27;rect&#x27;, { x: M.l, y: ty, width: 1, height: 1, fill: &#x27;transparent&#x27;, &#x27;pointer-events&#x27;: &#x27;none&#x27; });
     svg.appendChild(tanchor);

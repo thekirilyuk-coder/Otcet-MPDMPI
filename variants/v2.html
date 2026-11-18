@@ -849,7 +849,7 @@
 
   // ---- Комбинированный: столбики (ТС) + линия (% ошибок) ----
   function renderQuality() {
-    var W = 1152, H = 320, M = { t: 20, r: 52, b: 44, l: 48 };
+    var W = 1152, H = 320, M = { t: 20, r: 76, b: 44, l: 48 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
     var maxShip = 3200, maxPct = 45;
     var showShip = isOn('exec.quality.ship'), showPct = isOn('exec.quality.pct'), showTech = isOn('exec.quality.tech'), showTarget = isOn('exec.quality.target');
@@ -938,8 +938,8 @@
     var targetPct = 5;
     var ty = M.t + chartH - (targetPct / maxPct) * chartH;
     svg.appendChild(el('line', { x1: M.l, y1: ty, x2: W - M.r, y2: ty, stroke: '#8F969E', 'stroke-width': 1.6, 'stroke-dasharray': '6 5', 'pointer-events': 'none' }));
-    var tlabel = el('text', { x: M.l + 8, y: ty - 8, 'text-anchor': 'start', 'class': 'axis-label', fill: '#8F969E', 'font-weight': 600 });
-    tlabel.textContent = 'цель ≤ 5%';
+    var tlabel = el('text', { x: W - M.r + 8, y: ty + 4, 'text-anchor': 'start', 'class': 'axis-label', fill: '#8F969E', 'font-weight': 600 });
+    tlabel.textContent = 'цель 5%';
     svg.appendChild(tlabel);
     var tanchor = el('rect', { x: M.l, y: ty, width: 1, height: 1, fill: 'transparent', 'pointer-events': 'none' });
     svg.appendChild(tanchor);
