@@ -55,8 +55,6 @@ GEAR = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width
 # Блок «Версия отчёта», который встраивается в каждый вариант внутри compare.html
 PICKER = r"""
 <style id="vp-style">
-  /* место под переключатель версий внизу страницы сравнения */
-  body::after { content: ''; display: block; height: 72px; }
   .vp { padding: 14px 20px 16px; border-bottom: 1px solid var(--tui-border-normal, rgba(0,16,36,.12)); }
   .vp__title { margin: 0 0 8px; font: var(--tui-typo-ui-s); font-weight: 500; color: var(--tui-text-secondary); }
   .vp__list { display: flex; flex-direction: column; gap: 2px; }
@@ -171,14 +169,6 @@ for i, path in enumerate(VARIANTS):
         f'data-variant="{n}" srcdoc="{html.escape(page_src, quote=True)}"{"" if i == 0 else " hidden"}></iframe>'
     )
 
-# Переключатель версий поверх отчёта — всегда виден, не зависит от шестерёнки и клавиатуры
-vbar = "".join(
-    f'<button type="button" class="vbar__btn" role="tab" data-show="{it["n"]}" '
-    f'aria-selected="{"true" if i == 0 else "false"}" title="{html.escape(it["name"])}">'
-    f'<span class="vbar__num">{it["n"]}</span><span class="vbar__name">{html.escape(it["name"])}</span></button>'
-    for i, it in enumerate(items)
-)
-
 page = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -189,35 +179,10 @@ page = f"""<!DOCTYPE html>
   html, body {{ margin: 0; height: 100%; background: #F6F7F8; overflow: hidden; }}
   .variant {{ position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #F6F7F8; }}
   .variant[hidden] {{ display: block; visibility: hidden; pointer-events: none; }}
-  .vbar {{
-    position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 100;
-    display: flex; gap: 4px; padding: 4px; max-width: calc(100% - 32px); box-sizing: border-box;
-    background: rgba(255,255,255,.94); border-radius: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.16), 0 0 0 1px rgba(0,16,36,.08);
-    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-    font: 400 14px/18px "Neue Haas Unica W1G", system-ui, -apple-system, sans-serif;
-  }}
-  .vbar__btn {{
-    display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px 0 8px; border: 0; border-radius: 10px;
-    background: transparent; color: rgba(0,0,0,.72); font: inherit; cursor: pointer; white-space: nowrap; -webkit-tap-highlight-color: transparent;
-  }}
-  .vbar__btn:hover {{ background: rgba(0,16,36,.06); }}
-  .vbar__btn:focus-visible {{ outline: 2px solid #428BF9; outline-offset: 1px; }}
-  .vbar__btn[aria-selected="true"] {{ background: #FFDD2D; color: rgba(0,0,0,.9); font-weight: 600; }}
-  .vbar__num {{
-    display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 7px;
-    background: rgba(0,16,36,.07); font-weight: 600;
-  }}
-  .vbar__btn[aria-selected="true"] .vbar__num {{ background: rgba(255,255,255,.6); }}
-  @media (max-width: 720px) {{
-    .vbar__name {{ display: none; }}
-    .vbar__btn {{ padding: 0 8px; }}
-  }}
-  @media print {{ .vbar {{ display: none; }} }}
 </style>
 </head>
 <body>
 {chr(10).join(frames)}
-<nav class="vbar" role="tablist" aria-label="Версия отчёта">{vbar}</nav>
 <script>
 (function () {{
   var frames = Array.prototype.slice.call(document.querySelectorAll('.variant'));
@@ -261,9 +226,6 @@ page = f"""<!DOCTYPE html>
     syncState(current, next);
     frames.forEach(function (f) {{ f.hidden = f !== next; }});
     current = next;
-    Array.prototype.forEach.call(document.querySelectorAll('.vbar__btn'), function (b) {{
-      b.setAttribute('aria-selected', b.getAttribute('data-show') === String(n) ? 'true' : 'false');
-    }});
     try {{ history.replaceState(null, '', '#v' + n); }} catch (e) {{}}
   }}
 
@@ -288,11 +250,6 @@ page = f"""<!DOCTYPE html>
   }});
 
   var m = /^#v(\\d+)$/.exec(location.hash);
-  document.querySelector('.vbar').addEventListener('click', function (e) {{
-    var b = e.target.closest('[data-show]');
-    if (b) show(b.getAttribute('data-show'));
-  }});
-
   if (m) show(m[1]);
 }})();
 </script>
