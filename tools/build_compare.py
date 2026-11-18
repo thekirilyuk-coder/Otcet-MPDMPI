@@ -18,11 +18,18 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # Версии, убранные из сравнения (файлы и ветки остаются, вернуть — убрать номер отсюда)
 HIDDEN = {"2", "5"}
 
+# Порядок в сравнении: эти версии идут первыми (первая открывается по умолчанию),
+# остальные — по номеру файла
+FIRST = ["4"]
+
+
+def _order(p):
+    n = re.sub(r"\D", "", p.stem)
+    return (FIRST.index(n) if n in FIRST else len(FIRST), int(n or 0))
+
+
 VARIANTS = [
-    p for p in sorted(
-        (ROOT / "variants").glob("v*.html"),
-        key=lambda p: int(re.sub(r"\D", "", p.stem) or 0),
-    )
+    p for p in sorted((ROOT / "variants").glob("v*.html"), key=_order)
     if re.sub(r"\D", "", p.stem) not in HIDDEN
 ]
 OUT = ROOT / "compare.html"
