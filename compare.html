@@ -198,7 +198,7 @@
 
   /* ===== Задачи внутри блока ===== */
   .tasks { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--tui-border-normal); }
-  .tasks__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .tasks__title { font: var(--tui-typo-ui-l-bold); margin: 0 0 20px; }
   .tasks__sub { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 6px 0 20px; }
   .tasks__chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
   .tchip { display: inline-flex; align-items: center; gap: 6px; font: var(--tui-typo-ui-s); color: var(--tui-text-secondary); background: var(--tui-background-neutral-1); border-radius: 8px; padding: 6px 12px; }
@@ -681,15 +681,7 @@
   function renderTasks(containerId, titles) {
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    var chips = &#x27;&lt;span class=&quot;tchip&quot;&gt;Задач всего &lt;b&gt;&#x27; + list.length + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;prod&#x27;].forEach(function (type) {
-      var n = list.filter(function (t) { return t.status.type === type; }).length;
-      if (n) chips += &#x27;&lt;span class=&quot;tchip&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[type] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + STATUS_NAME[type] + &#x27; &lt;b&gt;&#x27; + n + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    });
-    box.innerHTML =
-      &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27; +
-      &#x27;&lt;p class=&quot;tasks__sub&quot;&gt;Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента&lt;/p&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27;;
+    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27;;
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
       { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
@@ -1478,7 +1470,7 @@
 
   /* ===== Задачи внутри блока ===== */
   .tasks { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--tui-border-normal); }
-  .tasks__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .tasks__title { font: var(--tui-typo-ui-l-bold); margin: 0 0 20px; }
   .tasks__sub { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 6px 0 20px; }
   .tasks__chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
   .tchip { display: inline-flex; align-items: center; gap: 6px; font: var(--tui-typo-ui-s); color: var(--tui-text-secondary); background: var(--tui-background-neutral-1); border-radius: 8px; padding: 6px 12px; }
@@ -1865,15 +1857,7 @@
   function renderTasks(containerId, titles) {
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    var chips = &#x27;&lt;span class=&quot;tchip&quot;&gt;Задач всего &lt;b&gt;&#x27; + list.length + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;prod&#x27;].forEach(function (type) {
-      var n = list.filter(function (t) { return t.status.type === type; }).length;
-      if (n) chips += &#x27;&lt;span class=&quot;tchip&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[type] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + STATUS_NAME[type] + &#x27; &lt;b&gt;&#x27; + n + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    });
-    box.innerHTML =
-      &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27; +
-      &#x27;&lt;p class=&quot;tasks__sub&quot;&gt;Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента&lt;/p&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27;;
+    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27;;
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
       { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
@@ -2511,7 +2495,7 @@
 
   /* ===== Задачи внутри блока ===== */
   .tasks { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--tui-border-normal); }
-  .tasks__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .tasks__title { font: var(--tui-typo-ui-l-bold); margin: 0 0 20px; }
   .tasks__sub { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 6px 0 20px; }
   .tasks__chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
   .tchip { display: inline-flex; align-items: center; gap: 6px; font: var(--tui-typo-ui-s); color: var(--tui-text-secondary); background: var(--tui-background-neutral-1); border-radius: 8px; padding: 6px 12px; }
@@ -2987,15 +2971,7 @@
   function renderTasks(containerId, titles) {
     var box = document.getElementById(containerId);
     var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    var chips = &#x27;&lt;span class=&quot;tchip&quot;&gt;Задач всего &lt;b&gt;&#x27; + list.length + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    [&#x27;analysis&#x27;, &#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;prod&#x27;].forEach(function (type) {
-      var n = list.filter(function (t) { return t.status.type === type; }).length;
-      if (n) chips += &#x27;&lt;span class=&quot;tchip&quot;&gt;&lt;span class=&quot;tchip__dot&quot; style=&quot;background:&#x27; + STATUS_DOT[type] + &#x27;&quot;&gt;&lt;/span&gt;&#x27; + STATUS_NAME[type] + &#x27; &lt;b&gt;&#x27; + n + &#x27;&lt;/b&gt;&lt;/span&gt;&#x27;;
-    });
-    box.innerHTML =
-      &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27; +
-      &#x27;&lt;p class=&quot;tasks__sub&quot;&gt;Вектор — доработка систем и прозрачность этапов сделки в ЛК для клиента&lt;/p&gt;&#x27; +
-      &#x27;&lt;div class=&quot;tasks__chips&quot;&gt;&#x27; + chips + &#x27;&lt;/div&gt;&#x27;;
+    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27;;
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
       { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
