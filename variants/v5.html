@@ -369,7 +369,7 @@
       <div class="card" data-block="c.portfolio">
         <div class="card__head">
           <div>
-            <h2 class="card__title">Портфель</h2>
+            <h2 class="card__title">Обработанные задачи</h2>
             <p class="card__sub">Подготовлено договоров, изменения и передачи · апрель–октябрь 2026</p>
           </div>
         </div>
@@ -733,7 +733,7 @@
         { id: 'c.kpi.deals', label: 'Подготовлено договоров' },
         { id: 'c.kpi.changes', label: 'Изменения' },
         { id: 'c.kpi.term', label: 'Расторжения' } ] },
-      { id: 'c.portfolio', label: 'Портфель', children: [
+      { id: 'c.portfolio', label: 'Обработанные задачи', children: [
         { id: 'c.portfolio.deals', label: 'Подготовлено договоров' },
         { id: 'c.portfolio.changes', label: 'Изменения' },
         { id: 'c.portfolio.transfers', label: 'Передачи' } ] },
@@ -981,7 +981,7 @@
     mount('chart-quality', svg);
   }
 
-  // ---- Группированные столбики: портфель ----
+  // ---- Группированные столбики: обработанные задачи ----
   function renderPortfolio() {
     var W = 1152, H = 380, M = { t: 24, r: 14, b: 56, l: 68 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
