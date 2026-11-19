@@ -433,7 +433,7 @@
       <div class="card" data-block="c.portfolio">
         <div class="card__head">
           <div>
-            <h2 class="card__title">Динамика портфеля</h2>
+            <h2 class="card__title">Портфель</h2>
             <p class="card__sub">Подготовлено договоров, изменения и передачи · апрель–октябрь 2026</p>
           </div>
         </div>
@@ -448,7 +448,7 @@
       <div class="card" data-block="c.daily">
         <div class="card__head">
           <div>
-            <h2 class="card__title">Динамика закрытых задач</h2>
+            <h2 class="card__title">Закрытые задачи</h2>
             <p class="card__sub">Закрыто задач по рабочим дням месяца · август–октябрь 2026</p>
           </div>
         </div>
@@ -727,11 +727,11 @@
         { id: 'c.kpi.deals', label: 'Подготовлено договоров' },
         { id: 'c.kpi.changes', label: 'Изменения' },
         { id: 'c.kpi.term', label: 'Расторжения' } ] },
-      { id: 'c.portfolio', label: 'Динамика портфеля', children: [
+      { id: 'c.portfolio', label: 'Портфель', children: [
         { id: 'c.portfolio.deals', label: 'Подготовлено договоров' },
         { id: 'c.portfolio.changes', label: 'Изменения' },
         { id: 'c.portfolio.transfers', label: 'Передачи' } ] },
-      { id: 'c.daily', label: 'Динамика закрытых задач', children: [
+      { id: 'c.daily', label: 'Закрытые задачи', children: [
         { id: 'c.daily.aug', label: 'Август' },
         { id: 'c.daily.sep', label: 'Сентябрь' },
         { id: 'c.daily.oct', label: 'Октябрь' } ] },
@@ -974,7 +974,7 @@
     mount('chart-quality', svg);
   }
 
-  // ---- Группированные столбики: динамика портфеля ----
+  // ---- Группированные столбики: портфель ----
   function renderPortfolio() {
     var W = 1152, H = 320, M = { t: 20, r: 14, b: 44, l: 48 };
     var chartW = W - M.l - M.r, chartH = H - M.t - M.b;
