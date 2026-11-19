@@ -693,9 +693,7 @@
         card.className = 'task';
         card.innerHTML =
           '<h3 class="task__title">' + t.title + '</h3>' +
-          '<p class="task__desc">' + t.desc + '</p>' +
-          (SAME_AS_GROUP.indexOf(t.status.text) !== -1 ? '' :
-            '<span class="task__status task__status--' + t.status.type + '">' + ICONS[t.status.type] + t.status.text + '</span>');
+          '<p class="task__desc">' + t.desc + '</p>';
         grid.appendChild(card);
       });
       box.appendChild(wrap);
