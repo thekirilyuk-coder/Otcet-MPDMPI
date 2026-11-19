@@ -683,7 +683,7 @@
       var wrap = document.createElement('div');
       wrap.className = 'tasks-group';
       wrap.innerHTML =
-        '<h4 class="tasks-group__title"><span class="tchip__dot" style="background:' + STATUS_DOT[g.types[0]] + '"></span>' + g.label + ' · <span class="tasks-group__count">' + items.length + '</span></h4>' +
+        '<h4 class="tasks-group__title"><span class="tchip__dot" style="background:' + STATUS_DOT[g.types[0]] + '"></span>' + g.label + '</h4>' +
         '<div class="tasks__grid"></div>';
       var grid = wrap.querySelector('.tasks__grid');
       items.forEach(function (t) {
