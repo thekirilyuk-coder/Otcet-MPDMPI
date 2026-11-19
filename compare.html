@@ -218,6 +218,9 @@
   }
   .task:hover { box-shadow: 0 8px 24px rgba(0,0,0,.06); transform: translateY(-2px); }
   .task__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .task__ticket { font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); margin-bottom: -8px; }
+  .tasks-card { margin-top: 16px; }
+  .tasks-card .tasks { margin-top: 0; padding-top: 0; border-top: 0; }
   .task__desc { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 0; }
   .task__status { display: inline-flex; align-items: flex-start; gap: 6px; font: var(--tui-typo-ui-s); margin-top: auto; }
   .task__status svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
@@ -408,6 +411,10 @@
       &lt;/div&gt;
     &lt;/section&gt;
 
+    &lt;section class=&quot;card tasks-card&quot; data-block=&quot;c.tasks&quot;&gt;
+      &lt;div class=&quot;tasks&quot; id=&quot;tasks-contracts&quot;&gt;&lt;/div&gt;
+    &lt;/section&gt;
+
     &lt;section class=&quot;card table-card is-collapsed&quot; data-block=&quot;c.table&quot;&gt;
       &lt;div class=&quot;card__head&quot;&gt;
         &lt;div&gt;
@@ -457,7 +464,6 @@
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.output.pills&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:rgba(36,74,127,.08); border:1px solid var(--tui-border-normal)&quot;&gt;&lt;/span&gt;Можем обработать&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-exec&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;tasks&quot; id=&quot;tasks-exec&quot; data-block=&quot;exec.output.tasks&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
 
       &lt;div class=&quot;card&quot; data-block=&quot;exec.quality&quot;&gt;
@@ -474,8 +480,11 @@
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.target&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)&quot;&gt;&lt;/span&gt;Цель — не более 5%&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-quality&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;tasks&quot; id=&quot;tasks-quality&quot; data-block=&quot;exec.quality.tasks&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;card tasks-card&quot; data-block=&quot;exec.tasks&quot;&gt;
+      &lt;div class=&quot;tasks&quot; id=&quot;tasks-exec&quot;&gt;&lt;/div&gt;
     &lt;/section&gt;
 
     &lt;section class=&quot;card table-card is-collapsed&quot; data-block=&quot;exec.table&quot;&gt;
@@ -659,13 +668,17 @@
     { title: &#x27;Мониторинг ключей по сделкам в CRM&#x27;, desc: &#x27;Фиксация в CRM данных, что ключ от авто получен МПИ/АП со встречи по передаче и передан в Отдел обслуживания&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } },
     { title: &#x27;«Подготовка к передаче» в CRM&#x27;, desc: &#x27;Задание в CRM для МПЛ на бронь слота по дате/времени встречи, задание на МПИ/АП по оформлению пакета документов для передачи ТС&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе разработки до конца ноября 2026&#x27; } },
     { title: &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;, desc: &#x27;Дать МПЛ на этапе Интервью возможность закреплять за конкретным проектом с поручительством Яндекс Такси UID, который затем будет автоматически подтягиваться в нужные документы на ПФП&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе разработки&#x27; } },
-    { title: &#x27;«Изменение по сделке» в CRM&#x27;, desc: &#x27;Задание в CRM на МПИ/АП по оформлению изменения по сделке (ГП, Спецификация, реквизиты…)&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } },
-    { title: &#x27;«Расторжение сделки» в CRM&#x27;, desc: &#x27;Задание в CRM на МПИ/АП по оформлению расторжения сделки&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе дизайна&#x27; } },
-    { title: &#x27;Парсинг ЭПТС&#x27;, desc: &#x27;Автоматическое считывание данных с документов ЭПТС при загрузке&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } },
     { title: &#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, desc: &#x27;Проверка ОКОФ, ГА и СПИ до оформления сделки при парсинге ЭПТС&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе доработки · до конца ноября 2026&#x27; } },
     { title: &#x27;Дашборд отчета по ошибкам&#x27;, desc: &#x27;Доработка на стороне аналитика (Андрей Сапов) — ожидаем работу отчета на всех&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;До конца ноября 2026 ожидаем работу отчета на всех&#x27; } },
-    { title: &#x27;Интеграция с ЭДО&#x27;, desc: &#x27;Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания документов&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На 2027 год переходит&#x27; } },
     { title: &#x27;Каналы TiME по сделкам&#x27;, desc: &#x27;Автоматическое создание каналов по сделкам, добавление проектной команды (МПЛ, АП, МПД, МПИ, МПС и их РГ) и уведомления о статусах сделки&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } }
+  ];
+  var TASKS_CONTRACTS = [
+    { title: &#x27;Разбивка аванса на 2 платежа&#x27;, ticket: &#x27;LSNG-18965&#x27;, desc: &#x27;Хранение информации о 2-х платежах по авансу в CRM, БЛК. Формирование ДЛ без ручных корректировок&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Парсинг ЭПТС&#x27;, ticket: &#x27;LSNG-4038&#x27;, desc: &#x27;Автоматическое считывание данных при загрузке&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Провели первую сделку на ООО «Т-Автолизинг»&#x27;, ticket: &#x27;LSNG-29257&#x27;, desc: &#x27;&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Расторжение сделки в CRM&#x27;, ticket: &#x27;LSNG-6204&#x27;, desc: &#x27;Задание в CRM на МПД/МПИ/АП по оформлению расторжения сделки&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;Передача в дизайн&#x27; } },
+    { title: &#x27;Изменение по сделке в CRM&#x27;, ticket: &#x27;LSNG-25990&#x27;, desc: &#x27;Задание в CRM на МПД/МПИ/АП по оформлению изменений в сделке&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } },
+    { title: &#x27;Интеграция с ЭДО&#x27;, ticket: &#x27;LSNG-25993&#x27;, desc: &#x27;Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } }
   ];
   var ICONS = {
     dev: &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M14.7 4.3l5 5-1.4 1.4-5-5 1.4-1.4z&quot;/&gt;&lt;path d=&quot;M13.3 5.7L3 16v5h5L18.3 10.7&quot;/&gt;&lt;/svg&gt;&#x27;,
@@ -674,24 +687,31 @@
     owner: &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/&gt;&lt;path d=&quot;M4 21c0-4 3.6-6 8-6s8 2 8 6&quot;/&gt;&lt;/svg&gt;&#x27;
   };
   var GROUPS = {
-    exec: [&#x27;Оплата за ТС по ДКП в CRM&#x27;, &#x27;Мониторинг ключей по сделкам в CRM&#x27;, &#x27;«Подготовка к передаче» в CRM&#x27;, &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;, &#x27;«Изменение по сделке» в CRM&#x27;, &#x27;«Расторжение сделки» в CRM&#x27;, &#x27;Парсинг ЭПТС&#x27;],
-    quality: [&#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, &#x27;Дашборд отчета по ошибкам&#x27;, &#x27;Интеграция с ЭДО&#x27;, &#x27;Каналы TiME по сделкам&#x27;]
+    exec: [&#x27;Оплата за ТС по ДКП в CRM&#x27;, &#x27;Мониторинг ключей по сделкам в CRM&#x27;, &#x27;«Подготовка к передаче» в CRM&#x27;, &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;],
+    quality: [&#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, &#x27;Дашборд отчета по ошибкам&#x27;, &#x27;Каналы TiME по сделкам&#x27;]
   };
   var STATUS_DOT = { analysis: &#x27;var(--tui-graph-gray)&#x27;, dev: &#x27;var(--tui-graph-blue)&#x27;, owner: &#x27;var(--tui-brand-t-bank)&#x27;, prod: &#x27;#00B92D&#x27; };
-  var STATUS_NAME = { analysis: &#x27;В анализе&#x27;, dev: &#x27;В разработке&#x27;, owner: &#x27;С ответственным&#x27;, prod: &#x27;Уже на проде&#x27; };
+  var STATUS_NAME = { analysis: &#x27;В анализе&#x27;, dev: &#x27;В разработке&#x27;, owner: &#x27;С ответственным&#x27;, prod: &#x27;Сделано&#x27; };
 
-  function renderTasks(containerId, titles) {
+  function renderTasks(containerId, titles, opts) {
+    opts = opts || {};
     var box = document.getElementById(containerId);
-    var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27;;
+    var all = (opts.source || TASKS).filter(function (t) { return !titles || titles.indexOf(t.title) !== -1; });
+    all.forEach(function (t, i) { t._id = opts.prefix + &#x27;.&#x27; + (i + 1); });
+    TASK_OPTS[opts.prefix] = all.map(function (t) { return { id: t._id, label: t.title }; });
+    var list = all.filter(function (t) { return typeof hidden === &#x27;undefined&#x27; || !hidden[t._id]; });
+    var card0 = box.closest(&#x27;.tasks-card&#x27;); if (card0) card0.style.display = list.length ? &#x27;&#x27; : &#x27;none&#x27;;
+    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Задачи по направлению&lt;/h3&gt;&#x27;;
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
-      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
+      { types: [&#x27;prod&#x27;], label: &#x27;Сделано&#x27; },
       { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
-      { types: [&#x27;prod&#x27;], label: &#x27;Уже на проде · в системе&#x27; }
+      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; }
     ];
     // Статус, который просто повторяет заголовок группы, на карточке не показываем
     var SAME_AS_GROUP = [&#x27;Уже на проде&#x27;, &#x27;На этапе анализа&#x27;, &#x27;На этапе разработки&#x27;];
+    if (opts.stages) STAGES = opts.stages;
+    if (opts.showStatus) SAME_AS_GROUP = [&#x27;Сделали&#x27;];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -706,14 +726,22 @@
         card.className = &#x27;task&#x27;;
         card.innerHTML =
           &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
-          &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27;;
+          (t.desc ? &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; : &#x27;&#x27;) +
+          &#x27;&#x27;;
         grid.appendChild(card);
       });
       box.appendChild(wrap);
     });
   }
-  renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec);
-  renderTasks(&#x27;tasks-quality&#x27;, GROUPS.quality);
+  var TASK_OPTS = {};
+  function renderAllTasks() {
+  renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec.concat(GROUPS.quality), { prefix: &#x27;exec.tasks&#x27; });
+  renderTasks(&#x27;tasks-contracts&#x27;, null, { prefix: &#x27;c.tasks&#x27;, source: TASKS_CONTRACTS, showStatus: true, stages: [
+    { types: [&#x27;prod&#x27;], label: &#x27;Сделали&#x27; },
+    { types: [&#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;analysis&#x27;], label: &#x27;В разработке&#x27; }
+  ] });
+  }
+  renderAllTasks();
 
   // ===== Видимость блоков и данных =====
   var OPTIONS = {
@@ -725,14 +753,13 @@
       { id: &#x27;exec.output&#x27;, label: &#x27;Выработка по исполнению сделок&#x27;, children: [
         { id: &#x27;exec.output.done&#x27;, label: &#x27;Исполнено&#x27; },
         { id: &#x27;exec.output.plan&#x27;, label: &#x27;Выработка возможная&#x27; },
-        { id: &#x27;exec.output.pills&#x27;, label: &#x27;Подписи: % и «ещё N»&#x27; },
-        { id: &#x27;exec.output.tasks&#x27;, label: &#x27;Доработки&#x27; } ] },
+        { id: &#x27;exec.output.pills&#x27;, label: &#x27;Подписи: % и «ещё N»&#x27; } ] },
       { id: &#x27;exec.quality&#x27;, label: &#x27;Качество документов с передачи ТС&#x27;, children: [
         { id: &#x27;exec.quality.ship&#x27;, label: &#x27;Отгружено ТС&#x27; },
         { id: &#x27;exec.quality.pct&#x27;, label: &#x27;Сделки с ошибками, %&#x27; },
         { id: &#x27;exec.quality.tech&#x27;, label: &#x27;Тех.ошибки, %&#x27; },
-        { id: &#x27;exec.quality.target&#x27;, label: &#x27;Цель — не более 5%&#x27; },
-        { id: &#x27;exec.quality.tasks&#x27;, label: &#x27;Доработки&#x27; } ] },
+        { id: &#x27;exec.quality.target&#x27;, label: &#x27;Цель — не более 5%&#x27; } ] },
+      { id: &#x27;exec.tasks&#x27;, label: &#x27;Задачи по направлению&#x27;, children: TASK_OPTS[&#x27;exec.tasks&#x27;] },
       { id: &#x27;exec.table&#x27;, label: &#x27;Таблица по месяцам&#x27;, children: [
         { id: &#x27;exec.table.ship&#x27;, label: &#x27;ТС отгружено&#x27; },
         { id: &#x27;exec.table.err&#x27;, label: &#x27;Сделки с ошибками&#x27; },
@@ -754,6 +781,7 @@
         { id: &#x27;c.daily.aug&#x27;, label: &#x27;Август&#x27; },
         { id: &#x27;c.daily.sep&#x27;, label: &#x27;Сентябрь&#x27; },
         { id: &#x27;c.daily.oct&#x27;, label: &#x27;Октябрь&#x27; } ] },
+      { id: &#x27;c.tasks&#x27;, label: &#x27;Задачи по направлению&#x27;, children: TASK_OPTS[&#x27;c.tasks&#x27;] },
       { id: &#x27;c.table&#x27;, label: &#x27;Таблица по месяцам&#x27;, children: [
         { id: &#x27;c.table.deals&#x27;, label: &#x27;Сделки&#x27; },
         { id: &#x27;c.table.changes&#x27;, label: &#x27;Изменения&#x27; },
@@ -766,7 +794,7 @@
   Object.keys(OPTIONS).forEach(function (tab) {
     OPTIONS[tab].forEach(function (o) { KNOWN[o.id] = 1; (o.children || []).forEach(function (c) { KNOWN[c.id] = 1; }); });
   });
-  KNOWN[&#x27;dir.exec&#x27;] = 1; KNOWN[&#x27;dir.contracts&#x27;] = 1; KNOWN[&#x27;top.hero&#x27;] = 1;
+  KNOWN[&#x27;dir.exec&#x27;] = 1; KNOWN[&#x27;dir.contracts&#x27;] = 1; KNOWN[&#x27;top.hero&#x27;] = 1; KNOWN[&#x27;top.tasks&#x27;] = 1;
   var STORE_KEY = &#x27;dash-itogi-v4-hidden&#x27;;
   var hidden = {};
   try {
@@ -777,7 +805,7 @@
   function applyVisibilityCss() {
     document.getElementById(&#x27;visibility-style&#x27;).textContent = Object.keys(hidden).map(function (id) {
       return &#x27;[data-block=&quot;&#x27; + id + &#x27;&quot;]{display:none!important}&#x27;;
-    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.contracts&#x27;] ? &#x27;\n#exec{margin-top:40px}&#x27; : &#x27;&#x27;);
+    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.contracts&#x27;] ? &#x27;\n#exec{margin-top:40px}&#x27; : &#x27;&#x27;) + (hidden[&#x27;top.tasks&#x27;] ? &#x27;\n.tasks,.tasks-card{display:none!important}&#x27; : &#x27;&#x27;);
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = &#x27;&lt;p class=&quot;chart-empty&quot;&gt;Все данные графика скрыты — включите их в настройке отчёта&lt;/p&gt;&#x27;;
@@ -788,6 +816,7 @@
     box.appendChild(svg);
   }
   applyVisibilityCss();
+  renderAllTasks();
 
   // ===== SVG helpers =====
   function buildSvg(w, h) {
@@ -1156,7 +1185,7 @@
   }
   function renderDrawer() {
     document.getElementById(&#x27;drawer-sub&#x27;).textContent = &#x27;Включайте и отключайте направления, блоки и данные&#x27;;
-    drawerBody.innerHTML = &#x27;&lt;div class=&quot;opt-group&quot;&gt;&#x27; + optRow({ id: &#x27;top.hero&#x27;, label: &#x27;Жёлтый блок «Передано автомобилей»&#x27; }, false, true) + &#x27;&lt;/div&gt;&#x27; +
+    drawerBody.innerHTML = &#x27;&lt;div class=&quot;opt-group&quot;&gt;&#x27; + optRow({ id: &#x27;top.hero&#x27;, label: &#x27;Жёлтый блок «Передано автомобилей»&#x27; }, false, true) + optRow({ id: &#x27;top.tasks&#x27;, label: &#x27;Задачи (доработки)&#x27; }, false, true) + &#x27;&lt;/div&gt;&#x27; +
       DIRS.map(function (d) {
       var dirOn = isOn(d.id);
       var head = &#x27;&lt;div class=&quot;opt-dir&quot;&gt;&lt;label class=&quot;opt opt--dir&quot;&gt;&lt;span&gt;&#x27; + d.label + &#x27;&lt;/span&gt;&#x27; +
@@ -1173,6 +1202,7 @@
   }
   function refreshAfterChange(ids) {
     applyVisibilityCss();
+    renderAllTasks();
     saveHidden();
     hideTip();
     var redraw = {};
@@ -1521,6 +1551,9 @@
   }
   .task:hover { box-shadow: 0 8px 24px rgba(0,0,0,.06); transform: translateY(-2px); }
   .task__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .task__ticket { font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); margin-bottom: -8px; }
+  .tasks-card { margin-top: 16px; }
+  .tasks-card .tasks { margin-top: 0; padding-top: 0; border-top: 0; }
   .task__desc { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 0; }
   .task__status { display: inline-flex; align-items: flex-start; gap: 6px; font: var(--tui-typo-ui-s); margin-top: auto; }
   .task__status svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -1597,7 +1630,6 @@
           &lt;span class=&quot;legend__item&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:rgba(36,74,127,.08); border:1px solid var(--tui-border-normal)&quot;&gt;&lt;/span&gt;Можем обработать&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-exec&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;tasks&quot; id=&quot;tasks-exec&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
 
       &lt;div class=&quot;card&quot;&gt;
@@ -1614,8 +1646,11 @@
           &lt;span class=&quot;legend__item&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)&quot;&gt;&lt;/span&gt;Цель — не более 5%&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-quality&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;tasks&quot; id=&quot;tasks-quality&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;card tasks-card&quot;&gt;
+      &lt;div class=&quot;tasks&quot; id=&quot;tasks-exec&quot;&gt;&lt;/div&gt;
     &lt;/section&gt;
 
     &lt;section class=&quot;card table-card is-collapsed&quot;&gt;
@@ -1685,6 +1720,10 @@
         &lt;div class=&quot;legend&quot; id=&quot;legend-daily&quot; style=&quot;margin: -8px 0 12px;&quot;&gt;&lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-daily&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;card tasks-card&quot;&gt;
+      &lt;div class=&quot;tasks&quot; id=&quot;tasks-contracts&quot;&gt;&lt;/div&gt;
     &lt;/section&gt;
 
     &lt;section class=&quot;card table-card is-collapsed&quot;&gt;
@@ -1866,13 +1905,17 @@
     { title: &#x27;Мониторинг ключей по сделкам в CRM&#x27;, desc: &#x27;Фиксация в CRM данных, что ключ от авто получен МПИ/АП со встречи по передаче и передан в Отдел обслуживания&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } },
     { title: &#x27;«Подготовка к передаче» в CRM&#x27;, desc: &#x27;Задание в CRM для МПЛ на бронь слота по дате/времени встречи, задание на МПИ/АП по оформлению пакета документов для передачи ТС&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе разработки до конца ноября 2026&#x27; } },
     { title: &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;, desc: &#x27;Дать МПЛ на этапе Интервью возможность закреплять за конкретным проектом с поручительством Яндекс Такси UID, который затем будет автоматически подтягиваться в нужные документы на ПФП&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе разработки&#x27; } },
-    { title: &#x27;«Изменение по сделке» в CRM&#x27;, desc: &#x27;Задание в CRM на МПИ/АП по оформлению изменения по сделке (ГП, Спецификация, реквизиты…)&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } },
-    { title: &#x27;«Расторжение сделки» в CRM&#x27;, desc: &#x27;Задание в CRM на МПИ/АП по оформлению расторжения сделки&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе дизайна&#x27; } },
-    { title: &#x27;Парсинг ЭПТС&#x27;, desc: &#x27;Автоматическое считывание данных с документов ЭПТС при загрузке&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } },
     { title: &#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, desc: &#x27;Проверка ОКОФ, ГА и СПИ до оформления сделки при парсинге ЭПТС&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе доработки · до конца ноября 2026&#x27; } },
     { title: &#x27;Дашборд отчета по ошибкам&#x27;, desc: &#x27;Доработка на стороне аналитика (Андрей Сапов) — ожидаем работу отчета на всех&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;До конца ноября 2026 ожидаем работу отчета на всех&#x27; } },
-    { title: &#x27;Интеграция с ЭДО&#x27;, desc: &#x27;Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания документов&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На 2027 год переходит&#x27; } },
     { title: &#x27;Каналы TiME по сделкам&#x27;, desc: &#x27;Автоматическое создание каналов по сделкам, добавление проектной команды (МПЛ, АП, МПД, МПИ, МПС и их РГ) и уведомления о статусах сделки&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } }
+  ];
+  var TASKS_CONTRACTS = [
+    { title: &#x27;Разбивка аванса на 2 платежа&#x27;, ticket: &#x27;LSNG-18965&#x27;, desc: &#x27;Хранение информации о 2-х платежах по авансу в CRM, БЛК. Формирование ДЛ без ручных корректировок&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Парсинг ЭПТС&#x27;, ticket: &#x27;LSNG-4038&#x27;, desc: &#x27;Автоматическое считывание данных при загрузке&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Провели первую сделку на ООО «Т-Автолизинг»&#x27;, ticket: &#x27;LSNG-29257&#x27;, desc: &#x27;&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Расторжение сделки в CRM&#x27;, ticket: &#x27;LSNG-6204&#x27;, desc: &#x27;Задание в CRM на МПД/МПИ/АП по оформлению расторжения сделки&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;Передача в дизайн&#x27; } },
+    { title: &#x27;Изменение по сделке в CRM&#x27;, ticket: &#x27;LSNG-25990&#x27;, desc: &#x27;Задание в CRM на МПД/МПИ/АП по оформлению изменений в сделке&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } },
+    { title: &#x27;Интеграция с ЭДО&#x27;, ticket: &#x27;LSNG-25993&#x27;, desc: &#x27;Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } }
   ];
   var ICONS = {
     dev: &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M14.7 4.3l5 5-1.4 1.4-5-5 1.4-1.4z&quot;/&gt;&lt;path d=&quot;M13.3 5.7L3 16v5h5L18.3 10.7&quot;/&gt;&lt;/svg&gt;&#x27;,
@@ -1881,24 +1924,31 @@
     owner: &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/&gt;&lt;path d=&quot;M4 21c0-4 3.6-6 8-6s8 2 8 6&quot;/&gt;&lt;/svg&gt;&#x27;
   };
   var GROUPS = {
-    exec: [&#x27;Оплата за ТС по ДКП в CRM&#x27;, &#x27;Мониторинг ключей по сделкам в CRM&#x27;, &#x27;«Подготовка к передаче» в CRM&#x27;, &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;, &#x27;«Изменение по сделке» в CRM&#x27;, &#x27;«Расторжение сделки» в CRM&#x27;, &#x27;Парсинг ЭПТС&#x27;],
-    quality: [&#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, &#x27;Дашборд отчета по ошибкам&#x27;, &#x27;Интеграция с ЭДО&#x27;, &#x27;Каналы TiME по сделкам&#x27;]
+    exec: [&#x27;Оплата за ТС по ДКП в CRM&#x27;, &#x27;Мониторинг ключей по сделкам в CRM&#x27;, &#x27;«Подготовка к передаче» в CRM&#x27;, &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;],
+    quality: [&#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, &#x27;Дашборд отчета по ошибкам&#x27;, &#x27;Каналы TiME по сделкам&#x27;]
   };
   var STATUS_DOT = { analysis: &#x27;var(--tui-graph-gray)&#x27;, dev: &#x27;var(--tui-graph-blue)&#x27;, owner: &#x27;var(--tui-brand-t-bank)&#x27;, prod: &#x27;#00B92D&#x27; };
-  var STATUS_NAME = { analysis: &#x27;В анализе&#x27;, dev: &#x27;В разработке&#x27;, owner: &#x27;С ответственным&#x27;, prod: &#x27;Уже на проде&#x27; };
+  var STATUS_NAME = { analysis: &#x27;В анализе&#x27;, dev: &#x27;В разработке&#x27;, owner: &#x27;С ответственным&#x27;, prod: &#x27;Сделано&#x27; };
 
-  function renderTasks(containerId, titles) {
+  function renderTasks(containerId, titles, opts) {
+    opts = opts || {};
     var box = document.getElementById(containerId);
-    var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27;;
+    var all = (opts.source || TASKS).filter(function (t) { return !titles || titles.indexOf(t.title) !== -1; });
+    all.forEach(function (t, i) { t._id = opts.prefix + &#x27;.&#x27; + (i + 1); });
+    TASK_OPTS[opts.prefix] = all.map(function (t) { return { id: t._id, label: t.title }; });
+    var list = all.filter(function (t) { return typeof hidden === &#x27;undefined&#x27; || !hidden[t._id]; });
+    var card0 = box.closest(&#x27;.tasks-card&#x27;); if (card0) card0.style.display = list.length ? &#x27;&#x27; : &#x27;none&#x27;;
+    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Задачи по направлению&lt;/h3&gt;&#x27;;
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
-      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
+      { types: [&#x27;prod&#x27;], label: &#x27;Сделано&#x27; },
       { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
-      { types: [&#x27;prod&#x27;], label: &#x27;Уже на проде · в системе&#x27; }
+      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; }
     ];
     // Статус, который просто повторяет заголовок группы, на карточке не показываем
     var SAME_AS_GROUP = [&#x27;Уже на проде&#x27;, &#x27;На этапе анализа&#x27;, &#x27;На этапе разработки&#x27;];
+    if (opts.stages) STAGES = opts.stages;
+    if (opts.showStatus) SAME_AS_GROUP = [&#x27;Сделали&#x27;];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -1913,14 +1963,22 @@
         card.className = &#x27;task&#x27;;
         card.innerHTML =
           &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
-          &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27;;
+          (t.desc ? &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; : &#x27;&#x27;) +
+          &#x27;&#x27;;
         grid.appendChild(card);
       });
       box.appendChild(wrap);
     });
   }
-  renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec);
-  renderTasks(&#x27;tasks-quality&#x27;, GROUPS.quality);
+  var TASK_OPTS = {};
+  function renderAllTasks() {
+  renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec.concat(GROUPS.quality), { prefix: &#x27;exec.tasks&#x27; });
+  renderTasks(&#x27;tasks-contracts&#x27;, null, { prefix: &#x27;c.tasks&#x27;, source: TASKS_CONTRACTS, showStatus: true, stages: [
+    { types: [&#x27;prod&#x27;], label: &#x27;Сделали&#x27; },
+    { types: [&#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;analysis&#x27;], label: &#x27;В разработке&#x27; }
+  ] });
+  }
+  renderAllTasks();
 
   // ===== SVG helpers =====
   function buildSvg(w, h) {
@@ -2576,6 +2634,9 @@
   }
   .task:hover { box-shadow: 0 8px 24px rgba(0,0,0,.06); transform: translateY(-2px); }
   .task__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .task__ticket { font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); margin-bottom: -8px; }
+  .tasks-card { margin-top: 16px; }
+  .tasks-card .tasks { margin-top: 0; padding-top: 0; border-top: 0; }
   .task__desc { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 0; }
   .task__status { display: inline-flex; align-items: flex-start; gap: 6px; font: var(--tui-typo-ui-s); margin-top: auto; }
   .task__status svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -2759,6 +2820,10 @@
       &lt;/div&gt;
     &lt;/section&gt;
 
+    &lt;section class=&quot;card tasks-card&quot; data-block=&quot;c.tasks&quot;&gt;
+      &lt;div class=&quot;tasks&quot; id=&quot;tasks-contracts&quot;&gt;&lt;/div&gt;
+    &lt;/section&gt;
+
     &lt;section class=&quot;card table-card is-collapsed&quot; data-block=&quot;c.table&quot;&gt;
       &lt;div class=&quot;card__head&quot;&gt;
         &lt;div&gt;
@@ -2808,7 +2873,6 @@
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.output.pills&quot;&gt;&lt;span class=&quot;legend__swatch&quot; style=&quot;background:rgba(36,74,127,.08); border:1px solid var(--tui-border-normal)&quot;&gt;&lt;/span&gt;Можем обработать&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-exec&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;tasks&quot; id=&quot;tasks-exec&quot; data-block=&quot;exec.output.tasks&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
 
       &lt;div class=&quot;card&quot; data-block=&quot;exec.quality&quot;&gt;
@@ -2825,8 +2889,11 @@
           &lt;span class=&quot;legend__item&quot; data-block=&quot;exec.quality.target&quot;&gt;&lt;span class=&quot;legend__swatch legend__swatch--line&quot; style=&quot;background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)&quot;&gt;&lt;/span&gt;Цель — не более 5%&lt;/span&gt;
         &lt;/div&gt;
         &lt;div class=&quot;chart-wrap&quot; id=&quot;chart-quality&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;tasks&quot; id=&quot;tasks-quality&quot; data-block=&quot;exec.quality.tasks&quot;&gt;&lt;/div&gt;
       &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;card tasks-card&quot; data-block=&quot;exec.tasks&quot;&gt;
+      &lt;div class=&quot;tasks&quot; id=&quot;tasks-exec&quot;&gt;&lt;/div&gt;
     &lt;/section&gt;
 
     &lt;section class=&quot;card table-card is-collapsed&quot; data-block=&quot;exec.table&quot;&gt;
@@ -3010,13 +3077,17 @@
     { title: &#x27;Мониторинг ключей по сделкам в CRM&#x27;, desc: &#x27;Фиксация в CRM данных, что ключ от авто получен МПИ/АП со встречи по передаче и передан в Отдел обслуживания&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } },
     { title: &#x27;«Подготовка к передаче» в CRM&#x27;, desc: &#x27;Задание в CRM для МПЛ на бронь слота по дате/времени встречи, задание на МПИ/АП по оформлению пакета документов для передачи ТС&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе разработки до конца ноября 2026&#x27; } },
     { title: &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;, desc: &#x27;Дать МПЛ на этапе Интервью возможность закреплять за конкретным проектом с поручительством Яндекс Такси UID, который затем будет автоматически подтягиваться в нужные документы на ПФП&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе разработки&#x27; } },
-    { title: &#x27;«Изменение по сделке» в CRM&#x27;, desc: &#x27;Задание в CRM на МПИ/АП по оформлению изменения по сделке (ГП, Спецификация, реквизиты…)&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } },
-    { title: &#x27;«Расторжение сделки» в CRM&#x27;, desc: &#x27;Задание в CRM на МПИ/АП по оформлению расторжения сделки&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе дизайна&#x27; } },
-    { title: &#x27;Парсинг ЭПТС&#x27;, desc: &#x27;Автоматическое считывание данных с документов ЭПТС при загрузке&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } },
     { title: &#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, desc: &#x27;Проверка ОКОФ, ГА и СПИ до оформления сделки при парсинге ЭПТС&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На этапе доработки · до конца ноября 2026&#x27; } },
     { title: &#x27;Дашборд отчета по ошибкам&#x27;, desc: &#x27;Доработка на стороне аналитика (Андрей Сапов) — ожидаем работу отчета на всех&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;До конца ноября 2026 ожидаем работу отчета на всех&#x27; } },
-    { title: &#x27;Интеграция с ЭДО&#x27;, desc: &#x27;Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания документов&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;На 2027 год переходит&#x27; } },
     { title: &#x27;Каналы TiME по сделкам&#x27;, desc: &#x27;Автоматическое создание каналов по сделкам, добавление проектной команды (МПЛ, АП, МПД, МПИ, МПС и их РГ) и уведомления о статусах сделки&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Уже на проде&#x27; } }
+  ];
+  var TASKS_CONTRACTS = [
+    { title: &#x27;Разбивка аванса на 2 платежа&#x27;, ticket: &#x27;LSNG-18965&#x27;, desc: &#x27;Хранение информации о 2-х платежах по авансу в CRM, БЛК. Формирование ДЛ без ручных корректировок&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Парсинг ЭПТС&#x27;, ticket: &#x27;LSNG-4038&#x27;, desc: &#x27;Автоматическое считывание данных при загрузке&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Провели первую сделку на ООО «Т-Автолизинг»&#x27;, ticket: &#x27;LSNG-29257&#x27;, desc: &#x27;&#x27;, status: { type: &#x27;prod&#x27;, text: &#x27;Сделали&#x27; } },
+    { title: &#x27;Расторжение сделки в CRM&#x27;, ticket: &#x27;LSNG-6204&#x27;, desc: &#x27;Задание в CRM на МПД/МПИ/АП по оформлению расторжения сделки&#x27;, status: { type: &#x27;dev&#x27;, text: &#x27;Передача в дизайн&#x27; } },
+    { title: &#x27;Изменение по сделке в CRM&#x27;, ticket: &#x27;LSNG-25990&#x27;, desc: &#x27;Задание в CRM на МПД/МПИ/АП по оформлению изменений в сделке&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } },
+    { title: &#x27;Интеграция с ЭДО&#x27;, ticket: &#x27;LSNG-25993&#x27;, desc: &#x27;Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания&#x27;, status: { type: &#x27;analysis&#x27;, text: &#x27;На этапе анализа&#x27; } }
   ];
   var ICONS = {
     dev: &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;path d=&quot;M14.7 4.3l5 5-1.4 1.4-5-5 1.4-1.4z&quot;/&gt;&lt;path d=&quot;M13.3 5.7L3 16v5h5L18.3 10.7&quot;/&gt;&lt;/svg&gt;&#x27;,
@@ -3025,24 +3096,31 @@
     owner: &#x27;&lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/&gt;&lt;path d=&quot;M4 21c0-4 3.6-6 8-6s8 2 8 6&quot;/&gt;&lt;/svg&gt;&#x27;
   };
   var GROUPS = {
-    exec: [&#x27;Оплата за ТС по ДКП в CRM&#x27;, &#x27;Мониторинг ключей по сделкам в CRM&#x27;, &#x27;«Подготовка к передаче» в CRM&#x27;, &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;, &#x27;«Изменение по сделке» в CRM&#x27;, &#x27;«Расторжение сделки» в CRM&#x27;, &#x27;Парсинг ЭПТС&#x27;],
-    quality: [&#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, &#x27;Дашборд отчета по ошибкам&#x27;, &#x27;Интеграция с ЭДО&#x27;, &#x27;Каналы TiME по сделкам&#x27;]
+    exec: [&#x27;Оплата за ТС по ДКП в CRM&#x27;, &#x27;Мониторинг ключей по сделкам в CRM&#x27;, &#x27;«Подготовка к передаче» в CRM&#x27;, &#x27;Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству&#x27;],
+    quality: [&#x27;Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС&#x27;, &#x27;Дашборд отчета по ошибкам&#x27;, &#x27;Каналы TiME по сделкам&#x27;]
   };
   var STATUS_DOT = { analysis: &#x27;var(--tui-graph-gray)&#x27;, dev: &#x27;var(--tui-graph-blue)&#x27;, owner: &#x27;var(--tui-brand-t-bank)&#x27;, prod: &#x27;#00B92D&#x27; };
-  var STATUS_NAME = { analysis: &#x27;В анализе&#x27;, dev: &#x27;В разработке&#x27;, owner: &#x27;С ответственным&#x27;, prod: &#x27;Уже на проде&#x27; };
+  var STATUS_NAME = { analysis: &#x27;В анализе&#x27;, dev: &#x27;В разработке&#x27;, owner: &#x27;С ответственным&#x27;, prod: &#x27;Сделано&#x27; };
 
-  function renderTasks(containerId, titles) {
+  function renderTasks(containerId, titles, opts) {
+    opts = opts || {};
     var box = document.getElementById(containerId);
-    var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Доработки по масштабируемости&lt;/h3&gt;&#x27;;
+    var all = (opts.source || TASKS).filter(function (t) { return !titles || titles.indexOf(t.title) !== -1; });
+    all.forEach(function (t, i) { t._id = opts.prefix + &#x27;.&#x27; + (i + 1); });
+    TASK_OPTS[opts.prefix] = all.map(function (t) { return { id: t._id, label: t.title }; });
+    var list = all.filter(function (t) { return typeof hidden === &#x27;undefined&#x27; || !hidden[t._id]; });
+    var card0 = box.closest(&#x27;.tasks-card&#x27;); if (card0) card0.style.display = list.length ? &#x27;&#x27; : &#x27;none&#x27;;
+    box.innerHTML = &#x27;&lt;h3 class=&quot;tasks__title&quot;&gt;Задачи по направлению&lt;/h3&gt;&#x27;;
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
-      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; },
+      { types: [&#x27;prod&#x27;], label: &#x27;Сделано&#x27; },
       { types: [&#x27;dev&#x27;, &#x27;owner&#x27;], label: &#x27;В разработке&#x27; },
-      { types: [&#x27;prod&#x27;], label: &#x27;Уже на проде · в системе&#x27; }
+      { types: [&#x27;analysis&#x27;], label: &#x27;В анализе&#x27; }
     ];
     // Статус, который просто повторяет заголовок группы, на карточке не показываем
     var SAME_AS_GROUP = [&#x27;Уже на проде&#x27;, &#x27;На этапе анализа&#x27;, &#x27;На этапе разработки&#x27;];
+    if (opts.stages) STAGES = opts.stages;
+    if (opts.showStatus) SAME_AS_GROUP = [&#x27;Сделали&#x27;];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -3057,14 +3135,22 @@
         card.className = &#x27;task&#x27;;
         card.innerHTML =
           &#x27;&lt;h3 class=&quot;task__title&quot;&gt;&#x27; + t.title + &#x27;&lt;/h3&gt;&#x27; +
-          &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27;;
+          (t.desc ? &#x27;&lt;p class=&quot;task__desc&quot;&gt;&#x27; + t.desc + &#x27;&lt;/p&gt;&#x27; : &#x27;&#x27;) +
+          &#x27;&#x27;;
         grid.appendChild(card);
       });
       box.appendChild(wrap);
     });
   }
-  renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec);
-  renderTasks(&#x27;tasks-quality&#x27;, GROUPS.quality);
+  var TASK_OPTS = {};
+  function renderAllTasks() {
+  renderTasks(&#x27;tasks-exec&#x27;, GROUPS.exec.concat(GROUPS.quality), { prefix: &#x27;exec.tasks&#x27; });
+  renderTasks(&#x27;tasks-contracts&#x27;, null, { prefix: &#x27;c.tasks&#x27;, source: TASKS_CONTRACTS, showStatus: true, stages: [
+    { types: [&#x27;prod&#x27;], label: &#x27;Сделали&#x27; },
+    { types: [&#x27;dev&#x27;, &#x27;owner&#x27;, &#x27;analysis&#x27;], label: &#x27;В разработке&#x27; }
+  ] });
+  }
+  renderAllTasks();
 
   // ===== Видимость блоков и данных =====
   var OPTIONS = {
@@ -3076,14 +3162,13 @@
       { id: &#x27;exec.output&#x27;, label: &#x27;Выработка по исполнению сделок&#x27;, children: [
         { id: &#x27;exec.output.done&#x27;, label: &#x27;Исполнено&#x27; },
         { id: &#x27;exec.output.plan&#x27;, label: &#x27;Выработка возможная&#x27; },
-        { id: &#x27;exec.output.pills&#x27;, label: &#x27;Подписи: % и «ещё N»&#x27; },
-        { id: &#x27;exec.output.tasks&#x27;, label: &#x27;Доработки&#x27; } ] },
+        { id: &#x27;exec.output.pills&#x27;, label: &#x27;Подписи: % и «ещё N»&#x27; } ] },
       { id: &#x27;exec.quality&#x27;, label: &#x27;Качество документов с передачи ТС&#x27;, children: [
         { id: &#x27;exec.quality.ship&#x27;, label: &#x27;Отгружено ТС&#x27; },
         { id: &#x27;exec.quality.pct&#x27;, label: &#x27;Сделки с ошибками, %&#x27; },
         { id: &#x27;exec.quality.tech&#x27;, label: &#x27;Тех.ошибки, %&#x27; },
-        { id: &#x27;exec.quality.target&#x27;, label: &#x27;Цель — не более 5%&#x27; },
-        { id: &#x27;exec.quality.tasks&#x27;, label: &#x27;Доработки&#x27; } ] },
+        { id: &#x27;exec.quality.target&#x27;, label: &#x27;Цель — не более 5%&#x27; } ] },
+      { id: &#x27;exec.tasks&#x27;, label: &#x27;Задачи по направлению&#x27;, children: TASK_OPTS[&#x27;exec.tasks&#x27;] },
       { id: &#x27;exec.table&#x27;, label: &#x27;Таблица по месяцам&#x27;, children: [
         { id: &#x27;exec.table.ship&#x27;, label: &#x27;ТС отгружено&#x27; },
         { id: &#x27;exec.table.err&#x27;, label: &#x27;Сделки с ошибками&#x27; },
@@ -3105,6 +3190,7 @@
         { id: &#x27;c.daily.aug&#x27;, label: &#x27;Август&#x27; },
         { id: &#x27;c.daily.sep&#x27;, label: &#x27;Сентябрь&#x27; },
         { id: &#x27;c.daily.oct&#x27;, label: &#x27;Октябрь&#x27; } ] },
+      { id: &#x27;c.tasks&#x27;, label: &#x27;Задачи по направлению&#x27;, children: TASK_OPTS[&#x27;c.tasks&#x27;] },
       { id: &#x27;c.table&#x27;, label: &#x27;Таблица по месяцам&#x27;, children: [
         { id: &#x27;c.table.deals&#x27;, label: &#x27;Сделки&#x27; },
         { id: &#x27;c.table.changes&#x27;, label: &#x27;Изменения&#x27; },
@@ -3117,7 +3203,7 @@
   Object.keys(OPTIONS).forEach(function (tab) {
     OPTIONS[tab].forEach(function (o) { KNOWN[o.id] = 1; (o.children || []).forEach(function (c) { KNOWN[c.id] = 1; }); });
   });
-  KNOWN[&#x27;dir.exec&#x27;] = 1; KNOWN[&#x27;dir.contracts&#x27;] = 1; KNOWN[&#x27;top.hero&#x27;] = 1;
+  KNOWN[&#x27;dir.exec&#x27;] = 1; KNOWN[&#x27;dir.contracts&#x27;] = 1; KNOWN[&#x27;top.hero&#x27;] = 1; KNOWN[&#x27;top.tasks&#x27;] = 1;
   var STORE_KEY = &#x27;dash-itogi-v3-hidden&#x27;;
   var hidden = {};
   try {
@@ -3128,7 +3214,7 @@
   function applyVisibilityCss() {
     document.getElementById(&#x27;visibility-style&#x27;).textContent = Object.keys(hidden).map(function (id) {
       return &#x27;[data-block=&quot;&#x27; + id + &#x27;&quot;]{display:none!important}&#x27;;
-    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.contracts&#x27;] ? &#x27;\n#exec{margin-top:40px}&#x27; : &#x27;&#x27;);
+    }).join(&#x27;\n&#x27;) + (hidden[&#x27;dir.contracts&#x27;] ? &#x27;\n#exec{margin-top:40px}&#x27; : &#x27;&#x27;) + (hidden[&#x27;top.tasks&#x27;] ? &#x27;\n.tasks,.tasks-card{display:none!important}&#x27; : &#x27;&#x27;);
   }
   function emptyChart(boxId) {
     document.getElementById(boxId).innerHTML = &#x27;&lt;p class=&quot;chart-empty&quot;&gt;Все данные графика скрыты — включите их в настройке отчёта&lt;/p&gt;&#x27;;
@@ -3139,6 +3225,7 @@
     box.appendChild(svg);
   }
   applyVisibilityCss();
+  renderAllTasks();
 
   // ===== SVG helpers =====
   function buildSvg(w, h) {
@@ -3507,7 +3594,7 @@
   }
   function renderDrawer() {
     document.getElementById(&#x27;drawer-sub&#x27;).textContent = &#x27;Включайте и отключайте направления, блоки и данные&#x27;;
-    drawerBody.innerHTML = &#x27;&lt;div class=&quot;opt-group&quot;&gt;&#x27; + optRow({ id: &#x27;top.hero&#x27;, label: &#x27;Жёлтый блок «Передано автомобилей»&#x27; }, false, true) + &#x27;&lt;/div&gt;&#x27; +
+    drawerBody.innerHTML = &#x27;&lt;div class=&quot;opt-group&quot;&gt;&#x27; + optRow({ id: &#x27;top.hero&#x27;, label: &#x27;Жёлтый блок «Передано автомобилей»&#x27; }, false, true) + optRow({ id: &#x27;top.tasks&#x27;, label: &#x27;Задачи (доработки)&#x27; }, false, true) + &#x27;&lt;/div&gt;&#x27; +
       DIRS.map(function (d) {
       var dirOn = isOn(d.id);
       var head = &#x27;&lt;div class=&quot;opt-dir&quot;&gt;&lt;label class=&quot;opt opt--dir&quot;&gt;&lt;span&gt;&#x27; + d.label + &#x27;&lt;/span&gt;&#x27; +
@@ -3524,6 +3611,7 @@
   }
   function refreshAfterChange(ids) {
     applyVisibilityCss();
+    renderAllTasks();
     saveHidden();
     hideTip();
     var redraw = {};

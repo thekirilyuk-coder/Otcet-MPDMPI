@@ -200,6 +200,9 @@
   }
   .task:hover { box-shadow: 0 8px 24px rgba(0,0,0,.06); transform: translateY(-2px); }
   .task__title { font: var(--tui-typo-ui-l-bold); margin: 0; }
+  .task__ticket { font: var(--tui-typo-ui-s); color: var(--tui-text-tertiary); margin-bottom: -8px; }
+  .tasks-card { margin-top: 16px; }
+  .tasks-card .tasks { margin-top: 0; padding-top: 0; border-top: 0; }
   .task__desc { font: var(--tui-typo-body-s); color: var(--tui-text-secondary); margin: 0; }
   .task__status { display: inline-flex; align-items: flex-start; gap: 6px; font: var(--tui-typo-ui-s); margin-top: auto; }
   .task__status svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
@@ -276,7 +279,6 @@
           <span class="legend__item"><span class="legend__swatch" style="background:rgba(36,74,127,.08); border:1px solid var(--tui-border-normal)"></span>Можем обработать</span>
         </div>
         <div class="chart-wrap" id="chart-exec"></div>
-        <div class="tasks" id="tasks-exec"></div>
       </div>
 
       <div class="card">
@@ -293,8 +295,11 @@
           <span class="legend__item"><span class="legend__swatch legend__swatch--line" style="background:repeating-linear-gradient(90deg, #8F969E 0 6px, transparent 6px 10px)"></span>Цель — не более 5%</span>
         </div>
         <div class="chart-wrap" id="chart-quality"></div>
-        <div class="tasks" id="tasks-quality"></div>
       </div>
+    </section>
+
+    <section class="card tasks-card">
+      <div class="tasks" id="tasks-exec"></div>
     </section>
 
     <section class="card table-card is-collapsed">
@@ -364,6 +369,10 @@
         <div class="legend" id="legend-daily" style="margin: -8px 0 12px;"></div>
         <div class="chart-wrap" id="chart-daily"></div>
       </div>
+    </section>
+
+    <section class="card tasks-card">
+      <div class="tasks" id="tasks-contracts"></div>
     </section>
 
     <section class="card table-card is-collapsed">
@@ -545,13 +554,17 @@
     { title: 'Мониторинг ключей по сделкам в CRM', desc: 'Фиксация в CRM данных, что ключ от авто получен МПИ/АП со встречи по передаче и передан в Отдел обслуживания', status: { type: 'prod', text: 'Уже на проде' } },
     { title: '«Подготовка к передаче» в CRM', desc: 'Задание в CRM для МПЛ на бронь слота по дате/времени встречи, задание на МПИ/АП по оформлению пакета документов для передачи ТС', status: { type: 'dev', text: 'На этапе разработки до конца ноября 2026' } },
     { title: 'Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству', desc: 'Дать МПЛ на этапе Интервью возможность закреплять за конкретным проектом с поручительством Яндекс Такси UID, который затем будет автоматически подтягиваться в нужные документы на ПФП', status: { type: 'dev', text: 'На этапе разработки' } },
-    { title: '«Изменение по сделке» в CRM', desc: 'Задание в CRM на МПИ/АП по оформлению изменения по сделке (ГП, Спецификация, реквизиты…)', status: { type: 'analysis', text: 'На этапе анализа' } },
-    { title: '«Расторжение сделки» в CRM', desc: 'Задание в CRM на МПИ/АП по оформлению расторжения сделки', status: { type: 'analysis', text: 'На этапе дизайна' } },
-    { title: 'Парсинг ЭПТС', desc: 'Автоматическое считывание данных с документов ЭПТС при загрузке', status: { type: 'prod', text: 'Уже на проде' } },
     { title: 'Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС', desc: 'Проверка ОКОФ, ГА и СПИ до оформления сделки при парсинге ЭПТС', status: { type: 'dev', text: 'На этапе доработки · до конца ноября 2026' } },
     { title: 'Дашборд отчета по ошибкам', desc: 'Доработка на стороне аналитика (Андрей Сапов) — ожидаем работу отчета на всех', status: { type: 'dev', text: 'До конца ноября 2026 ожидаем работу отчета на всех' } },
-    { title: 'Интеграция с ЭДО', desc: 'Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания документов', status: { type: 'dev', text: 'На 2027 год переходит' } },
     { title: 'Каналы TiME по сделкам', desc: 'Автоматическое создание каналов по сделкам, добавление проектной команды (МПЛ, АП, МПД, МПИ, МПС и их РГ) и уведомления о статусах сделки', status: { type: 'prod', text: 'Уже на проде' } }
+  ];
+  var TASKS_CONTRACTS = [
+    { title: 'Разбивка аванса на 2 платежа', ticket: 'LSNG-18965', desc: 'Хранение информации о 2-х платежах по авансу в CRM, БЛК. Формирование ДЛ без ручных корректировок', status: { type: 'prod', text: 'Сделали' } },
+    { title: 'Парсинг ЭПТС', ticket: 'LSNG-4038', desc: 'Автоматическое считывание данных при загрузке', status: { type: 'prod', text: 'Сделали' } },
+    { title: 'Провели первую сделку на ООО «Т-Автолизинг»', ticket: 'LSNG-29257', desc: '', status: { type: 'prod', text: 'Сделали' } },
+    { title: 'Расторжение сделки в CRM', ticket: 'LSNG-6204', desc: 'Задание в CRM на МПД/МПИ/АП по оформлению расторжения сделки', status: { type: 'dev', text: 'Передача в дизайн' } },
+    { title: 'Изменение по сделке в CRM', ticket: 'LSNG-25990', desc: 'Задание в CRM на МПД/МПИ/АП по оформлению изменений в сделке', status: { type: 'analysis', text: 'На этапе анализа' } },
+    { title: 'Интеграция с ЭДО', ticket: 'LSNG-25993', desc: 'Автоматический обмен готовых файлов документов по сделке из CRM в ЭДО для подписания и автоматического отражения статусов подписания', status: { type: 'analysis', text: 'На этапе анализа' } }
   ];
   var ICONS = {
     dev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 4.3l5 5-1.4 1.4-5-5 1.4-1.4z"/><path d="M13.3 5.7L3 16v5h5L18.3 10.7"/></svg>',
@@ -560,24 +573,31 @@
     owner: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>'
   };
   var GROUPS = {
-    exec: ['Оплата за ТС по ДКП в CRM', 'Мониторинг ключей по сделкам в CRM', '«Подготовка к передаче» в CRM', 'Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству', '«Изменение по сделке» в CRM', '«Расторжение сделки» в CRM', 'Парсинг ЭПТС'],
-    quality: ['Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС', 'Дашборд отчета по ошибкам', 'Интеграция с ЭДО', 'Каналы TiME по сделкам']
+    exec: ['Оплата за ТС по ДКП в CRM', 'Мониторинг ключей по сделкам в CRM', '«Подготовка к передаче» в CRM', 'Создать процессы подготовки и исполнения в сделках по Яндекс-поручительству'],
+    quality: ['Проверка ОКОФ, ГА, СПИ до оформления сделки при парсинге ЭПТС', 'Дашборд отчета по ошибкам', 'Каналы TiME по сделкам']
   };
   var STATUS_DOT = { analysis: 'var(--tui-graph-gray)', dev: 'var(--tui-graph-blue)', owner: 'var(--tui-brand-t-bank)', prod: '#00B92D' };
-  var STATUS_NAME = { analysis: 'В анализе', dev: 'В разработке', owner: 'С ответственным', prod: 'Уже на проде' };
+  var STATUS_NAME = { analysis: 'В анализе', dev: 'В разработке', owner: 'С ответственным', prod: 'Сделано' };
 
-  function renderTasks(containerId, titles) {
+  function renderTasks(containerId, titles, opts) {
+    opts = opts || {};
     var box = document.getElementById(containerId);
-    var list = TASKS.filter(function (t) { return titles.indexOf(t.title) !== -1; });
-    box.innerHTML = '<h3 class="tasks__title">Доработки по масштабируемости</h3>';
+    var all = (opts.source || TASKS).filter(function (t) { return !titles || titles.indexOf(t.title) !== -1; });
+    all.forEach(function (t, i) { t._id = opts.prefix + '.' + (i + 1); });
+    TASK_OPTS[opts.prefix] = all.map(function (t) { return { id: t._id, label: t.title }; });
+    var list = all.filter(function (t) { return typeof hidden === 'undefined' || !hidden[t._id]; });
+    var card0 = box.closest('.tasks-card'); if (card0) card0.style.display = list.length ? '' : 'none';
+    box.innerHTML = '<h3 class="tasks__title">Задачи по направлению</h3>';
     // Задачи разложены по этапам: в анализе → в разработке → уже на проде
     var STAGES = [
-      { types: ['analysis'], label: 'В анализе' },
+      { types: ['prod'], label: 'Сделано' },
       { types: ['dev', 'owner'], label: 'В разработке' },
-      { types: ['prod'], label: 'Уже на проде · в системе' }
+      { types: ['analysis'], label: 'В анализе' }
     ];
     // Статус, который просто повторяет заголовок группы, на карточке не показываем
     var SAME_AS_GROUP = ['Уже на проде', 'На этапе анализа', 'На этапе разработки'];
+    if (opts.stages) STAGES = opts.stages;
+    if (opts.showStatus) SAME_AS_GROUP = ['Сделали'];
     STAGES.forEach(function (g) {
       var items = list.filter(function (t) { return g.types.indexOf(t.status.type) !== -1; });
       if (!items.length) return;
@@ -592,14 +612,22 @@
         card.className = 'task';
         card.innerHTML =
           '<h3 class="task__title">' + t.title + '</h3>' +
-          '<p class="task__desc">' + t.desc + '</p>';
+          (t.desc ? '<p class="task__desc">' + t.desc + '</p>' : '') +
+          '';
         grid.appendChild(card);
       });
       box.appendChild(wrap);
     });
   }
-  renderTasks('tasks-exec', GROUPS.exec);
-  renderTasks('tasks-quality', GROUPS.quality);
+  var TASK_OPTS = {};
+  function renderAllTasks() {
+  renderTasks('tasks-exec', GROUPS.exec.concat(GROUPS.quality), { prefix: 'exec.tasks' });
+  renderTasks('tasks-contracts', null, { prefix: 'c.tasks', source: TASKS_CONTRACTS, showStatus: true, stages: [
+    { types: ['prod'], label: 'Сделали' },
+    { types: ['dev', 'owner', 'analysis'], label: 'В разработке' }
+  ] });
+  }
+  renderAllTasks();
 
   // ===== SVG helpers =====
   function buildSvg(w, h) {
